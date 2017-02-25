@@ -1,5 +1,7 @@
 package com.vn.hungtq.peace.controller;
 
+import java.util.Locale;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
@@ -26,9 +28,9 @@ public class MainController {
 	@Autowired
 	private UserDaoService userService;
 	
-	@RequestMapping(value = { "/" }, method = RequestMethod.GET)
-	public String welcome(ModelMap model) {
-		
+	@RequestMapping(value ="/", method = RequestMethod.GET)
+	public String welcome(Locale locale, ModelMap model) {
+		logger.info("Welcome home! The client locale is {}.", locale);
 		UserDto userDto = new UserDto();
 		model.addAttribute("formLogin", userDto);
 		// Spring uses InternalResourceViewResolver and return back index.jsp

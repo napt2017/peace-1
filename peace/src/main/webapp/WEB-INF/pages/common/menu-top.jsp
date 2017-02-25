@@ -71,11 +71,11 @@
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown"> <img src="${pageContext.request.contextPath}/resources/img/blank.gif" class="flag flag-us" alt="United States"> <span> English (US) </span> <i class="fa fa-angle-down"></i> </a>
 						<ul class="dropdown-menu pull-right">
 							<li class="active">
-								<a href="javascript:void(0);"><img src="${pageContext.request.contextPath}/resources/img/blank.gif" class="flag flag-us" alt="United States"> English (US)</a>
+								<a href="/"><img src="${pageContext.request.contextPath}/resources/img/blank.gif" class="flag flag-us" alt="United States"> English (US)</a>
 							</li>
 							
 							<li>
-								<a href="javascript:void(0);"><img src="${pageContext.request.contextPath}/resources/img/blank.gif" class="flag flag-jp" alt="Japan"> 日本語</a>
+								<a href="?locale=ja_jp"><img src="${pageContext.request.contextPath}/resources/img/blank.gif" class="flag flag-jp" alt="Japan"> 日本語</a>
 							</li>
 						</ul>
 					</li>

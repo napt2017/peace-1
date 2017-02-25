@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
@@ -33,12 +33,12 @@
 							<spring:url value="/login" var="loginActionUrl" />
 							<form:form action="${loginActionUrl} " modelAttribute="formLogin" class="smart-form client-form" method="post">
 								<header>
-									Sign In
+									Sign In Current
 								</header>
 
 								<fieldset>
 										<section>
-											<label class="label">Username</label>
+											<label class="label"><spring:message code="login.username.label"></spring:message> </label>
 											<label class="input"> <i class="icon-append fa fa-user"></i>
 												<form:input type="text" path="username" value="${username}"></form:input>
 												<b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Please enter email address/username</b>
@@ -55,7 +55,7 @@
 									    <div class="alert alert-dismissible" role="alert">
 										<button type="button" class="close" data-dismiss="alert"
 							                                aria-label="Close">
-											<span aria-hidden="true">×</span>
+											<span aria-hidden="true">Ã—</span>
 										</button>
 										<strong>${msg}</strong>
 									    </div>
