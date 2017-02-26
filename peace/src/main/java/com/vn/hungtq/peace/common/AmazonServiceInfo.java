@@ -1,8 +1,27 @@
 package com.vn.hungtq.peace.common;
 
-public interface AmazonServiceInfo {
+public class AmazonServiceInfo {
 	
-	String AWSAccessKeyId="AKIAIE45535GZRVO37XA";
-	String AWSSecretKey= "NgqEw/i3Qm9AJPoTAxQKGoLOGFmy0w+rVAlNzRmgamazonid104-22"; 
-	String ENDPOINT="webservices.amazon.com/onca/xml";
+	private String awsAccessKeyId;
+	private String awsSecretKey; 
+	private String endPoint;
+	
+	public String getAwsAccessKeyId() {
+		return awsAccessKeyId;
+	}
+	public void setAwsAccessKeyId(String awsAccessKeyId) {
+		this.awsAccessKeyId = awsAccessKeyId;
+	}
+	public String getAwsSecretKey() {
+		return awsSecretKey;
+	}
+	public void setAwsSecretKey(String awsSecretKey) {
+		this.awsSecretKey = awsSecretKey;
+	}
+	public String getEndPoint() {
+		return endPoint;
+	}
+	public void setEndPoint(String endPoint) {
+		this.endPoint = endPoint;
+	} 
 }

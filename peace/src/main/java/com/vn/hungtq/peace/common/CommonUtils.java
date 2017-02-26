@@ -224,15 +224,15 @@ public class CommonUtils {
 	 *  @return String 
 	 * 
 	 * **/
-	public static String buildAmazonServiceUrl(String keyWord) {
+	public static String buildAmazonServiceUrl(String keyWord,AmazonServiceInfo amazonServiceInfo) {
 		 /*
          * Set up the signed requests helper 
          */
         SignedRequestsHelper helper;
         try {
-            helper = SignedRequestsHelper.getInstance(AmazonServiceInfo.ENDPOINT, 
-            										  AmazonServiceInfo.AWSAccessKeyId, 
-            										  AmazonServiceInfo.AWSSecretKey);
+            helper = SignedRequestsHelper.getInstance(amazonServiceInfo.getEndPoint(), 
+								            		  amazonServiceInfo.getAwsAccessKeyId(), 
+								            		  amazonServiceInfo.getAwsSecretKey());
         } catch (Exception e) {
             e.printStackTrace();
             return "";

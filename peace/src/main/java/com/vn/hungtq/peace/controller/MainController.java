@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest; 
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.vn.hungtq.peace.common.AmazonServiceInfo;
 import com.vn.hungtq.peace.common.CommonUtils;
 import com.vn.hungtq.peace.common.ProductSearch;
 import com.vn.hungtq.peace.common.RakutenServiceInfo;
@@ -36,6 +38,9 @@ public class MainController {
 
 	private static final String VIEW_INDEX = "/pages/index";
 	private static final String VIEW_HOME = "/pages/G_Home";
+	
+	@Autowired
+	AmazonServiceInfo amazonServiceInfo;
 
 	@Autowired
 	private UserDaoService userService;
@@ -89,7 +94,7 @@ public class MainController {
 	}
 	@RequestMapping(value ="/AmazoneGetServiceUrl/{keyword}",method=RequestMethod.POST)
 	public @ResponseBody String amazoneGetServiceUrl(@PathVariable(value = "keyword") String keyword){
-		return CommonUtils.buildAmazonServiceUrl(keyword);
+		return CommonUtils.buildAmazonServiceUrl(keyword,amazonServiceInfo);
 	}
 	
 	@RequestMapping(value ="/RakutenProductSearch/{keyword}",method=RequestMethod.POST)

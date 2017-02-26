@@ -11,6 +11,7 @@
 				<value>classpath:database.properties</value> 
 				<value>classpath:gmail_configuration.properties</value>  
 				<value>classpath:contact_email_configuration.properties</value>  
+				<value>classpath:amazonservice_configuration.properties</value>  
 			</list> 
 		</property>
 	</bean>  
@@ -19,7 +20,7 @@
 	<bean id="peaceContactEmail" class="com.vn.hungtq.peace.common.PeaceContactEmail">
 		<property name="email" value="${peace.contact.email}" />
 		<property name="password" value="${peace.contact.password}" />
-	</bean>
+	</bean> 
 	
 	<!-- Gmail configuration bean -->
 	<bean id="gmailConfiguration" class="com.vn.hungtq.peace.common.GmailConfiguration">
@@ -29,6 +30,13 @@
 		<property name="socketFactoryClass" value="${mail.smtp.socketFactory.class}" />
 		<property name="smptPort" value="${mail.smtp.port}" />
 		<property name="smptAuth" value="${mail.smtp.auth}" />
+	</bean>
+	
+	<!-- Amazon service infomation -->
+	<bean id="amazonServiceInfo" class="com.vn.hungtq.peace.common.AmazonServiceInfo">
+		<property name="awsAccessKeyId" value="${aws.access.key.id}" />
+		<property name="awsSecretKey" value="${aws.secret.key}" />
+		<property name="endPoint" value="${endpoint}" />
 	</bean>
 	
 	<bean id="dataSource"
