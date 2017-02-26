@@ -26,7 +26,7 @@
 
 			<!-- NAVIGATION : This navigation is also responsive-->
 			<nav>
-				<!-- 
+				<!-- ssssssss
 				NOTE: Notice the gaps after each icon usage <i></i>..
 				Please note that these links work a bit different than
 				traditional href="" links. See documentation for details.
@@ -68,29 +68,29 @@
 						</ul>
 					</li>
 					<li class="" >
-						<a href="G_ListResearchAll.html"> <span class="menu-item-parent">Research</span></a>
+						<a href="ListResearchAll"> <span class="menu-item-parent">Research</span></a>
 					</li>
 					<li>
 						<a href="#"> <span class="menu-item-parent">EBay settings</span></a>
 						<ul>
 							
 							<li >
-								<a href="G_SetTemplate.html">Listing template</a>
+								<a href="ListTemplate">Listing template</a>
 							</li>
 							<li >
-								<a href="G_SetCustomTemplate.html">Custom listing template</a>
+								<a href="CustomTemplate">Custom listing template</a>
 							</li>
 							<li>
-								<a href="G_SetItemInfo.html">Product explanation information</a>
+								<a href="SetItemInfo">Product explanation information</a>
 							</li>
 							<li>
-								<a href="G_SetShip.html">Shipping Setting</a>
+								<a href="SetShip">Shipping Setting</a>
 							</li>
 							<li>
-								<a href="G_SetBuyer.html">Buyer Requirement</a>
+								<a href="SetBuyer">Buyer Requirement</a>
 							</li>
 							<li>
-								<a href="G_SetEbayLogin.html">EBay Login</a>
+								<a href="SetEbayLogin">EBay Login</a>
 							</li>
 						</ul>
 					</li>
@@ -112,7 +112,7 @@
 						<a href="#"><span class="menu-item-parent">Manual</span></a>
 					</li>
 					<li>
-						<a href="G_Contract.html"> <span class="menu-item-parent">Contact Us</span></a>
+						<a href="ContactUs"> <span class="menu-item-parent">Contact Us</span></a>
 					</li>
 				</ul>
 			</nav>

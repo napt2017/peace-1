@@ -29,6 +29,12 @@
 		<beans:property name="basename" value="classpath:messages" />
 		<beans:property name="defaultEncoding" value="UTF-8" />
 	</beans:bean>
+	
+	<beans:bean id="contactEmailSource"
+		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<beans:property name="basename" value="classpath:contact_email_configuration" />
+		<beans:property name="defaultEncoding" value="UTF-8" />
+	</beans:bean>
 
 	<beans:bean id="localeResolver"
 		class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
@@ -44,6 +50,6 @@
 		</beans:bean>
 	</interceptors>
 
-	<context:component-scan base-package="com.vn.hungtq.peace" />
+	<context:component-scan base-package="com.vn.hungtq.peace.*" />
 
 </beans:beans>

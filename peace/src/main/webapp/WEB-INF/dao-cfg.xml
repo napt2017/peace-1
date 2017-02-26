@@ -10,5 +10,9 @@
      <property name="sessionFactory" ref="mySessionFactory" />
  </bean>
  
+ <bean id="contactDaoService" class="com.vn.hungtq.peace.service.impl.ContactDAOImpl">
+     <property name="sessionFactory" ref="mySessionFactory" />
+ </bean>
+ 
  
 </beans>
