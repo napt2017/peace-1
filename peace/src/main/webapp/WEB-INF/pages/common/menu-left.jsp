@@ -73,10 +73,11 @@
 					<li>
 						<a href="#"> <span class="menu-item-parent">EBay settings</span></a>
 						<ul>
-							
-							<li >
-								<a href="ListTemplate">Listing template</a>
-							</li>
+							<!--  
+								<li >
+									<a href="ListTemplate">Listing template</a>
+								</li>
+							-->
 							<li >
 								<a href="CustomTemplate">Custom listing template</a>
 							</li>

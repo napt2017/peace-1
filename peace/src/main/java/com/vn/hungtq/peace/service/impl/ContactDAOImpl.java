@@ -6,11 +6,11 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import com.vn.hungtq.peace.entity.Contact;
-import com.vn.hungtq.peace.service.ContactDAO;
+import com.vn.hungtq.peace.service.ContactDaoService;
  
 
 @Transactional
-public class ContactDAOImpl implements ContactDAO {
+public class ContactDAOImpl implements ContactDaoService {
 	private SessionFactory sessionFactory;
 
 	public void setSessionFactory(SessionFactory sessionFactory) {

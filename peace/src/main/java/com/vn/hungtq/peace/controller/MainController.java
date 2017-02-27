@@ -64,7 +64,7 @@ public class MainController {
 
 		User user = userService.getUserByUserAndPass(userDto.getUsername(),
 				userDto.getPassword());
-		
+
 		if (user != null) {
 			userDto.setId(user.getId());
 			request.getSession().setAttribute("user", userDto);

@@ -14,7 +14,7 @@ import com.vn.hungtq.peace.common.GmailConfiguration;
 import com.vn.hungtq.peace.common.PeaceContactEmail;
 import com.vn.hungtq.peace.common.Tuple;
 import com.vn.hungtq.peace.entity.Contact;
-import com.vn.hungtq.peace.service.ContactDAO;
+import com.vn.hungtq.peace.service.ContactDaoService;
 
 /**
  * 
@@ -32,7 +32,7 @@ import com.vn.hungtq.peace.service.ContactDAO;
 public class ContactController {  
 	
 	@Autowired
-	ContactDAO contactDAO;
+	ContactDaoService contactDAO;
 	
 	@Autowired
 	PeaceContactEmail peaceContactEmail;

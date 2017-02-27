@@ -62,9 +62,7 @@
 								<div class="row">
 									<section class="col col-4">
 										<label class="label">Key Search</label> <label class="input ">
-											<input type="text" id="productSearch"
-											ng-change="searchProduct()" ng-model="searchModel"
-											class="input" maxlength="80">
+											<input type="text" id="productSearch" ng-change="searchProduct()" ng-model="searchModel" class="input" maxlength="80">
 										</label>
 									</section>
 								</div>

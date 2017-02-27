@@ -14,5 +14,9 @@
      <property name="sessionFactory" ref="mySessionFactory" />
  </bean>
  
+ <bean id="userTemplateDaoService" class="com.vn.hungtq.peace.service.impl.UserTemplateDaoServiceImpl">
+     <property name="sessionFactory" ref="mySessionFactory" />
+ </bean>
+ 
  
 </beans>

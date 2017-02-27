@@ -5,7 +5,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html lang="en-us">
+<html lang="en-us" ng-app="template_upload_app">
 	 <jsp:include page="../pages/common/header.jsp"/> 
 	<body class="fixed-page-footer">
 		<style>
@@ -122,38 +122,68 @@
 				<section id="widget-grid" class="">
 
 					<!-- widget div-->
-					<div class="row">
+					<div class="row" ng-controller="templateUploadController">
 						<div class="widget-body ">
 							<header>
 								<h2>Custom Template</h2>
 							</header>
 							<form class="smart-form">
+							<input type="hidden" value="-1" id="user_template_id" />
 								<fieldset>
 									<section>
 										<div class="note">
-											<a href="#">
+											<a href="#" ng-click="downloadSampleTemplate($event)">
 												<i class="fa fa-hand-o-right" aria-hidden="true"></i>
 												<span>Download sample template</span>
 											</a>
 										</div>
 									</section>
-									<div class="row">
-										<section class="col col-4">
+									
+									<!-- The name of template -->
+									<div class="row"> 
+										<section class="col col-6">
 											<div class="input input-file">
-												<span class="button"><input id="file2" type="file" name="file2" onchange="this.parentNode.nextSibling.value = this.value">Browse</span><input type="text" placeholder="Upload template">
+												<input type="text" size="width=100%" placeholder="Enter the name of template" id="template_name"/>
 											</div>
 										</section>
 									</div>
+									
+									<!-- The ckeditor -->
+									<div class="row"> 
+										<section class="col col-6">
+											<textarea id="userHtmlTemplateCode"></textarea>
+										</section>
+									</div>
+									
+									<!-- The input for user upload file -->
+									<div class="row">  
+										<section class="col col-6">
+											<div class="input input-file">
+												<span class="button">
+													<input id="templateUploadFile" type="file" ng-model="uploadFileModel" name="file2" onchange="angular.element(this).scope().handingEventSelectFileUpload()">Browse
+												</span>
+												<input type="text" placeholder="Upload image for template">
+											</div>
+										</section>
+									</div>
+									
+									<!-- Preview image file -->
+									<div class="row">  
+										<section class="col col-6">
+											<img src="" id="preview_image"/>
+										</section>
+									</div>
+									
+									<!-- Submit button -->
 									<section>
-											<button type="button" class="btn btn-success" onclick="window.history.back();">
-												Upload
-											</button>
+											 <button type="submit" ng-click="ajaxUploadTemplate()" class="btn btn-primary btn-sm">Save</button>
 									</section>
-									<section>
+									
+									<!-- <section>
 										<label class="checkbox ">
 											<input type="checkbox" name="checkbox" checked="checked" >
 											<i></i> Enable custom templates </label>
-									</section>
+									</section>  -->
 									<div class="row" style="background-color:white; padding-right: 40px; display: none">
 										<table class="table table-bordered table-striped responsive-utilities" style="margin-left:15px; width:50%;">
 											<thead>
@@ -198,45 +228,18 @@
 									<div class="row">
 										<section class="col col-12">
 											<label class="label">Selection of an exhibition template</label>
-											<div class="inline-group" style="padding-top: 30px">
-												<section class="col col-2 col-sm-2" style="">
-												<label class="radio">
-													<input type="radio" name="radio-inline" >
-													<i></i>
-													Template 1</label>
-												<img src="<c:url value="/resources/img/template/photo1.png"/>" height="300" width="200"/>
-												</section>
-												<section class="col col-2" style="">
-												<label class="radio">
-													<input type="radio" name="radio-inline" >
-													<i></i>
-													Template 2</label>
-												<img src="<c:url value="/resources/img/template/photo2.png"/>" height="300" width="200"/>
-												</section>
-												<section class="col col-2" style="">
-												<label class="radio">
-													<input type="radio" name="radio-inline" >
-													<i></i>
-													Template 3</label>
-												<img src="<c:url value="/resources/img/template/photo3.png"/>" height="300" width="200"/>
-												</section>
-												<section class="col col-2" style="">
-												<label class="radio">
-													<input type="radio" name="radio-inline" >
-													<i></i>
-													Template 4</label>
-												<img src="<c:url value="/resources/img/template/photo4.png"/>" height="300" width="200"/>
-												</section>
-												<section class="col col-2" style="">
-												<label class="radio">
-													<input type="radio" name="radio-inline" >
-													<i></i>
-													Template 5</label>
-												<img src="<c:url value="/resources/img/template/photo5.png"/>" height="300" width="200"/>
-												</section>
+											<div class="inline-group" style="padding-top: 30px" ng-repeat="subUserTemplate in listOfUserTemplate"  napt-repeat-directive>
+												<section class="col col-2 col-sm-2" style="" ng-repeat="userTempalate in subUserTemplate">
+													<label class="radio">
+														<input type="radio" class="selected_template" name="radio-inline" value="{{userTempalate.templateId}}">
+														<i></i>{{userTempalate.title}} </label>
+													<img src="{{userTempalate.base64StringImage}}" height="300" width="200"/>
+													<input type="hidden" value="{{userTempalate.htmlCode}} "/>
+												</section> 
 											</div>
 										</section>
 									</div>
+									<!--  
 									<div class="row">
 										<div id="colorpickerstr">
 											<div class="farbtastic">
@@ -259,12 +262,8 @@
 										</div>
 										<input type="text" id="colorstr" name="colorstr" value="#FFFFFF" style="">
 									</div>
-								</fieldset>
-								<footer>
-									<button type="submit" class="btn btn-primary">
-										Save
-									</button>
-								</footer>
+									-->
+								</fieldset> 
 							</form>
 						</div>
 					</div>
@@ -284,10 +283,11 @@
 		<jsp:include page="../pages/common/footer2.jsp"/>
 
 		<script type="text/javascript">
-		$(document).ready(function() {
+		/* $(document).ready(function() {
 			$('#colorpicker').farbtastic('#color');
 			$('#colorpickerstr').farbtastic('#colorstr');
-		});
+		}); */
+		
 		$(function() {
 			$('.required-icon').tooltip({
 				placement: 'left',
@@ -303,6 +303,180 @@
 		})
 
 		</script>
+		
+		<!-- EMBED CKEDITOR(napt2017) -->
+		<script src="${pageContext.request.contextPath}/resources/js/plugin/ckeditor/ckeditor.js"></script>
+		<script type="text/javascript">
+			$(function(){  
+				CKEDITOR.replace("userHtmlTemplateCode"); 
+			});
+		</script>
+		
+		<!-- HANDING BUSSINESS LOGIC FOR UPLOAD FORM VIA ANGULARJS (napt2017) -->
+		<script type="text/javascript"src="<c:url value="/resources/js/angularjs/angular.min.js"/>"></script> 
+		<script type="text/javascript"> 
+			//Get app
+			var templateUploadApp = angular.module("template_upload_app", []);
+			
+			//Custom directive to handing end of event repeat
+			templateUploadApp.directive('naptRepeatDirective', function($timeout) {
+				 return {
+				        restrict: 'A',
+				        link: function (scope, element, attr) {
+				            if (scope.$last === true) {
+				                $timeout(function () {
+				                	scope.registerEventForRadioButton();
+				                });
+				            }
+				        }
+				    }
+			 });
+			
+			//Config the controller
+			templateUploadApp.controller("templateUploadController",function($scope,$http){
+				
+				$scope.handingEventSelectFileUpload = function($this){
+					var selectedFile = templateUploadFile.files[0];
+					var fileType = selectedFile.type;
+					if(fileType==="image/jpeg"||fileType==="image/png"){
+						$("#templateUploadFile").parent().next().val(selectedFile.name);
+						
+						$scope.readLocalImage(selectedFile,function(imageData){
+							$("#preview_image").css({
+							    width: "200px",
+							    height: "300px",
+							    border: "1px solid #827d7d",
+							    "border-radius": "3px"
+							});
+							
+							$("#preview_image").attr("src",imageData)
+						});
+					}else{
+						alert("Invailed file type!");
+					}
+				};
+				
+				$scope.ajaxUploadTemplate = function(evt){
+					if($("#template_name").val()===""){
+						alert("Empty template name");
+						return;						
+					}
+					
+					//Get ckEditor content follow dom hierachy
+					var ckEditorFrameContent= $("#cke_userHtmlTemplateCode ").find(".cke_inner .cke_reset")
+																			  .find("iframe")
+																			  .contents()[0]
+																			  .documentElement
+																			  .getElementsByTagName("body")[0];
+					if($.trim(ckEditorFrameContent.innerText) ===""){
+						alert("Empty html content for template!!!")
+						return;
+					}					
+					
+					if($("#preview_image").attr("src")===""){
+						alert("Empty image for template");
+						return;						
+					} 
+					
+					//Prepare the upload form data
+					var uploadData = {
+							title:$("#template_name").val(),
+							htmlCode:encodeURI(ckEditorFrameContent.innerHTML),
+							base64StringImage:$("#preview_image").attr("src"),
+							templateId:$("#user_template_id").val()
+					};
+					
+					var headers =  {
+						'Accept':'application/json',
+						'Content-Type': 'application/json'
+					};
+					
+					$http.post("CustomTemplateUpload",JSON.stringify(uploadData),headers)
+						 .success(function(data, status, headers,config) {
+							 $scope.reloadUserTemplate();
+						 })
+						 .error(function(data, status, headers,config){
+								console.log("Error");
+						 }) 
+				};
+				
+				//Reload user template
+				$scope.reloadUserTemplate = function(){
+					$http.get("LoadUserTemplate")
+					 .success(function(data, status, headers,config) {
+						 $scope.listOfUserTemplate = data;
+					 })
+					 .error(function(data, status, headers,config){
+							console.log("Error");
+					 }) 
+				};
+				
+				//Download sampe template for user
+				$scope.downloadSampleTemplate = function($event){
+					$event.preventDefault();
+					alert("Download sample template")
+				} 
+				
+				//Bind selected template to layout
+				$scope.bindTemplateToLayout = function($this){
+					var title = $this.next().prop('nextSibling').textContent;
+					var imageString = $this.parent().next().attr("src");
+					var htmlCode = decodeURI($this.parent().next().next().val());
+					var ckEditorFrameContent= $("#cke_userHtmlTemplateCode ").find(".cke_inner .cke_reset")
+																			  .find("iframe")
+																			  .contents()[0]
+																			  .documentElement
+																			  .getElementsByTagName("body")[0]; 
+					var templateId = $this.val();
+					$("#user_template_id").val(templateId);
+					
+					if($("#template_name").val()!=="" ||
+					   $.trim(ckEditorFrameContent.innerText) !=="" ||
+					   $("#preview_image").attr("src")!==""){
+						
+						var answer = confirm("Seem you are some new template content to add or edit! \n Are you want to edit the exist template ? ");
+						if(answer){
+							$scope.bindingValue(title,htmlCode,imageString,ckEditorFrameContent);
+						}
+					}else{
+						$scope.bindingValue(title,htmlCode,imageString,ckEditorFrameContent);
+					}
+				};
+				
+				//Binding value
+				$scope.bindingValue = function(title,htmlCode,imageString,ckEditorFrameContent){
+					$("#template_name").val(title);
+					ckEditorFrameContent.innerHTML = htmlCode;
+					$("#preview_image").css({
+					    width: "200px",
+					    height: "300px",
+					    border: "1px solid #827d7d",
+					    "border-radius": "3px"
+					});
+					$("#preview_image").attr("src",imageString); 
+				}
+				
+				//Read local image file as base64 string
+				$scope.readLocalImage = function($imgeFile,callback){
+					var reader = new FileReader();
+				    reader.onload = function(e) {
+				    	callback(e.target.result);
+				    }
+				    reader.readAsDataURL($imgeFile);
+				}
+				
+				//Register checked event for all radiobutton onlayout
+				$scope.registerEventForRadioButton = function(){
+					$(".selected_template").on("change",function(evt){
+						$scope.bindTemplateToLayout($(this))
+					});
+				};
+				
+				//Default load template of current user 
+				$scope.reloadUserTemplate();
+			});
+			
+		</script>  
 
 		<!-- Your GOOGLE ANALYTICS CODE Below -->
 		<script type="text/javascript">

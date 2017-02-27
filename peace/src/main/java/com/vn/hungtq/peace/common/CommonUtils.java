@@ -11,15 +11,20 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.SortedMap;
@@ -45,7 +50,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.web.util.UriUtils;
+
+import com.vn.hungtq.peace.dto.UserTemplateDto;
 import com.vn.hungtq.peace.entity.Contact;
+import com.vn.hungtq.peace.entity.UserTemplate;
+import com.vn.hungtq.peace.common.GmailConfiguration;
+import com.vn.hungtq.peace.common.PeaceContactEmail;
+
 import org.slf4j.Logger;
 
 /**
@@ -166,6 +177,35 @@ public class CommonUtils {
 		} 
 	}
 	
+	public static Tuple<Boolean,String> tryToValidateUserTemplate(UserTemplateDto userTemplate){
+		//Implement later
+		return Tuple.make(true, "Vaild!!!");
+	}
+	
+	public static byte[] convertStringByteArray(String rawString){
+		if(rawString!=null){
+			return rawString.getBytes();
+		}
+		return new byte[0];
+	}
+	
+	public static List<UserTemplateDto> convertToUserTemplateDto(List<UserTemplate> lstOfUserTemplate){
+		List<UserTemplateDto> lstUserTemplateDto = new ArrayList<UserTemplateDto>(lstOfUserTemplate.size());
+		int index = 0;
+		for(UserTemplate userTemplate:lstOfUserTemplate){
+			UserTemplateDto userTemplateDto = new UserTemplateDto();
+			userTemplateDto.setTitle(userTemplate.getTitle());
+			userTemplateDto.setHtmlCode(userTemplate.getHtmlCode());
+			userTemplateDto.setBase64StringImage(new String(userTemplate.getImage()));
+			userTemplateDto.setIndex(index++);
+			userTemplateDto.setTemplateId(userTemplate.getId());
+			
+			lstUserTemplateDto.add(userTemplateDto);
+		}
+		
+		return lstUserTemplateDto;
+	}
+	
 	/**
 	 * 
 	 *  The getHTMLContent method 
@@ -209,6 +249,16 @@ public class CommonUtils {
 
 		return "";
 	} 
+	
+	public static String getSampleImage(){
+		try {
+			return Files.readAllLines(Paths.get("F:\\SampleImageString.txt")).get(0);
+		} catch (IOException e) { 
+			e.printStackTrace();
+		}
+		
+		return "";
+	}
 	
 	public static Tuple<Boolean,String> tryToValidateContactModel(Contact contact){
 		return Tuple.make(true, "Ok");
@@ -262,6 +312,39 @@ public class CommonUtils {
                 + keyWord;
         requestUrl = helper.sign(queryString);
         return requestUrl;
+	}
+	
+	/**
+	 * 
+	 *  The divToListGroup method
+	 *  Div the list of item to list of group item
+	 *  follow the paramter 
+	 *  
+	 *  @param List<T> listOfType
+	 *  @param groupCount
+	 *  @return List<List<T>> s
+	 * 
+	 * 
+	 * **/
+	public static <T>List<List<T>> divToListGroup(List<T> listOfType,int groupCount){
+		int sizeOfList = listOfType.size();
+		if(sizeOfList>groupCount){
+			List<List<T>> retList = new ArrayList<List<T>>();
+			List<T> tempList = new ArrayList<T>(groupCount);
+			int count = 0;
+			
+			for(T item :listOfType){
+				tempList.add(item);
+				count++;
+				if(count==groupCount){
+					retList.add(tempList);
+					tempList = new ArrayList<T>(groupCount);
+					count=0;
+				}
+			}
+		}
+		
+		return Arrays.asList(listOfType);
 	}
 
 	private static class SignedRequestsHelper {
