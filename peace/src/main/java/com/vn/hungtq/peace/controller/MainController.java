@@ -26,8 +26,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.vn.hungtq.peace.common.AmazonServiceInfo;
 import com.vn.hungtq.peace.common.CommonUtils;
+import com.vn.hungtq.peace.common.EbayServiceInfo;
 import com.vn.hungtq.peace.common.ProductSearch;
 import com.vn.hungtq.peace.common.RakutenServiceInfo;
+import com.vn.hungtq.peace.common.YahooServiceInfo;
 import com.vn.hungtq.peace.dto.UserDto;
 import com.vn.hungtq.peace.entity.User;
 import com.vn.hungtq.peace.service.UserDaoService;
@@ -44,6 +46,15 @@ public class MainController {
 
 	@Autowired
 	private UserDaoService userService;
+	
+	@Autowired
+	private RakutenServiceInfo rakutenServiceInfomation;
+	
+	@Autowired
+	private YahooServiceInfo yahooServiceInfo;
+	
+	@Autowired
+	private EbayServiceInfo ebayServiceInfomation;
 	
 	@RequestMapping(value ="/", method = RequestMethod.GET)
 	public String welcome(Locale locale, ModelMap model) {
@@ -94,14 +105,30 @@ public class MainController {
 	public ModelAndView contactUs(){
 		return  new ModelAndView("/pages/G_Contract");
 	}
+	
 	@RequestMapping(value ="/AmazoneGetServiceUrl/{keyword}",method=RequestMethod.POST)
 	public @ResponseBody String amazoneGetServiceUrl(@PathVariable(value = "keyword") String keyword){
 		return CommonUtils.buildAmazonServiceUrl(keyword,amazonServiceInfo);
 	}
 	
+	@RequestMapping(value ="/EbayProductSearch/{keyword}",method=RequestMethod.GET)
+	public @ResponseBody String ebaySearchProductByKeyword(@PathVariable(value = "keyword") String keyword){
+		String productSearchUrl = CommonUtils.buildEbayServiceUrl(keyword, ebayServiceInfomation);
+		logger.debug("The ebay service search url :" +productSearchUrl);
+		return CommonUtils.getHTMLContent(productSearchUrl);
+	}
+	
+	@RequestMapping(value ="/YahooProductSearch/{keyword}",method=RequestMethod.GET)
+	public @ResponseBody String yahooSearchProductByKeyword(@PathVariable(value = "keyword") String keyword){
+		String productSearchUrl = CommonUtils.buildYahooServiceUrl(keyword, yahooServiceInfo);
+		logger.debug("yahoo appid:"+yahooServiceInfo.getAppid());
+		logger.debug("The yahoo service search url :" +productSearchUrl);
+		return CommonUtils.getHTMLContent(productSearchUrl);
+	}
+	
 	@RequestMapping(value ="/RakutenProductSearch/{keyword}",method=RequestMethod.POST)
 	public @ResponseBody List<ProductSearch> rakutenSearchProductByKeyword(@PathVariable(value = "keyword") String keyword){
-		String finalUrl = MessageFormat.format(RakutenServiceInfo.RAKUTEN_SERVICE_URL, RakutenServiceInfo.APP_ID,keyword); 
+		String finalUrl = MessageFormat.format(rakutenServiceInfomation.getServiceUrl(),rakutenServiceInfomation.getAppid(),keyword); 
 		String responseContent = CommonUtils.getHTMLContent(finalUrl);
 		
 		if(!"".equals(responseContent)){

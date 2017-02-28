@@ -259,27 +259,22 @@ input, textarea, button {
 										//Search all
 									} else if ($("#amazon").prop("checked")) {
 										//Search amazon
-										$scope.amazon
-												.searchProductByKeyword(keyword);
+										$scope.amazon.searchProductByKeyword(keyword);
 									} else if ($("#ebay").prop("checked")) {
 										//Search ebay
-										$scope.ebay
-												.searchProductByKeyword(keyword);
+										$scope.ebay.searchProductByKeyword(keyword);
 									} else if ($("#yahoo_shopping").prop(
 											"checked")) {
 										//Search yahoo shopping
-										$scope.yahoo
-												.searchProductByKeyword(keyword);
+										$scope.yahoo.searchProductByKeyword(keyword);
 									} else if ($("#yahoo_auction").prop(
 											"checked")) {
 										//Search yahoo auction
-										$scope.yahoo
-												.searchProductByKeyword(keyword);
+										$scope.yahoo.searchProductByKeyword(keyword);
 									} else if ($("#rakuten_research").prop(
 											"checked")) {
 										//Search rakuten
-										$scope.rakuten
-												.searchProductByKeyword(keyword);
+										$scope.rakuten.searchProductByKeyword(keyword);
 									}
 								} else {
 									$scope.listOfProduct = [];
@@ -312,34 +307,16 @@ input, textarea, button {
 							}
 
 							//Search ebay function
-							$scope.ebay.searchProductByKeyword = function(
-									keyWord) {
-								//Not secure --Fix latter
-								var appId = "naptnapt-PeaceSho-PRD-f2461718a-2f128918";
-
-								var url = "http://svcs.ebay.com/services/search/FindingService/v1";
-								url += "?OPERATION-NAME=findItemsByKeywords";
-								url += "&SERVICE-VERSION=1.0.0";
-								url += "&SECURITY-APPNAME=" + appId;
-								url += "&GLOBAL-ID=EBAY-US";
-								url += "&RESPONSE-DATA-FORMAT=JSON";
-								url += "&REST-PAYLOAD";
-								url += "&keywords=" + encodeURI(keyWord);
-								url += "&paginationInput.entriesPerPage=3";
+							$scope.ebay.searchProductByKeyword = function(keyWord) {
 
 								//Send ajax to server to search product
-								$http
-										.get(url)
-										.success(
-												function(data, status, headers,
-														config) {
-													$scope.ebay
-															.findItemsByKeywords(data);
-												}).error(
-												function(data, status, headers,
-														config) {
-													console.log(data);
-												});
+								$http.get("EbayProductSearch/"+keyWord)
+									 .success(function(data, status, headers,config) {
+										 $scope.ebay.findItemsByKeywords(data);
+									 })
+									 .error(function(data, status, headers,config) {
+										  console.log(data);
+									});
 							}
 
 							/*--------------------------------AMAZON SEARCH--------------------------------------*/
@@ -507,25 +484,14 @@ input, textarea, button {
 							}
 
 							//The yahoo search function
-							$scope.yahoo.searchProductByKeyword = function(
-									keyWord) {
-								//May be not secure -fix later
-								var appId = "dj0zaiZpPW5oR0t5T1lYOXJhZCZzPWNvbnN1bWVyc2VjcmV0Jng9Nzk-";
-
-								//Query will be build with keyWord  
-								var url = "https://shopping.yahooapis.jp/ShoppingWebService/V1/itemSearch?appid="
-										+ appId
-										+ "&query="
-										+ encodeURI(keyWord);
+							$scope.yahoo.searchProductByKeyword = function(keyWord) { 
 
 								//Send ajax to server to search product
-								$http
-										.get(url)
-										.success(
+								$http.get("YahooProductSearch/"+keyWord)
+									 .success(
 												function(data, status, headers,
 														config) {
-													$scope.yahoo
-															.processResponseData(data);
+													$scope.yahoo.processResponseData(data);
 												}).error(
 												function(data, status, headers,
 														config) {

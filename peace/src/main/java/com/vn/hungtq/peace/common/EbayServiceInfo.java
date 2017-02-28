@@ -1,7 +1,40 @@
 package com.vn.hungtq.peace.common;
 
-public interface EbayServiceInfo {
-	String APP_ID = "naptnapt-PeaceSho-SBX-72466ad44-edd219bc";
-	String DEV_ID="4d08dbd6-e001-4256-884d-097b6885e322";
-	String CERT_ID="SBX-2466ad44a910-362e-4d26-8f2d-c16d";
+public class EbayServiceInfo {
+	private String appid;
+	private String devid;
+	private String certid;
+	private String serviceUrl;
+	
+	public String getAppid() {
+		return appid;
+	}
+	
+	public void setAppid(String appid) {
+		this.appid = appid;
+	}
+	
+	public String getDevid() {
+		return devid;
+	}
+	
+	public void setDevid(String devid) {
+		this.devid = devid;
+	}
+	
+	public String getCertid() {
+		return certid;
+	}
+	
+	public void setCertid(String certid) {
+		this.certid = certid;
+	}
+
+	public String getServiceUrl() {
+		return serviceUrl;
+	}
+
+	public void setServiceUrl(String serviceUrl) {
+		this.serviceUrl = serviceUrl;
+	}  
 }

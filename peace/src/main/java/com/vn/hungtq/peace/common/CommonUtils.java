@@ -241,9 +241,9 @@ public class CommonUtils {
 					return sb.toString();
 				}
 			} catch (MalformedURLException ex) {
-				logger.debug("Send gmail error with cause :"+ex.getMessage());
+				logger.debug("Get html content error with cause :"+ex.getMessage());
 			} catch (IOException ex) {
-				logger.debug("Send gmail error with cause :"+ex.getMessage());
+				logger.debug("Get html content error with cause :"+ex.getMessage());
 			}  
 		}
 
@@ -262,6 +262,14 @@ public class CommonUtils {
 	
 	public static Tuple<Boolean,String> tryToValidateContactModel(Contact contact){
 		return Tuple.make(true, "Ok");
+	}
+	
+	public static String buildEbayServiceUrl(String keyword,EbayServiceInfo ebayServiceInfomation){
+		return MessageFormat.format(ebayServiceInfomation.getServiceUrl(), ebayServiceInfomation.getAppid(),keyword);
+	}
+	
+	public static String buildYahooServiceUrl(String keyword,YahooServiceInfo yahooServiceInfomation){
+		return MessageFormat.format(yahooServiceInfomation.getServiceUrl(), yahooServiceInfomation.getAppid(),keyword);
 	}
 	
 	/**

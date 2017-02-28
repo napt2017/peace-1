@@ -1,6 +1,7 @@
 package com.vn.hungtq.peace.common;
 
-public class RakutenServiceInfo {
+public class YahooServiceInfo {
+	
 	private String appid;
 	private String serviceUrl;
 	

@@ -12,6 +12,9 @@
 				<value>classpath:gmail_configuration.properties</value>  
 				<value>classpath:contact_email_configuration.properties</value>  
 				<value>classpath:amazonservice_configuration.properties</value>  
+				<value>classpath:ebayservice_configuration.properties</value>  
+				<value>classpath:rakutenservice_configuration.properties</value>  
+				<value>classpath:yahooservice_configuration.properties</value>  
 			</list> 
 		</property>
 	</bean>  
@@ -21,6 +24,26 @@
 		<property name="email" value="${peace.contact.email}" />
 		<property name="password" value="${peace.contact.password}" />
 	</bean> 
+	
+	<!-- Yahoo service infomation -->
+	<bean id="yahooServiceInfo" class="com.vn.hungtq.peace.common.YahooServiceInfo">
+		<property name="appid" value="${yahoo.appid}"/>
+		<property name="serviceUrl" value="${yahoo.service.url}"/>
+	</bean>
+	
+	<!-- Rakuten service infomation -->
+	<bean id="rakutenServiceInfomation" class="com.vn.hungtq.peace.common.RakutenServiceInfo">
+		<property name="appid" value="${rakuten.appid}" />
+		<property name="serviceUrl" value="${rakuten.service.url}" />
+	</bean>
+	
+	<!-- Ebay service infomation bean -->
+	<bean id="ebayServiceInfomation" class="com.vn.hungtq.peace.common.EbayServiceInfo">
+		<property name="appid" value="${ebay.appid}" />
+		<property name="devid" value="${ebay.devid}"/>
+		<property name="certid" value="${ebay.certid}" />
+		<property name="serviceUrl" value="${ebay.service.url}" />
+	</bean>
 	
 	<!-- Gmail configuration bean -->
 	<bean id="gmailConfiguration" class="com.vn.hungtq.peace.common.GmailConfiguration">
