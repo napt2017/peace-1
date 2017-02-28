@@ -175,8 +175,11 @@
 									</div>
 									
 									<!-- Submit button -->
-									<section>
-											 <button type="submit" ng-click="ajaxUploadTemplate()" class="btn btn-primary btn-sm">Save</button>
+									<section> 
+											  <div class="btn-group">
+						                        <button type="button" ng-click="ajaxUploadTemplate()" class="btn btn-primary btn-sm">Save</button> 
+						                        <button type="button" class="btn btn-default btn-sm" ng-click="clearUserTemplateForm()">Clear</button>
+						                     </div>
 									</section>
 									
 									<!-- <section>
@@ -356,18 +359,35 @@
 					}
 				};
 				
+				$scope.clearUserTemplateForm = function(){
+					$("#template_name").val("");
+					$scope.getCkEditor().innerHTML ="";
+					$("#preview_image").attr("src",""); 
+					$("#preview_image").attr("style",""); 
+					$("#user_template_id").val("-1")
+					if($("input[name='radio-inline']:checked")){
+						$("input[name='radio-inline']:checked").prop("checked",false)
+					}
+					$("#templateUploadFile").parent().next().val("");
+				}
+				
+				//Get ckEditor content follow dom hierachy
+				$scope.getCkEditor = function(){
+					return $("#cke_userHtmlTemplateCode ").find(".cke_inner .cke_reset")
+														  .find("iframe")
+														  .contents()[0]
+														  .documentElement
+														  .getElementsByTagName("body")[0];
+				}
+				
+				//Send ajax to server to upload template
 				$scope.ajaxUploadTemplate = function(evt){
 					if($("#template_name").val()===""){
 						alert("Empty template name");
 						return;						
 					}
 					
-					//Get ckEditor content follow dom hierachy
-					var ckEditorFrameContent= $("#cke_userHtmlTemplateCode ").find(".cke_inner .cke_reset")
-																			  .find("iframe")
-																			  .contents()[0]
-																			  .documentElement
-																			  .getElementsByTagName("body")[0];
+					var ckEditorFrameContent= $scope.getCkEditor();
 					if($.trim(ckEditorFrameContent.innerText) ===""){
 						alert("Empty html content for template!!!")
 						return;
@@ -393,7 +413,11 @@
 					
 					$http.post("CustomTemplateUpload",JSON.stringify(uploadData),headers)
 						 .success(function(data, status, headers,config) {
-							 $scope.reloadUserTemplate();
+							 if(data.status==="OK"){
+								 $scope.reloadUserTemplate();
+							 }else{
+								alert(data.cause); 
+							 }							 
 						 })
 						 .error(function(data, status, headers,config){
 								console.log("Error");
@@ -418,28 +442,31 @@
 				} 
 				
 				//Bind selected template to layout
-				$scope.bindTemplateToLayout = function($this){
+				$scope.bindTemplateToLayout = function($this,$event){
 					var title = $this.next().prop('nextSibling').textContent;
 					var imageString = $this.parent().next().attr("src");
 					var htmlCode = decodeURI($this.parent().next().next().val());
-					var ckEditorFrameContent= $("#cke_userHtmlTemplateCode ").find(".cke_inner .cke_reset")
-																			  .find("iframe")
-																			  .contents()[0]
-																			  .documentElement
-																			  .getElementsByTagName("body")[0]; 
+					var ckEditorFrameContent= $scope.getCkEditor();
 					var templateId = $this.val();
+					
 					$("#user_template_id").val(templateId);
 					
 					if($("#template_name").val()!=="" ||
 					   $.trim(ckEditorFrameContent.innerText) !=="" ||
-					   $("#preview_image").attr("src")!==""){
-						
+					   $("#preview_image").attr("src")!==""){  
 						var answer = confirm("Seem you are some new template content to add or edit! \n Are you want to edit the exist template ? ");
 						if(answer){
 							$scope.bindingValue(title,htmlCode,imageString,ckEditorFrameContent);
+							$scope.currentSelectedTemplate = $this;
+						}else{
+							$this.prop('checked', false);
+							if(typeof($scope.currentSelectedTemplate)!=="undefined"){
+								$scope.currentSelectedTemplate.prop('checked', true)
+							} 
 						}
 					}else{
 						$scope.bindingValue(title,htmlCode,imageString,ckEditorFrameContent);
+						$scope.currentSelectedTemplate = $this;
 					}
 				};
 				
@@ -468,7 +495,8 @@
 				//Register checked event for all radiobutton onlayout
 				$scope.registerEventForRadioButton = function(){
 					$(".selected_template").on("change",function(evt){
-						$scope.bindTemplateToLayout($(this))
+						var currentSelectedTemplate = ($('input[name=radio-inline]:checked'));
+						$scope.bindTemplateToLayout($(this),evt);
 					});
 				};
 				

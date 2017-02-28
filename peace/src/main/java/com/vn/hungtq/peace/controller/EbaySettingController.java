@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.vn.hungtq.peace.common.AjaxResponseResult;
 import com.vn.hungtq.peace.common.CommonUtils;
 import com.vn.hungtq.peace.common.Tuple;
 import com.vn.hungtq.peace.dto.UserDto;
@@ -66,9 +67,11 @@ public class EbaySettingController {
 	}
 	
 	@RequestMapping(value ="/CustomTemplateUpload",method=RequestMethod.POST)
-	public @ResponseBody String uploadTemplate(@RequestBody UserTemplateDto templateUploadDto,
+	public @ResponseBody AjaxResponseResult uploadTemplate(@RequestBody UserTemplateDto templateUploadDto,
 											  HttpServletRequest request){ 
 		Tuple<Boolean,String> validateResult = CommonUtils.tryToValidateUserTemplate(templateUploadDto);
+		AjaxResponseResult ajaxResult = new AjaxResponseResult();
+		
 		if(validateResult.getFirst()){
 			if(templateUploadDto.getTemplateId()!=-1){
 				UserTemplate userTemplate = userTemplateDaoService.getUserTemplateById(templateUploadDto.getTemplateId());
@@ -77,10 +80,12 @@ public class EbaySettingController {
 					userTemplate.setHtmlCode(templateUploadDto.getHtmlCode());
 					userTemplate.setImage(CommonUtils.convertStringByteArray(templateUploadDto.getBase64StringImage()));
 					userTemplateDaoService.updateUserTemplate(userTemplate);
-					return "UPDATE SUCCESS";
+					ajaxResult.setStatus("OK");
+					ajaxResult.setRecordId(userTemplate.getId());
 					
 				}else{
-					return "UPDATE FAILED!";
+					ajaxResult.setStatus("FAILED");
+					ajaxResult.setCause("Cannot found the exist user template! Update failed!");
 				}
 			}else{
 				UserDto user = (UserDto)request.getSession().getAttribute("user");
@@ -92,13 +97,16 @@ public class EbaySettingController {
 				userTemplate.setTitle(templateUploadDto.getTitle());  
 				userTemplate.setUserId(userId);
 				userTemplateDaoService.saveUserTemplate(userTemplate);
+				ajaxResult.setStatus("OK");
+				ajaxResult.setRecordId(userTemplate.getId());
 				logger.debug("Save user template success!");
 			}
-			
-			return "OK";
+		}else{
+			ajaxResult.setStatus("FAILED");
+			ajaxResult.setCause("Insert new template failed! Cause by : \n" +validateResult.getSecond());
 		}
 		
-		return validateResult.getSecond();
+		return ajaxResult;
 	}
 	
 	@RequestMapping(value ="/LoadUserTemplate",method=RequestMethod.GET)
