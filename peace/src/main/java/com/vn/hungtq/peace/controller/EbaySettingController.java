@@ -20,7 +20,9 @@ import com.vn.hungtq.peace.common.CommonUtils;
 import com.vn.hungtq.peace.common.Tuple;
 import com.vn.hungtq.peace.dto.UserDto;
 import com.vn.hungtq.peace.dto.UserTemplateDto;
+import com.vn.hungtq.peace.entity.ItemInfomation;
 import com.vn.hungtq.peace.entity.UserTemplate;
+import com.vn.hungtq.peace.service.ItemInfomationDaoService;
 import com.vn.hungtq.peace.service.UserTemplateDaoService;
 
 @Controller
@@ -30,6 +32,9 @@ public class EbaySettingController {
 	
 	@Autowired
 	UserTemplateDaoService userTemplateDaoService;
+	
+	@Autowired
+	ItemInfomationDaoService itemInfomationDaoService;
 	
 	@RequestMapping("/ListTemplate")
 	public ModelAndView actionListTemplate(){
@@ -64,6 +69,31 @@ public class EbaySettingController {
 	@RequestMapping("/ListResearchAll")
 	public ModelAndView listSearchAll(){ 
 		return new ModelAndView("/pages/G_ListResearchAll");
+	}
+	
+	@RequestMapping("/AddItemInfomation")
+	public @ResponseBody AjaxResponseResult addNewItemInfomation(@RequestBody ItemInfomationDto itemInfomation,HttpServletRequest request){ 
+		Tuple<Boolean, String> validateResult = CommonUtils.tryToValidateItemInfomation(itemInfomation);
+		AjaxResponseResult ajaxResult = new AjaxResponseResult();
+		if(validateResult.getFirst()){
+			ItemInfomation dbItemInfomation = new ItemInfomation();
+			dbItemInfomation.setAboutUs(itemInfomation.getAboutUs());
+			dbItemInfomation.setInternationalBuyerNote(itemInfomation.getInternationalBuyersNote());
+			dbItemInfomation.setPayment(itemInfomation.getPayment());
+			dbItemInfomation.setTermsOfSale(itemInfomation.getTermsOfSale());
+			
+			UserDto user = (UserDto)request.getSession().getAttribute("user");
+			int userId = user.getId();
+			dbItemInfomation.setUserId(userId);
+			itemInfomationDaoService.addItemInfomation(dbItemInfomation);
+			ajaxResult.setStatus("OK");
+			ajaxResult.setRecordId(dbItemInfomation.getId());
+			
+		}else{
+			ajaxResult.setStatus("FAILED");
+			ajaxResult.setCause(validateResult.getSecond());
+		}
+		return ajaxResult;
 	}
 	
 	@RequestMapping(value ="/CustomTemplateUpload",method=RequestMethod.POST)

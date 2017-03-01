@@ -132,30 +132,30 @@
 									<section>
 										<label class="label">Payment</label>
 										<label class="textarea"> 									
-											<textarea rows="5" name="comment" placeholder=""></textarea> 
+											<textarea rows="5" id="payment" name="comment" placeholder=""></textarea> 
 										</label>
 									</section>
 									<section>
 										<label class="label">Terms of Sale</label>
 										<label class="textarea"> 									
-											<textarea rows="5" name="comment" placeholder=""></textarea> 
+											<textarea rows="5" name="comment" id="terms_of_sale" placeholder=""></textarea> 
 										</label>
 									</section>
 									<section>
 										<label class="label">About Us</label>
 										<label class="textarea"> 										
-											<textarea rows="5" name="comment" placeholder=""></textarea> 
+											<textarea rows="5" name="comment" id="about_us" placeholder=""></textarea> 
 										</label>
 									</section>
 									<section>
 										<label class="label">International Buyers - Please Note:</label>
 										<label class="textarea">									
-											<textarea rows="5" name="comment" placeholder=""></textarea> 
+											<textarea rows="5" name="comment" id="international_buyers_note" placeholder=""></textarea> 
 										</label>
 									</section>
 								</fieldset>
 								<footer>
-									<button type="submit" class="btn btn-primary">
+									<button type="submit" class="btn btn-primary" id="btnSave">
 										Save
 									</button>
 								</footer>
@@ -179,9 +179,10 @@
 		
 		<script type="text/javascript">
 		$(document).ready(function() {
-			$('#colorpicker').farbtastic('#color');
-			$('#colorpickerstr').farbtastic('#colorstr');
+			//$('#colorpicker').farbtastic('#color');
+			//$('#colorpickerstr').farbtastic('#colorstr');
 		});
+		
 		$(function() {
 			$('.required-icon').tooltip({
 				placement: 'left',
@@ -196,6 +197,64 @@
 		
 		})
 
+		</script>
+		
+		<!-- HANDING EVENT SAVE NEW ITEM INFOMATION(napt2017) -->
+		<script type="text/javascript">
+			$(function(){
+				$("#btnSave").on("click",function(evt){
+					evt.preventDefault();
+					if($("#payment").val()===""){
+						alert("Empty payment!!!");
+						return;
+					}
+					
+					if($("#terms_of_sale").val()===""){
+						alert("Empty terms of sale!!!");
+						return;
+					}
+					
+					if($("#about_us").val()===""){
+						alert("Empty about us !!!!");
+						return;
+					}
+					
+					if($("#international_buyers_note").val()===""){
+						alert("Empty international buyers note!!!");
+						return;
+					}
+					
+					var postData = {
+							payment:$("#payment").val(),
+							termsOfSale:$("#terms_of_sale").val(),
+							aboutUs:$("#about_us").val(),
+							internationalBuyersNote:$("#international_buyers_note").val()
+					};
+					
+					$.ajax({
+						type: "POST",
+						headers: {
+							'Accept':'application/json',
+							'Content-Type': 'application/json'
+						},
+						url: "AddItemInfomation",
+						data:JSON.stringify(postData),
+						contentType: "application/json",
+						mimeType: 'application/json',
+						dataType: "json",
+						success: function(respData){
+							alert(respData);
+							$("#payment").val("");
+							$("#terms_of_sale").val("");
+							$("#about_us").val("");
+							$("#international_buyers_note").val("");
+						},
+						error:function(evt){
+							console.log(evt);
+						}
+					});    
+				});
+			});
 		</script>
 
 		<!-- Your GOOGLE ANALYTICS CODE Below -->

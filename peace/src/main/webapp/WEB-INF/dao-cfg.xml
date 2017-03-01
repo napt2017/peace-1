@@ -18,5 +18,8 @@
      <property name="sessionFactory" ref="mySessionFactory" />
  </bean>
  
+ <bean id="itemInfomationDaoService" class="com.vn.hungtq.peace.service.impl.ItemInfomationDaoServiceImpl">
+     <property name="sessionFactory" ref="mySessionFactory" />
+ </bean> 
  
 </beans>

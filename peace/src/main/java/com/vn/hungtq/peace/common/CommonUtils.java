@@ -56,6 +56,7 @@ import com.vn.hungtq.peace.entity.Contact;
 import com.vn.hungtq.peace.entity.UserTemplate;
 import com.vn.hungtq.peace.common.GmailConfiguration;
 import com.vn.hungtq.peace.common.PeaceContactEmail;
+import com.vn.hungtq.peace.controller.ItemInfomationDto;
 
 import org.slf4j.Logger;
 
@@ -175,6 +176,11 @@ public class CommonUtils {
 				logger.debug("Exception when send contact email", e);
 				return Tuple.make(false, e.getMessage());
 		} 
+	}
+	
+	public static Tuple<Boolean,String> tryToValidateItemInfomation(ItemInfomationDto itemInfomation){
+		//Implement later
+		return Tuple.make(true, "OK");
 	}
 	
 	public static Tuple<Boolean,String> tryToValidateUserTemplate(UserTemplateDto userTemplate){
