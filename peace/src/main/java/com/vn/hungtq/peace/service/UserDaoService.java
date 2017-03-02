@@ -1,9 +1,17 @@
 package com.vn.hungtq.peace.service;
 
+import java.util.List;
+
 import com.vn.hungtq.peace.entity.User;
 
 public interface UserDaoService {
-	public User getUserByUserAndPass(String username, String pass);
-	public User addUser();
-	public User updateUser();
+	User findById(int id);
+	
+	User findBySSO(String sso);
+	
+	void save(User user);
+	
+	void deleteBySSO(String sso);
+	
+	List<User> findAllUsers();
 }
