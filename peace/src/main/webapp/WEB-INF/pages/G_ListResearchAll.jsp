@@ -356,19 +356,18 @@ input, textarea, button {
 								console.log(respData)
 							}
 
-							$scope.amazon.buildRequestUrl = function(keyWord,
-									funcCallBack) {
-								$http.post("AmazoneGetServiceUrl/" + keyWord)
-										.success(
-												function(data, status, headers,
-														config) {
-													console.log(data);
-													funcCallBack(data);
-												}).error(
-												function(data, status, headers,
-														config) {
-													console.log(data);
-												});
+							$scope.amazon.buildRequestUrl = function(keyWord,funcCallBack) {
+							$http.post("AmazoneGetServiceUrl/" + keyWord)
+									.success(
+											function(data, status, headers,
+													config) {
+												console.log(data);
+												funcCallBack(data);
+											}).error(
+											function(data, status, headers,
+													config) {
+												console.log(data);
+											});
 							}
 
 							/*--------------------------------RAKUTEN SEARCH--------------------------------------*/

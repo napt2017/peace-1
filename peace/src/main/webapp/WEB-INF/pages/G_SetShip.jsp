@@ -5,7 +5,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html lang="en-us">
+<html lang="en-us" ng-app="shipping_setting_app">
 	 <jsp:include page="../pages/common/header.jsp"/>  
 	<body class="fixed-page-footer">
 	<style>
@@ -131,7 +131,7 @@
 				<section id="widget-grid" class="">
 
 					<!-- widget div-->
-					<div class="row">
+					<div class="row" ng-controller="shippingSettingController">
 						<div class="widget-body ">
 							<form class="smart-form col-lg-12">
 								<fieldset>
@@ -888,28 +888,16 @@
 										</table>
 									</div>
 									<div class="row" style="margin-left:10px;margin-top:15px;">
-										<div class="col col-5">
-											<h3 style="margin-bottom: 10px">EBay Delivery Method</h3>
-											<section class="col">
-												<label class="col col-3">US:</label>
+										<div class="col col-5" data-area-setting-id="3">
+											<h3 style="margin-bottom: 10px">EBay Delivery Method</h3> 
+											<section class="col" ng-repeat="areaAndMethod in ebayDeliveryMethod_ShippingAreaWithMethod">
+												<label class="col col-3">{{areaAndMethod.areaName}}</label>
 												<label class="col col-4">
 													<select class="" id="select-">
-															<option>Standard Shipping</option>
-															<option>Economy Shipping</option>
-															<option>Expedited Shipping</option>
+															<option ng-repeat="shippingMethod in areaAndMethod.lstEbayShippingMethods" value="{{shippingMethod.id}}">{{shippingMethod.name}}</option> 
 													</select>
 												</label>
-											</section>
-											<section>
-												<label class="col col-2">Other areas:</label>
-												<label class="col col-4">
-													<select class="" id="select-">
-															<option>Expedited Int'l Shipping</option>
-															<option>Economy Int'l Shipping</option>
-															<option>Standard Int'l Shipping</option>
-													</select>
-												</label>
-											</section>
+											</section> 
 										</div>
 										<div class="col col6">
 											<h3>EBay Shipping Fee</h3>
@@ -990,103 +978,29 @@
 								<fieldset>
 									<h2 style="font-weight: bold; margin-bottom:10px">Not shipping country</h2>
 									<label>Please select the setting of the country not shipping</label>
-									<div class="row">
-										<div class="col-sm-4 region">
-											<span class="checkbox" style="display:inline-block">
+									<div class="row" ng-model="listOfGroupCountry" >
+										<div class="col-sm-4 region" ng-repeat="countryGroup in listOfGroupCountry" > 
+											 <span class="checkbox" style="display:inline-block">
 												<label>
-													<input type="checkbox" class="checkbox style-0" data-region="Africa" class="toggleAll" name="checkbox">
-													<span>Africa</span>
+													<input type="checkbox" class="checkbox style-0" data-region="{{countryGroup.name}}" class="toggleAll" name="checkbox">
+													<span>{{countryGroup.name}}</span>
 												</label>
 											</span>
-											
-											[<a href='#africa' data-toggle="collapse">Hide all countries</a>]
-											  <ul id="africa" class="collapse" style="padding-left:40px">
-												<div class="checkbox">
-													<label>
-														<input type="checkbox" class="checkbox style-0" data-country="Angerie" name="country">
-														<span>Angerie</span>
+											[<a href="{{countryGroup.href}}" data-toggle="collapse">Hide all countries</a>]
+											  <ul id="{{countryGroup.name}}" class="collapse" style="padding-left:40px" >
+												 <div class="checkbox" ng-repeat="country in countryGroup.lstCountries" napt-repeat-directive>
+													  <label>
+														<input type="checkbox" class="checkbox style-0" ng-model="country.isSelected" ng-checked="country.isSelected" ng-true-value="true" ng-false-value="false" data-country-id="{{country.id}}" name="country">
+														<span>{{country.name}}</span>
 													</label>
-												</div>
-												<div class="checkbox">
-													<label>
-														<input type="checkbox" class="checkbox style-0" data-country="Congo" name="country">
-														<span>Congo</span>
-													</label>
-												</div>
-
-												<div class="checkbox">
-													<label>
-														<input type="checkbox" class="checkbox style-0" data-country="Angola" name="country">
-														<span>Angola</span>
-													</label>
-												</div>
+												</div>  
 											  </ul>
-										</div>
-										<div class="col-sm-4 region">
-											<span class="checkbox" style="display:inline-block">
-												<label>
-													<input type="checkbox" class="checkbox style-0" data-region="Europe" class="toggleAll" name="checkbox">
-													<span>Europe</span>
-												</label>
-											</span>
-											
-											[<a href='#Africa' data-toggle="collapse">Hide all countries</a>]
-											  <ul id="Africa" class="collapse" style="padding-left:40px">
-												<div class="checkbox">
-													<label>
-														<input type="checkbox" class="checkbox style-0" data-country="France" name="country">
-														<span>France</span>
-													</label>
-												</div>
-												<div class="checkbox">
-													<label>
-														<input type="checkbox" class="checkbox style-0" data-country="Germany" name="country">
-														<span>Germany</span>
-													</label>
-												</div>
-												<div class="checkbox">
-													<label>
-														<input type="checkbox" class="checkbox style-0" data-country="Spain" name="country">
-														<span>Spain</span>
-													</label>
-												</div>
-											  </ul>
-										</div>
-										<div class="col-sm-4 region">
-											<span class="checkbox" style="display:inline-block">
-												<label>
-													<input type="checkbox" class="checkbox style-0" data-region="Oceania" class="toggleAll" name="checkbox">
-													<span>Oceania</span>
-												</label>
-											</span>
-											
-											[<a href='#Oceania' data-toggle="collapse">Hide all countries</a>]
-											  <ul id="Oceania" class="collapse" style="padding-left:40px">
-												<div class="checkbox">
-													<label>
-														<input type="checkbox" class="checkbox style-0" data-country="Tonga" name="country">
-														<span>Tonga</span>
-													</label>
-												</div>
-												<div class="checkbox">
-													<label>
-														<input type="checkbox" class="checkbox style-0" data-country="NiuNiu" name="country">
-														<span>NiuNiu</span>
-													</label>
-												</div>
-												<div class="checkbox">
-													<label>
-														<input type="checkbox" class="checkbox style-0" data-country="FijiFiji" name="country">
-														<span>FijiFiji</span>
-													</label>
-												</div>
-											  </ul>
-										</div>
+										</div> 
 									</div>									
 								</fieldset>
 								
 								<footer>
-									<button type="submit" class="btn btn-primary">
+									<button type="submit" class="btn btn-primary" ng-click="saveAllShippingSetting($event)">
 										Save
 									</button>
 								</footer>
@@ -1174,6 +1088,149 @@
 			}
 		})
 
+		</script>
+		
+		<!-- LOAD ANGULAR JS MODULE -->
+		<script type="text/javascript"src="<c:url value="/resources/js/angularjs/angular.min.js"/>"></script>
+		
+		<!-- HANDING ALL BUSSSINESS LOGIC FOR SHIPPING SETTING APP(napt2017) -->
+		<script type="text/javascript">
+			var shippingSettingModule = angular.module("shipping_setting_app",[]); 
+			
+			shippingSettingModule.controller("shippingSettingController",function($scope,$http){
+				
+				/*#######################[ 				COMMON METHODS   		]###################################*/ 
+				
+				$scope.loadShippingMethod_ForShippingArea = function(layoutAreaId,callBack){
+					var requestUrl = "GetLayoutAreaSetting/"+layoutAreaId;
+					$http.get(requestUrl).success(function(data, status, headers,config) {  
+						  callBack(data);
+					 })
+					 .error(function(data, status, headers,config) {
+						  console.log(data);
+					});
+				}
+				
+				$scope.divToSubArray = function(array,size){
+					var len = array.length
+					if(len<size){
+						return array;
+					}else{
+						var retArray = [];
+						var count =0;
+						var tempArray =[];
+						var processed =0;
+						array.forEach(function(item,index){
+							tempArray.push(item);
+							count++; 
+							if(count===size){
+								retArray.push(tempArray);
+								tempArray =[]
+								processed+=count;
+								count=0;
+							}
+						});
+						
+						if(processed <len){
+							console.log("Lost data!!!!")
+						}
+						
+						return retArray;
+					}
+				}
+				
+				/*#######################[ EBAY DELIVERY METHOD BUSSINESS LOGIC ]###################################*/ 
+				
+				$scope.loadShippingMethod_ForEbayDelivery = function(callBack){
+					//Note in the configuration the ebay delivery area has areaId = 3
+					var areaId = 3;
+					$scope.loadShippingMethod_ForShippingArea(areaId,callBack);
+				}
+				
+				/*#######################[ EBAY SHIPPING FEE BUSSINESS LOGIC ]###################################*/ 
+				
+				$scope.loadShippingMethod_ForEbayShippingFee = function(callBack){
+					//Note in the configuration the ebay shipping fee has areaId = 4
+					var areaId = 4;
+					$scope.loadShippingMethod_ForShippingArea(areaId,callBack);
+				}
+				
+				$scope.modifyShippingFee_ShippingAreaWithMethod = function(data){
+					return data;
+				}
+				
+				/*#######################[ NOT SHIPPING SETTING BUSSINESS LOGIC ]###################################*/  
+				
+				//Load not shipping country 
+				$scope.loadNotShippingCountry = function(){
+					$http.get("GetNotShippingCountry")
+						 .success(function(data, status, headers,config) {  
+							  $scope.listOfGroupCountry = data.extraData.lstCountryGroup;
+						 })
+						 .error(function(data, status, headers,config) {
+							  console.log(data);
+						});
+				}
+				
+				$scope.saveNotShippingCountry = function(){
+					//The post data to db
+					var dataPost = [];
+					
+					$scope.listOfGroupCountry.forEach(function(item,index){
+						item.lstCountries.forEach(function($item,$index){ 
+							dataPost.push({
+								countryId:$item.id,
+								isSelected:$item.isSelected
+							});
+						});
+					}); 
+					
+					var finalDataPost = {
+							lstCountryConfigurations:dataPost
+					}
+					
+					var headers =  {
+							'Accept':'application/json',
+							'Content-Type': 'application/json'
+					};
+					 
+					//Send ajax to server to save notshipping country configuration
+					$http.post("SaveNotShippingCountry",JSON.stringify(finalDataPost),headers)
+						 .success(function(data, status, headers,config) {
+							 console.log(data);
+									
+						 }).error(function(data, status, headers,config) {
+							 console.log(data);
+					});  
+				};
+				
+				/*#######################[ SAVE ALL USER CONFIGURATION ]###################################*/ 
+				
+				$scope.saveAllShippingSetting = function($event){
+					$event.preventDefault(); 
+					//$scope.saveNotShippingCountry();
+					
+					
+					$scope.loadShippingMethod_ForEbayShippingFee(function(data){
+						$scope.ebayShippingFee_ShippingAreaWithMethod =$scope.modifyShippingFee_ShippingAreaWithMethod(data.extraData);
+						console.log($scope.ebayShippingFee_ShippingAreaWithMethod);
+					});
+					
+					var arr = [1,2,4,6,8,9,44,223,112,44,55,66,0]
+					var lab = $scope.divToSubArray(arr,3);
+					console.log(lab);
+				};
+				 
+				/*#######################[ ALL DEFAULT ACTION WILL BE CALL HERE ]###################################*/ 
+				
+				//Load not shipping country area
+				$scope.loadNotShippingCountry();
+				
+				//Load area with shipping method for ebay delivery layout area
+				$scope.loadShippingMethod_ForEbayDelivery(function(data){
+					$scope.ebayDeliveryMethod_ShippingAreaWithMethod = data.extraData;
+				});
+			});
 		</script>
 
 		<!-- Your GOOGLE ANALYTICS CODE Below -->

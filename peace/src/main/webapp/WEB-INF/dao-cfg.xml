@@ -16,9 +16,33 @@
  
  <bean id="userTemplateDaoService" class="com.vn.hungtq.peace.service.impl.UserTemplateDaoServiceImpl">
      <property name="sessionFactory" ref="mySessionFactory" />
- </bean>
+ </bean> 
  
  <bean id="itemInfomationDaoService" class="com.vn.hungtq.peace.service.impl.ItemInfomationDaoServiceImpl">
+     <property name="sessionFactory" ref="mySessionFactory" />
+ </bean> 
+ 
+ <bean id="countryGroupDaoService" class="com.vn.hungtq.peace.service.impl.CountryGroupDaoServiceImpl">
+     <property name="sessionFactory" ref="mySessionFactory" />
+ </bean>
+  
+ <bean id="countryDaoService" class="com.vn.hungtq.peace.service.impl.CountryDaoServiceImpl">
+     <property name="sessionFactory" ref="mySessionFactory" />
+ </bean>  
+ 
+ <bean id="notShippingCountryDaoService" class="com.vn.hungtq.peace.service.impl.NotShippingCountryDaoServiceImpl">
+     <property name="sessionFactory" ref="mySessionFactory" />
+ </bean> 
+ 
+ <bean id="countryUserMapDaoService" class="com.vn.hungtq.peace.service.impl.CountryUserMapDaoServiceImpl">
+     <property name="sessionFactory" ref="mySessionFactory" />
+ </bean> 
+ 
+ <bean id="ebaySettingLayoutConfigurationDaoService" class="com.vn.hungtq.peace.service.impl.EbaySettingLayoutConfigurationDaoServiceImpl">
+     <property name="sessionFactory" ref="mySessionFactory" />
+ </bean> 
+ 
+ <bean id="ebayAreaShippingMethodMapDaoService" class="com.vn.hungtq.peace.service.impl.EbayAreaShippingMethodMapDaoServiceImpl">
      <property name="sessionFactory" ref="mySessionFactory" />
  </bean> 
  

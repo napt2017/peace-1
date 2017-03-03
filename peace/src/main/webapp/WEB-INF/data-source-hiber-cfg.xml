@@ -72,14 +72,23 @@
 
 	<bean id="mySessionFactory"
 		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
-		<property name="dataSource" ref="dataSource" />
-
+		<property name="dataSource" ref="dataSource" /> 
 		<property name="annotatedClasses">
 			<list>
 				<value>com.vn.hungtq.peace.entity.User</value>
 				<value>com.vn.hungtq.peace.entity.Contact</value>
 				<value>com.vn.hungtq.peace.entity.UserTemplate</value>
-				<value>com.vn.hungtq.peace.entity.ItemInfomation</value>
+				<value>com.vn.hungtq.peace.entity.Country</value>
+				<value>com.vn.hungtq.peace.entity.CountryGroup</value>
+				<value>com.vn.hungtq.peace.entity.CountryUserMap</value>
+				<value>com.vn.hungtq.peace.entity.NotShippingCountry</value>
+				<value>com.vn.hungtq.peace.entity.EbayAreaShippingMethodMap</value>
+				<value>com.vn.hungtq.peace.entity.EbayDeliveryMethod</value>
+				<value>com.vn.hungtq.peace.entity.EbaySettingLayoutConfiguration</value>
+				<value>com.vn.hungtq.peace.entity.EbayShippingArea</value>
+				<value>com.vn.hungtq.peace.entity.EbayShippingMethod</value>
+				<value>com.vn.hungtq.peace.entity.LayoutSettingArea</value>
+				<value>com.vn.hungtq.peace.entity.ReturnWarrantyMethod</value>
 			</list>
 		</property>
 
@@ -87,6 +96,8 @@
 			<props>
 				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
 				<prop key="hibernate.show_sql">true</prop> 
+				<prop key="hibernate.jdbc.batch_versioned_data">true</prop> 
+				<prop key="hibernate.enable_lazy_load_no_trans">true</prop>
 			</props>
 		</property>
 	</bean>
