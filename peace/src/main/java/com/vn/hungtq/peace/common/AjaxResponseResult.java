@@ -1,9 +1,10 @@
 package com.vn.hungtq.peace.common;
 
-public class AjaxResponseResult {
+public class AjaxResponseResult<T> {
 	private String status;
 	private String cause;
 	private int recordId;
+	private T extraData;
 	
 	public String getStatus() {
 		return status;
@@ -28,4 +29,12 @@ public class AjaxResponseResult {
 	public void setRecordId(int recordId) {
 		this.recordId = recordId;
 	} 
+	
+	public void setExtraData(T extraData){
+		this.extraData = extraData;
+	}
+	
+	public T getExtraData(){
+		return this.extraData;
+	}
 }

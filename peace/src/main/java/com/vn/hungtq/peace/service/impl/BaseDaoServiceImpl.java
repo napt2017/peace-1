@@ -1,5 +1,6 @@
 package com.vn.hungtq.peace.service.impl;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +18,11 @@ public class BaseDaoServiceImpl implements BaseDaoService{
 	@Override
 	public Session getCurrentSession() {
 		return this.sessionFactory.getCurrentSession();
+	}
+
+	@Override
+	public Criteria createEntityCriteria(Class<?> c) {
+		return getCurrentSession().createCriteria(c.getClass());
 	}
 
 }

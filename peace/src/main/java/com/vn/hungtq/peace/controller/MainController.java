@@ -11,6 +11,13 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.security.authentication.AuthenticationTrustResolver;
+import org.springframework.security.authentication.AuthenticationTrustResolverImpl;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -40,6 +47,7 @@ public class MainController {
 
 	private static final String VIEW_INDEX = "/pages/index";
 	private static final String VIEW_HOME = "/pages/G_Home";
+	private static final String VIEW_ACCESS_DENIED= "/pages/accessDenied";
 	
 	@Autowired
 	AmazonServiceInfo amazonServiceInfo;
@@ -56,16 +64,49 @@ public class MainController {
 	@Autowired
 	private EbayServiceInfo ebayServiceInfomation;
 	
+	@Autowired
+	MessageSource messageSource;
+	
 	@RequestMapping(value ="/", method = RequestMethod.GET)
 	public String welcome(Locale locale, ModelMap model) {
 		logger.info("Welcome home! The client locale is {}.", locale);
+		
+		// Get user sso
+		final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (authentication.getPrincipal() instanceof String) {
+			return "redirect:/login";
+		}
+		org.springframework.security.core.userdetails.User userSSO = (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
+		
+		// Get user from db
+		User user = userService.findBySSO(userSSO.getUsername());
+		
+		// Assign to Dto
 		UserDto userDto = new UserDto();
+		userDto.setId(user.getId());
+		userDto.setUsername(user.getUsername());
 		model.addAttribute("formLogin", userDto);
+		
 		// Spring uses InternalResourceViewResolver and return back index.jsp
-		return VIEW_INDEX;
+		return VIEW_HOME;
 
 	}
-
+	
+	/**
+	 * This method handles login GET requests.
+	 * If users is already logged-in and tries to goto login page again, will be redirected to list page.
+	 */
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	public String loginPage(Locale locale, ModelMap model) {
+		if (isCurrentAuthenticationAnonymous()) {
+			UserDto userDto = new UserDto();
+			model.addAttribute("formLogin", userDto);
+			return VIEW_INDEX;
+	    } else {
+	    	return "redirect:/";  
+	    }
+	}
+	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String login(@ModelAttribute("formLogin") UserDto userDto,
 			HttpServletRequest request,
@@ -73,8 +114,7 @@ public class MainController {
 
 		logger.debug("begin login: ", userDto.getUsername());
 
-		User user = userService.getUserByUserAndPass(userDto.getUsername(),
-				userDto.getPassword());
+		User user = userService.findBySSO(userDto.getUsername());
 
 		if (user != null) {
 			userDto.setId(user.getId());
@@ -164,4 +204,40 @@ public class MainController {
 		
 		return Collections.emptyList();
 	} 
+	
+	/**
+	 * This method handles Access-Denied redirect.
+	 */
+	@RequestMapping(value = "/Access_Denied", method = RequestMethod.GET)
+	public String accessDeniedPage(ModelMap model) {
+		model.addAttribute("loggedinuser", getPrincipal());
+		return VIEW_ACCESS_DENIED;
+	}
+	
+	/**
+	 * This method returns the principal[user-name] of logged-in user.
+	 */
+	private String getPrincipal(){
+		String userName = null;
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+		if (principal instanceof UserDetails) {
+			userName = ((UserDetails)principal).getUsername();
+		} else {
+			userName = principal.toString();
+		}
+		return userName;
+	}
+	
+	/**
+	 * This method returns true if users is already authenticated [logged-in], else false.
+	 */
+	private boolean isCurrentAuthenticationAnonymous() {
+	    final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+	    AuthenticationTrustResolverImpl authenticationTrustResolver = new AuthenticationTrustResolverImpl();
+	    
+	    return authenticationTrustResolver.isAnonymous(authentication);
+	}
+	
+	
 }

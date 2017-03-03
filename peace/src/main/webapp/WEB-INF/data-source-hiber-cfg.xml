@@ -78,6 +78,8 @@
 				<value>com.vn.hungtq.peace.entity.User</value>
 				<value>com.vn.hungtq.peace.entity.Contact</value>
 				<value>com.vn.hungtq.peace.entity.UserTemplate</value>
+				<value>com.vn.hungtq.peace.entity.ItemInfomation</value>
+				<value>com.vn.hungtq.peace.entity.UserRole</value>
 				<value>com.vn.hungtq.peace.entity.Country</value>
 				<value>com.vn.hungtq.peace.entity.CountryGroup</value>
 				<value>com.vn.hungtq.peace.entity.CountryUserMap</value>

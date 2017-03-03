@@ -2,36 +2,59 @@ package com.vn.hungtq.peace.service.impl;
 
 import java.util.List;
 
-import org.apache.commons.collections.CollectionUtils;
+import org.hibernate.Criteria;
+import org.hibernate.Hibernate;
+import org.hibernate.criterion.Restrictions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.vn.hungtq.peace.entity.User;
 import com.vn.hungtq.peace.service.UserDaoService;
 
 public class UserDaoServiceImpl extends BaseDaoServiceImpl implements UserDaoService{
+	static final Logger logger = LoggerFactory.getLogger(UserDaoServiceImpl.class);
+	@Override
+	public User findById(int id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	@Override
-	public User getUserByUserAndPass(String username, String pass) {
-		@SuppressWarnings("unchecked")
-		List<User> users = (List<User>) getCurrentSession()
-				.createQuery("from User where username = ? and password = ?")
-				.setParameter(0, username)
-				.setParameter(1, pass).list();
-		if (CollectionUtils.isNotEmpty(users)) {
-			return users.get(0);
+	public User findBySSO(String sso) {
+		logger.info("SSO : {}", sso);
+		Criteria crit = getCurrentSession().createCriteria(User.class);
+		crit.add(Restrictions.eq("username", sso));
+		User user = (User)crit.uniqueResult();
+		if(user!=null){
+			Hibernate.initialize(user.getUserRoles());
 		}
-		return null;
+		return user;
 	}
 
 	@Override
-	public User addUser() {
+	public void save(User user) {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
 
 	@Override
-	public User updateUser() {
+	public void deleteBySSO(String sso) {
+		// TODO Auto-generated method stub
+		
+	} 
+
+	@Override
+	public List<User> findAllUsers() {
 		// TODO Auto-generated method stub
 		return null;
+	} 
+	
+	@Override
+	public User getUserById(int userId) { 
+		@SuppressWarnings("unchecked")
+		List<User> users = (List<User>) getCurrentSession().createQuery("from User where id=?")
+														   .setParameter(0, userId)
+														   .list();
+		return users.get(0);
 	}
-
 }
