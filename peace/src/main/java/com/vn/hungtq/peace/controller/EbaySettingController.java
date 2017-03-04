@@ -1,6 +1,8 @@
 package com.vn.hungtq.peace.controller;
 
+import java.net.URLEncoder;
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -9,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,9 +20,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.vn.hungtq.peace.common.AjaxResponseResult;
 import com.vn.hungtq.peace.common.CommonUtils;
+import com.vn.hungtq.peace.common.EbayServiceInfo;
 import com.vn.hungtq.peace.common.Tuple;
 import com.vn.hungtq.peace.dto.UserDto;
 import com.vn.hungtq.peace.dto.UserTemplateDto;
+import com.vn.hungtq.peace.ebay.GetSessionIDCall;
 import com.vn.hungtq.peace.entity.ItemInfomation;
 import com.vn.hungtq.peace.entity.UserTemplate;
 import com.vn.hungtq.peace.service.ItemInfomationDaoService;
@@ -30,11 +35,16 @@ import com.vn.hungtq.peace.service.UserTemplateDaoService;
 public class EbaySettingController {
 	private final Logger logger = LoggerFactory.getLogger(EbaySettingController.class);
 	
+	private final static String VIEW_LOGIN_EBAY = "/pages/G_SetEbayLogin";
+	
 	@Autowired
 	UserTemplateDaoService userTemplateDaoService;
 	
 	@Autowired
 	ItemInfomationDaoService itemInfomationDaoService;
+	
+	@Autowired
+	EbayServiceInfo ebayServiceInfo; 
 	
 	@RequestMapping("/ListTemplate")
 	public ModelAndView actionListTemplate(){
@@ -63,7 +73,43 @@ public class EbaySettingController {
 	
 	@RequestMapping("/SetEbayLogin")
 	public ModelAndView actionSetEbayLogin(){
-		return new ModelAndView("/pages/G_SetEbayLogin");
+		ModelAndView model = new ModelAndView(VIEW_LOGIN_EBAY);
+		boolean isProduction = false;
+		
+		// Create Url login base
+		StringBuilder loginEbayUrl = new StringBuilder();
+		if ("prod".equals(ebayServiceInfo.getEnvironment())) {
+			isProduction = true;
+			loginEbayUrl.append(ebayServiceInfo.getProdSigninURL());
+		} else {
+			loginEbayUrl.append(ebayServiceInfo.getSandboxSigninURL());
+		}
+		
+		// Get sessionId from Ebay then add to URL
+		GetSessionIDCall call = new GetSessionIDCall(isProduction, ebayServiceInfo);
+		try {
+            call.getSessionIDString(call.sendRequest(ebayServiceInfo.getRuName()));
+
+            String errMsg = call.getLongErrorMessage();
+            if (errMsg != null && errMsg.startsWith("RequestError")) {
+                throw new Exception("Cannot get Session Id");
+            } else {
+                String cachedSessionID = call.getRawSessionID();
+                String encodedSessIDString =URLEncoder.encode(cachedSessionID,"UTF-8");
+                
+                // Create URL login with parameter
+                loginEbayUrl.append(ebayServiceInfo.getRuName());
+                loginEbayUrl.append("&SessID=");
+                loginEbayUrl.append(encodedSessIDString);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+		
+		// Assign url to model
+		model.addObject("urlEbayLogin", loginEbayUrl.toString());
+		
+		return model;
 	}
 	
 	@RequestMapping("/ListResearchAll")
