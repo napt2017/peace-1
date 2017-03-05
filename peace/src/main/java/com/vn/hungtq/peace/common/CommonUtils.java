@@ -29,7 +29,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.SortedMap;
 import java.util.TimeZone;
-import java.util.TreeMap;
+import java.util.TreeMap; 
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -44,6 +44,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.codec.binary.Base64;  
 import org.slf4j.LoggerFactory;
@@ -51,12 +52,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.web.util.UriUtils;
 
+import com.vn.hungtq.peace.dto.ItemInfomationDto;
+import com.vn.hungtq.peace.dto.UserDto;
 import com.vn.hungtq.peace.dto.UserTemplateDto;
-import com.vn.hungtq.peace.entity.Contact;
+import com.vn.hungtq.peace.entity.Contact;  
 import com.vn.hungtq.peace.entity.UserTemplate;
 import com.vn.hungtq.peace.common.GmailConfiguration;
 import com.vn.hungtq.peace.common.PeaceContactEmail;
-import com.vn.hungtq.peace.controller.ItemInfomationDto;
 
 import org.slf4j.Logger;
 
@@ -176,6 +178,10 @@ public class CommonUtils {
 				logger.debug("Exception when send contact email", e);
 				return Tuple.make(false, e.getMessage());
 		} 
+	} 
+	
+	public static UserDto getUserFromSession(HttpServletRequest request){
+		return (UserDto)request.getSession().getAttribute("user");
 	}
 	
 	public static Tuple<Boolean,String> tryToValidateItemInfomation(ItemInfomationDto itemInfomation){
@@ -210,6 +216,24 @@ public class CommonUtils {
 		}
 		
 		return lstUserTemplateDto;
+	}
+	
+	public static boolean getBooleanValue(Boolean bVal){
+		return bVal!=null?bVal.booleanValue():false;
+	}
+	
+	public static String buildQuestionMark(int length){
+		if(length<=0){
+			throw new IllegalArgumentException("Length must be greater than zero! Expected value :"+length);
+		}
+		
+		StringBuilder sb = new StringBuilder("(");
+		int stop = length-1;
+		for(int loop = 0;loop<length;loop++){
+			sb.append("?").append(loop==stop?"":",");
+		}
+		sb.append(")");
+		return sb.toString();
 	}
 	
 	/**
@@ -335,8 +359,11 @@ public class CommonUtils {
 	 *  follow the paramter 
 	 *  
 	 *  @param List<T> listOfType
+	 *  			The list of type to sub
 	 *  @param groupCount
-	 *  @return List<List<T>> s
+	 *  			The size of sub group
+	 *  @return List<List<T>> 
+	 *  			The list of list sub
 	 * 
 	 * 
 	 * **/
@@ -346,16 +373,28 @@ public class CommonUtils {
 			List<List<T>> retList = new ArrayList<List<T>>();
 			List<T> tempList = new ArrayList<T>(groupCount);
 			int count = 0;
-			
+			int processed =0;
 			for(T item :listOfType){
 				tempList.add(item);
 				count++;
 				if(count==groupCount){
 					retList.add(tempList);
 					tempList = new ArrayList<T>(groupCount);
+					processed+=count;
 					count=0;
 				}
 			}
+			
+			if(processed<sizeOfList){
+				tempList = new ArrayList<>(sizeOfList-processed);
+				for(int lostIndex=processed;lostIndex<sizeOfList;lostIndex++){
+					tempList.add(listOfType.get(lostIndex));
+				}
+				
+				retList.add(tempList);
+			}
+			
+			return retList;
 		}
 		
 		return Arrays.asList(listOfType);

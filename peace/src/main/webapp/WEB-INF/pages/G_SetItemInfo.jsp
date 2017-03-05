@@ -7,7 +7,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en-us">
 	<jsp:include page="../pages/common/header.jsp"/> 
-	<body class="fixed-page-footer">
+	<body class="fixed-page-footer" ng-app="item_infomation_app">
 	<style>
 			input, textarea, button { margin-top:10px }
 
@@ -122,40 +122,41 @@
 				<section id="widget-grid" class="">
 
 					<!-- widget div-->
-					<div class="row">
+					<div class="row" ng-controller="itemInfomationController">
 						<div class="widget-body ">
 							<header>
 								<h2>Description Information</h2>
 							</header>
-							<form class="smart-form col-lg-6">
+							<form class="smart-form col-lg-6" ng-model="itemInfomationModel">
+								<input type="hidden" id="item_infomation_id" value="{{itemInfomationModel.itemId}}"/>
 								<fieldset>
 									<section>
 										<label class="label">Payment</label>
 										<label class="textarea"> 									
-											<textarea rows="5" id="payment" name="comment" placeholder=""></textarea> 
+											<textarea rows="5" id="payment" name="comment" placeholder="">{{itemInfomationModel.payment}}</textarea> 
 										</label>
 									</section>
 									<section>
 										<label class="label">Terms of Sale</label>
 										<label class="textarea"> 									
-											<textarea rows="5" name="comment" id="terms_of_sale" placeholder=""></textarea> 
+											<textarea rows="5" name="comment" id="terms_of_sale" placeholder="">{{itemInfomationModel.termsOfSale}}</textarea> 
 										</label>
 									</section>
 									<section>
 										<label class="label">About Us</label>
 										<label class="textarea"> 										
-											<textarea rows="5" name="comment" id="about_us" placeholder=""></textarea> 
+											<textarea rows="5" name="comment" id="about_us" placeholder="">{{itemInfomationModel.aboutUs}}</textarea> 
 										</label>
 									</section>
 									<section>
 										<label class="label">International Buyers - Please Note:</label>
 										<label class="textarea">									
-											<textarea rows="5" name="comment" id="international_buyers_note" placeholder=""></textarea> 
+											<textarea rows="5" name="comment" id="international_buyers_note" placeholder="">{{itemInfomationModel.internationalBuyersNote}}</textarea> 
 										</label>
 									</section>
 								</fieldset>
 								<footer>
-									<button type="submit" class="btn btn-primary" id="btnSave">
+									<button type="submit" class="btn btn-primary" id="btnSave" ng-click="saveItemInfomation($event)">
 										Save
 									</button>
 								</footer>
@@ -198,12 +199,38 @@
 		})
 
 		</script>
+		<!-- LOAD ANGULAR JS MODULE -->
+		<script type="text/javascript"src="<c:url value="/resources/js/angularjs/angular.min.js"/>"></script>
 		
 		<!-- HANDING EVENT SAVE NEW ITEM INFOMATION(napt2017) -->
 		<script type="text/javascript">
-			$(function(){
-				$("#btnSave").on("click",function(evt){
-					evt.preventDefault();
+		var itemInfomationModule = angular.module("item_infomation_app", []);
+			itemInfomationModule.controller("itemInfomationController",function($scope, $http) { 
+				
+				//Load exist item infomation of user
+				$scope.loadDefaultLoadExistIF = function(){
+					//Default model
+					$scope.itemInfomationModel = {
+							payment:"",
+							termsOfSale:"",
+							aboutUs:"",
+							internationalBuyersNote:"",
+							itemId:"-1"
+					};
+					  
+					$http.get("LoadItemInfomation")
+						 .success(function(data, status, headers,config) {
+							 	$scope.itemInfomationModel = data;
+								console.log(data); 
+							})
+						 .error(function(data, status, headers,config) {
+								console.log(data);
+							});
+					}
+				
+				//Handing event save item infomation
+				$scope.saveItemInfomation = function($event){
+					$event.preventDefault();
 					if($("#payment").val()===""){
 						alert("Empty payment!!!");
 						return;
@@ -228,33 +255,27 @@
 							payment:$("#payment").val(),
 							termsOfSale:$("#terms_of_sale").val(),
 							aboutUs:$("#about_us").val(),
-							internationalBuyersNote:$("#international_buyers_note").val()
-					};
+							internationalBuyersNote:$("#international_buyers_note").val(),
+							itemId:$("#item_infomation_id").val()
+					}; 
 					
-					$.ajax({
-						type: "POST",
-						headers: {
+					var headers =  {
 							'Accept':'application/json',
 							'Content-Type': 'application/json'
-						},
-						url: "AddItemInfomation",
-						data:JSON.stringify(postData),
-						contentType: "application/json",
-						mimeType: 'application/json',
-						dataType: "json",
-						success: function(respData){
-							alert(respData);
-							$("#payment").val("");
-							$("#terms_of_sale").val("");
-							$("#about_us").val("");
-							$("#international_buyers_note").val("");
-						},
-						error:function(evt){
-							console.log(evt);
-						}
-					});    
-				});
-			});
+						};
+					
+					$http.post("AddItemInfomation",JSON.stringify(postData),headers)
+					 .success(function(data, status, headers,config) {
+						 	$scope.itemInfomationModel.itemId=data.recordId;
+						 	alert("Save successfull!!!");
+						})
+					 .error(function(data, status, headers,config) {
+							console.log(data);
+						});
+				}
+				
+				$scope.loadDefaultLoadExistIF();
+			}); 
 		</script>
 
 		<!-- Your GOOGLE ANALYTICS CODE Below -->

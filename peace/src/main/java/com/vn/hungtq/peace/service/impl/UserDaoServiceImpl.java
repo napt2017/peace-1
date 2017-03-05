@@ -34,4 +34,13 @@ public class UserDaoServiceImpl extends BaseDaoServiceImpl implements UserDaoSer
 		return null;
 	}
 
+	@Override
+	public User getUserById(int userId) { 
+		@SuppressWarnings("unchecked")
+		List<User> users = (List<User>) getCurrentSession().createQuery("from User where id=?")
+														   .setParameter(0, userId)
+														   .list();
+		return users.get(0);
+	}
+
 }

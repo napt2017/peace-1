@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Controller; 
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.vn.hungtq.peace.common.AjaxResponseResult;
 import com.vn.hungtq.peace.common.CommonUtils;
 import com.vn.hungtq.peace.common.Tuple;
+import com.vn.hungtq.peace.dto.ItemInfomationDto;
 import com.vn.hungtq.peace.dto.UserDto;
 import com.vn.hungtq.peace.dto.UserTemplateDto;
 import com.vn.hungtq.peace.entity.ItemInfomation;
@@ -71,21 +72,44 @@ public class EbaySettingController {
 		return new ModelAndView("/pages/G_ListResearchAll");
 	}
 	
-	@RequestMapping("/AddItemInfomation")
-	public @ResponseBody AjaxResponseResult addNewItemInfomation(@RequestBody ItemInfomationDto itemInfomation,HttpServletRequest request){ 
+	@RequestMapping(value = "/LoadItemInfomation",method = RequestMethod.GET)
+	public @ResponseBody ItemInfomationDto loadItemInfomation(HttpServletRequest request){ 
+		UserDto user = (UserDto)request.getSession().getAttribute("user");
+		int userId = user.getId();
+		
+		ItemInfomation itemInfomation = itemInfomationDaoService.getItemInfomationByUserId(userId);
+		if(itemInfomation!=null){
+			return new ItemInfomationDto().copyFrom(itemInfomation);
+		}
+		return new ItemInfomationDto().withDefaultId();
+	}
+	
+	@RequestMapping(value ="/AddItemInfomation",method=RequestMethod.POST)
+	public @ResponseBody AjaxResponseResult<String> addNewItemInfomation(@RequestBody ItemInfomationDto itemInfomation,HttpServletRequest request){ 
+		//Log
+		logger.debug("Item infomation :"+itemInfomation.getInternationalBuyersNote());
+		
 		Tuple<Boolean, String> validateResult = CommonUtils.tryToValidateItemInfomation(itemInfomation);
-		AjaxResponseResult ajaxResult = new AjaxResponseResult();
-		if(validateResult.getFirst()){
+		AjaxResponseResult<String> ajaxResult = new AjaxResponseResult<String>();
+		if(validateResult.getFirst()){ 
 			ItemInfomation dbItemInfomation = new ItemInfomation();
 			dbItemInfomation.setAboutUs(itemInfomation.getAboutUs());
 			dbItemInfomation.setInternationalBuyerNote(itemInfomation.getInternationalBuyersNote());
 			dbItemInfomation.setPayment(itemInfomation.getPayment());
-			dbItemInfomation.setTermsOfSale(itemInfomation.getTermsOfSale());
+			dbItemInfomation.setTermsOfSale(itemInfomation.getTermsOfSale()); 
 			
 			UserDto user = (UserDto)request.getSession().getAttribute("user");
 			int userId = user.getId();
 			dbItemInfomation.setUserId(userId);
-			itemInfomationDaoService.addItemInfomation(dbItemInfomation);
+			if(itemInfomation.getItemId()!=-1){
+				//Update
+				dbItemInfomation.setId(itemInfomation.getItemId());
+				itemInfomationDaoService.updateItemInfomation(dbItemInfomation);
+			}else{
+				//Insert new
+				itemInfomationDaoService.addItemInfomation(dbItemInfomation);
+			}
+			
 			ajaxResult.setStatus("OK");
 			ajaxResult.setRecordId(dbItemInfomation.getId());
 			
@@ -97,10 +121,10 @@ public class EbaySettingController {
 	}
 	
 	@RequestMapping(value ="/CustomTemplateUpload",method=RequestMethod.POST)
-	public @ResponseBody AjaxResponseResult uploadTemplate(@RequestBody UserTemplateDto templateUploadDto,
+	public @ResponseBody AjaxResponseResult<String> uploadTemplate(@RequestBody UserTemplateDto templateUploadDto,
 											  HttpServletRequest request){ 
 		Tuple<Boolean,String> validateResult = CommonUtils.tryToValidateUserTemplate(templateUploadDto);
-		AjaxResponseResult ajaxResult = new AjaxResponseResult();
+		AjaxResponseResult<String> ajaxResult = new AjaxResponseResult<>();
 		
 		if(validateResult.getFirst()){
 			if(templateUploadDto.getTemplateId()!=-1){
