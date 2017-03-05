@@ -18,7 +18,6 @@
 			</list> 
 		</property>
 	</bean>  
-	
 	<!-- Peace contact email bean -->
 	<bean id="peaceContactEmail" class="com.vn.hungtq.peace.common.PeaceContactEmail">
 		<property name="email" value="${peace.contact.email}" />
@@ -42,7 +41,16 @@
 		<property name="appid" value="${ebay.appid}" />
 		<property name="devid" value="${ebay.devid}"/>
 		<property name="certid" value="${ebay.certid}" />
+		<property name="appidSBX" value="${ebay.appidSBX}" />
+		<property name="devidSBX" value="${ebay.devidSBX}"/>
+		<property name="certidSBX" value="${ebay.certidSBX}" />
 		<property name="serviceUrl" value="${ebay.service.url}" />
+		<property name="ruName" value="${ebay.ruName}" />
+		<property name="sandboxSigninURL" value="${ebay.sandboxSigninURL}" />
+		<property name="prodSigninURL" value="${ebay.prodSigninURL}" />
+		<property name="prodServerURL" value="${ebay.prodServerURL}" />
+		<property name="sandboxServerURL" value="${ebay.sandboxServerURL}" />
+		<property name="environment" value="${ebay.environment}" />
 	</bean>
 	
 	<!-- Gmail configuration bean -->
@@ -76,7 +84,8 @@
 		<property name="annotatedClasses">
 			<list>
 				<value>com.vn.hungtq.peace.entity.User</value>
-				<value>com.vn.hungtq.peace.entity.Contact</value>
+				<value>com.vn.hungtq.peace.entity.Contact</value> 
+				<value>com.vn.hungtq.peace.entity.UserRole</value> 
 				<value>com.vn.hungtq.peace.entity.UserTemplate</value>
 				<value>com.vn.hungtq.peace.entity.Country</value>
 				<value>com.vn.hungtq.peace.entity.CountryGroup</value>
@@ -93,7 +102,7 @@
 				<value>com.vn.hungtq.peace.entity.TimeUnit</value>
 				<value>com.vn.hungtq.peace.entity.AreaSettingInfo</value>
 				<value>com.vn.hungtq.peace.entity.TimeUnitMapping</value>
-				<value>com.vn.hungtq.peace.entity.ItemInfomation</value>
+				<value>com.vn.hungtq.peace.entity.ItemInfomation</value> 
 			</list>
 		</property>
 

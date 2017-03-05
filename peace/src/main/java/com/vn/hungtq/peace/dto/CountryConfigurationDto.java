@@ -19,4 +19,4 @@ public class CountryConfigurationDto {
 	public void setSelected(boolean isSelected) {
 		this.isSelected = isSelected;
 	} 
-}
+} 

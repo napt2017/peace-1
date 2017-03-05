@@ -44,7 +44,7 @@
  
  <bean id="ebayAreaShippingMethodMapDaoService" class="com.vn.hungtq.peace.service.impl.EbayAreaShippingMethodMapDaoServiceImpl">
      <property name="sessionFactory" ref="mySessionFactory" />
- </bean> 
+ </bean>  
  
  <bean id="returnWarrantyMethodDaoService" class="com.vn.hungtq.peace.service.impl.ReturnWarrantyMethodDaoServiceImpl">
      <property name="sessionFactory" ref="mySessionFactory" />
@@ -68,6 +68,5 @@
  
  <bean id="timeUnitMappingDaoService" class="com.vn.hungtq.peace.service.impl.TimeUnitMappingDaoServiceImpl">
      <property name="sessionFactory" ref="mySessionFactory" />
- </bean> 
- 
+ </bean>  
 </beans>

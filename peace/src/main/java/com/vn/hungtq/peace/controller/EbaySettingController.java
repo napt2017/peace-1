@@ -1,14 +1,19 @@
 package com.vn.hungtq.peace.controller;
 
+import java.net.URLEncoder;
 import java.util.List;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Controller; 
+import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,10 +22,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.vn.hungtq.peace.common.AjaxResponseResult;
 import com.vn.hungtq.peace.common.CommonUtils;
+import com.vn.hungtq.peace.common.EbayServiceInfo;
 import com.vn.hungtq.peace.common.Tuple;
 import com.vn.hungtq.peace.dto.ItemInfomationDto;
 import com.vn.hungtq.peace.dto.UserDto;
 import com.vn.hungtq.peace.dto.UserTemplateDto;
+import com.vn.hungtq.peace.ebay.FetchTokenCall;
+import com.vn.hungtq.peace.ebay.GetSessionIDCall;
 import com.vn.hungtq.peace.entity.ItemInfomation;
 import com.vn.hungtq.peace.entity.UserTemplate;
 import com.vn.hungtq.peace.service.ItemInfomationDaoService;
@@ -31,11 +39,18 @@ import com.vn.hungtq.peace.service.UserTemplateDaoService;
 public class EbaySettingController {
 	private final Logger logger = LoggerFactory.getLogger(EbaySettingController.class);
 	
+	private final static String VIEW_LOGIN_EBAY = "/pages/G_SetEbayLogin";
+	private final static String COOKIE_EBAY_SESSION = "PeaceEbaySessionId";
+	private final static String COOKIE_EBAY_TOKEN = "PeaceEbayToken";
+	
 	@Autowired
 	UserTemplateDaoService userTemplateDaoService;
 	
 	@Autowired
-	ItemInfomationDaoService itemInfomationDaoService;
+	ItemInfomationDaoService itemInfomationDaoService; 
+	
+	@Autowired
+	EbayServiceInfo ebayServiceInfo; 
 	
 	@RequestMapping("/ListTemplate")
 	public ModelAndView actionListTemplate(){
@@ -60,12 +75,7 @@ public class EbaySettingController {
 	@RequestMapping("/SetBuyer")
 	public ModelAndView actionSetBuyer(){
 		return new ModelAndView("/pages/G_SetBuyer");
-	}
-	
-	@RequestMapping("/SetEbayLogin")
-	public ModelAndView actionSetEbayLogin(){
-		return new ModelAndView("/pages/G_SetEbayLogin");
-	}
+	} 
 	
 	@RequestMapping("/ListResearchAll")
 	public ModelAndView listSearchAll(){ 
@@ -171,4 +181,113 @@ public class EbaySettingController {
 		List<UserTemplateDto> lstUserTemplateDtos = CommonUtils.convertToUserTemplateDto(lstUserTemplate);  
 		return CommonUtils.divToListGroup(lstUserTemplateDtos, 5);
 	}
-}
+	
+	@RequestMapping("/SetEbayLogin") 
+	public ModelAndView actionSetEbayLogin(@CookieValue(value = COOKIE_EBAY_SESSION, defaultValue = "") String cachedSessionID, HttpServletResponse response){
+		ModelAndView model = new ModelAndView(VIEW_LOGIN_EBAY);
+		boolean isProduction = false;
+		// Create Url login base
+		StringBuilder loginEbayUrl = new StringBuilder();
+		
+		
+		if ("prod".equals(ebayServiceInfo.getEnvironment())) {
+			isProduction = true;
+			loginEbayUrl.append(ebayServiceInfo.getProdSigninURL());
+		} else {
+			loginEbayUrl.append(ebayServiceInfo.getSandboxSigninURL());
+		}
+		
+		// Get sessionId from Ebay then add to URL
+		GetSessionIDCall call = new GetSessionIDCall(isProduction, ebayServiceInfo);
+		try {
+			if (!StringUtils.isEmpty(cachedSessionID)) {
+				String encodedSessIDString = URLEncoder.encode(cachedSessionID,"UTF-8");
+	            // Create URL login with parameter
+	            loginEbayUrl.append(ebayServiceInfo.getRuName());
+	            loginEbayUrl.append("&SessID=");
+	            loginEbayUrl.append(encodedSessIDString);
+	            
+	         // Assign url to model
+	    		model.addObject("urlEbayLogin", loginEbayUrl.toString());
+	    		return model;
+	        }
+			
+            call.getSessionIDString(call.sendRequest(ebayServiceInfo.getRuName()));
+
+            String errMsg = call.getLongErrorMessage();
+            if (errMsg != null && errMsg.startsWith("RequestError")) {
+                throw new Exception("Cannot get Session Id");
+            } else {
+                String newCachedSessionID = call.getRawSessionID();
+                
+                // Add session Id to cookie
+                Cookie cookie = new Cookie(COOKIE_EBAY_SESSION, newCachedSessionID);
+                response.addCookie(cookie);
+                
+                String encodedSessIDString =URLEncoder.encode(newCachedSessionID,"UTF-8");
+                // Create URL login with parameter
+                loginEbayUrl.append(ebayServiceInfo.getRuName());
+                loginEbayUrl.append("&SessID=");
+                loginEbayUrl.append(encodedSessIDString);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+		
+		// Assign url to model
+		model.addObject("urlEbayLogin", loginEbayUrl.toString());
+		
+		return model;
+	}
+	
+	@SuppressWarnings("rawtypes")
+	@RequestMapping(value ="/GetEbayToken",method=RequestMethod.POST)
+	public @ResponseBody AjaxResponseResult fetchTokenActionPerformed(
+			@CookieValue(value = COOKIE_EBAY_SESSION, defaultValue = "") String cachedSessionID,
+			HttpServletResponse response) {
+		
+		AjaxResponseResult ajaxResult = new AjaxResponseResult();
+        FetchTokenCall call = null;
+        
+		boolean isProduction = false;
+		
+		// Create Url login base
+		StringBuilder loginEbayUrl = new StringBuilder();
+		if ("prod".equals(ebayServiceInfo.getEnvironment())) {
+			isProduction = true;
+			loginEbayUrl.append(ebayServiceInfo.getProdSigninURL());
+		} else {
+			loginEbayUrl.append(ebayServiceInfo.getSandboxSigninURL());
+		}
+		
+		// Call Ebay get Token
+        if (StringUtils.isEmpty(cachedSessionID)) {
+        	ajaxResult.setStatus("FAILED");
+        	ajaxResult.setMsg("You need to connect to eBay first");
+        } else {
+            call = new FetchTokenCall(isProduction, ebayServiceInfo);
+            call.getUserTokenString(call.sendRequest(cachedSessionID));
+            String errMsg = call.getLongErrorMessage();
+            if (errMsg != null && errMsg.startsWith("RequestError")) {
+            	
+            	ajaxResult.setStatus("FAILED");
+            	ajaxResult.setMsg(errMsg);
+            	
+            	// Remove ebay session
+                Cookie cookie = new Cookie(COOKIE_EBAY_SESSION, null);
+                cookie.setMaxAge(0);
+                response.addCookie(cookie);
+            	
+            } else {
+            	ajaxResult.setStatus("OK");
+            	ajaxResult.setMsg("Success");
+            	
+            	// Add session Id to cookie
+                Cookie cookie = new Cookie(COOKIE_EBAY_TOKEN, call.getUsertoken());
+                response.addCookie(cookie);
+            }
+        }
+        
+        return ajaxResult;
+    }
+} 

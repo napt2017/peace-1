@@ -10,6 +10,9 @@ import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest; 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -58,6 +61,7 @@ import com.vn.hungtq.peace.service.EbayShippingFeeDaoService;
 import com.vn.hungtq.peace.service.NotShippingCountryDaoService;
 import com.vn.hungtq.peace.service.ReturnWarrantyMethodDaoService;
 import com.vn.hungtq.peace.service.TimeUnitMappingDaoService;
+import com.vn.hungtq.peace.service.UserDaoService;
 
 @Controller
 public class EbayShippingSettingController { 
@@ -95,10 +99,17 @@ public class EbayShippingSettingController {
 	@Autowired
 	TimeUnitMappingDaoService timeUnitMappingDaoService;
 	
+	@Autowired
+	private UserDaoService userService;
+	
+	Authentication authentication;
+	
 	@RequestMapping(value ="/SaveNotShippingCountry" ,method=RequestMethod.POST)
 	public @ResponseBody AjaxResponseResult<String> saveNotShippingCountryConfiguration(@RequestBody NotShippingCountryConfigurationDto notShippingCountryConfig,HttpServletRequest request){
+		authentication = SecurityContextHolder.getContext().getAuthentication();
 		AjaxResponseResult<String> responseResult = new AjaxResponseResult<String>();
-		UserDto user = CommonUtils.getUserFromSession(request);
+		
+		UserDto user = CommonUtils.getUserFromSession((User)authentication.getPrincipal(), userService);
 		countryUserMapDaoService.saveUserConfiguration(notShippingCountryConfig,user.getId());
 		responseResult.setStatus("OK"); 
 		return responseResult;
@@ -106,8 +117,9 @@ public class EbayShippingSettingController {
 	
 	@RequestMapping(value ="/SaveEbayDeliveryMethod" ,method=RequestMethod.POST)
 	public @ResponseBody AjaxResponseResult<String> saveEbayDeliveryMethod(@RequestBody EbayDeliveryMethodDto ebayDeliveryMethodDto ,HttpServletRequest request){
+		authentication = SecurityContextHolder.getContext().getAuthentication();
 		AjaxResponseResult<String> responseResult = new AjaxResponseResult<String>();
-		int userId = CommonUtils.getUserFromSession(request).getId();
+		int userId = CommonUtils.getUserFromSession((User)authentication.getPrincipal(), userService).getId();
 		Tuple<Boolean,EbayDeliveryMethod> checkExistTuple = ebayDeliveryMethodDaoService.isExistDeliveryMethod(userId);
 		if(checkExistTuple.getFirst()){
 			EbayDeliveryMethod existEbayDeliveryMethod = checkExistTuple.getSecond();
@@ -131,9 +143,10 @@ public class EbayShippingSettingController {
 	
 	@RequestMapping(value ="/SaveEbayShippingFee",method=RequestMethod.POST)
 	public @ResponseBody AjaxResponseResult<String> saveEbayShippingFee(@RequestBody EbayShippingFeeDto ebayShippingFeeDto ,HttpServletRequest request){
+		authentication = SecurityContextHolder.getContext().getAuthentication();
 		AjaxResponseResult<String> responseResult = new AjaxResponseResult<String>();
 		responseResult.setStatus("OK");
-		int userId = CommonUtils.getUserFromSession(request).getId();
+		int userId = CommonUtils.getUserFromSession((User)authentication.getPrincipal(), userService).getId();
 		Tuple<Boolean,EbayShippingFee> checkExistTuple = ebayShippingFeeDaoService.checkExistEbayShippingFee(userId);
 		
 		//Get list of area with method
@@ -195,10 +208,11 @@ public class EbayShippingSettingController {
 	
 	@RequestMapping(value ="/LoadEbayShippingFee",method=RequestMethod.GET)
 	public @ResponseBody AjaxResponseResult<EbayShippingFeeDto> getEbayShippingFee(HttpServletRequest request){
+		authentication = SecurityContextHolder.getContext().getAuthentication();
 		AjaxResponseResult<EbayShippingFeeDto> responseResult = new AjaxResponseResult<EbayShippingFeeDto>();
 		responseResult.setStatus("OK");
 		
-		int userId = CommonUtils.getUserFromSession(request).getId();
+		int userId = CommonUtils.getUserFromSession((User)authentication.getPrincipal(), userService).getId();
 		Tuple<Boolean,EbayShippingFee> checkExistTuple = ebayShippingFeeDaoService.checkExistEbayShippingFee(userId);
 		if(checkExistTuple.getFirst()){
 			EbayShippingFee ebayShippingFee = checkExistTuple.getSecond();
@@ -230,9 +244,10 @@ public class EbayShippingSettingController {
 	
 	@RequestMapping(value ="/GetEbayDeliveryMethod" ,method=RequestMethod.GET)
 	public @ResponseBody AjaxResponseResult<EbayDeliveryMethodDto> loadUserDeliveryMethod(HttpServletRequest request){
+		authentication = SecurityContextHolder.getContext().getAuthentication();
 		AjaxResponseResult<EbayDeliveryMethodDto> responseResult = new AjaxResponseResult<EbayDeliveryMethodDto>();
 		responseResult.setStatus("OK");
-		int userId = CommonUtils.getUserFromSession(request).getId();
+		int userId = CommonUtils.getUserFromSession((User)authentication.getPrincipal(), userService).getId();
 		Tuple<Boolean,EbayDeliveryMethod> checkExistTuple = ebayDeliveryMethodDaoService.isExistDeliveryMethod(userId);
 		if(checkExistTuple.getFirst()){
 			EbayDeliveryMethod ebayDeliveryMethod = checkExistTuple.getSecond();
@@ -263,12 +278,13 @@ public class EbayShippingSettingController {
 	
 	@RequestMapping(value ="/GetNotShippingCountry" ,method=RequestMethod.GET)
 	public @ResponseBody AjaxResponseResult<NotShippingCountryDto> getNotShippingCountry(HttpServletRequest request){ 
-		
+		//http://ledpixel.com.vn/san-pham/led-lien-day-5mm-mau-dai-ly-phan-phoi-led-pixel/
+		authentication = SecurityContextHolder.getContext().getAuthentication();
 		//Response result
 		AjaxResponseResult<NotShippingCountryDto> ajaxResult = new AjaxResponseResult<NotShippingCountryDto>();
 		
 		//Get user id
-		UserDto user = CommonUtils.getUserFromSession(request);
+		UserDto user = CommonUtils.getUserFromSession((User)authentication.getPrincipal(), userService);
 		int userId = user.getId();
 		
 		//Get list of not shipping country 
@@ -392,6 +408,7 @@ public class EbayShippingSettingController {
 	
 	@RequestMapping(value="/LoadLayoutAreaSetting/{areaId}",method =RequestMethod.GET)
 	public @ResponseBody AjaxResponseResult<AreaSettingTableDto> loadLayoutAreaSetting(@PathVariable("areaId") int areaId,HttpServletRequest request){
+		authentication = SecurityContextHolder.getContext().getAuthentication();
 		AjaxResponseResult<AreaSettingTableDto> responseResult = new AjaxResponseResult<AreaSettingTableDto>();
 		responseResult.setStatus("OK");
 		
@@ -399,7 +416,7 @@ public class EbayShippingSettingController {
 		List<TimeUnitMapping> lstTimeUnitMapping ;
 		
 		//Get user id
-		int userId = CommonUtils.getUserFromSession(request).getId();
+		int userId = CommonUtils.getUserFromSession((User)authentication.getPrincipal(), userService).getId();
 		boolean isExist = areaSettingInfoDaoService.isExistAreaSettingInfoOfUser(userId,areaId);
 		if(!isExist){
 			
@@ -514,11 +531,13 @@ public class EbayShippingSettingController {
 	
 	@RequestMapping(value ="/SaveUserAreaSetting" ,method=RequestMethod.POST)
 	public @ResponseBody AjaxResponseResult<String> saveUserAreaSettting(@RequestBody List<AreaSettingInfoDto> lstAreaSettingDto,HttpServletRequest request){
+		authentication = SecurityContextHolder.getContext().getAuthentication();
+		
 		AjaxResponseResult<String> responseResult = new AjaxResponseResult<String>();
 		responseResult.setStatus("OK");
 		
 		//Get user id
-		int userId =CommonUtils.getUserFromSession(request).getId();
+		int userId =CommonUtils.getUserFromSession((User)authentication.getPrincipal(), userService).getId();
 		
 		//Get all time unit mapping id follow the client post data
 		List<Integer> lstTimeUnitMappingIds=
@@ -581,41 +600,3 @@ public class EbayShippingSettingController {
 		return responseResult;
 	}  
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

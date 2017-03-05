@@ -11,7 +11,5 @@ public class NotShippingCountryConfigurationDto {
 	public void setLstCountryConfigurations(
 			List<CountryConfigurationDto> lstCountryConfigurations) {
 		this.lstCountryConfigurations = lstCountryConfigurations;
-	}
-	
-	
-}
+	} 
+} 
