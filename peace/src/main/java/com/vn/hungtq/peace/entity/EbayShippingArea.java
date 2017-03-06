@@ -1,5 +1,4 @@
 package com.vn.hungtq.peace.entity;
- 
 
 import java.util.HashSet;
 import java.util.Set;
@@ -22,11 +21,15 @@ public class EbayShippingArea implements java.io.Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 2819417148949563574L;
+	private static final long serialVersionUID = -4119774412738830215L;
 	private Integer id;
 	private String name;
 	private Set<EbaySettingLayoutConfiguration> ebaySettingLayoutConfigurations = new HashSet<EbaySettingLayoutConfiguration>(0);
+	private Set<EbayShippingFee> ebayShippingFeesForFirstGroupAreaId = new HashSet<EbayShippingFee>(0);
+	private Set<EbayShippingFee> ebayShippingFeesForSecondGroupAreaId = new HashSet<EbayShippingFee>(0);
 	private Set<EbayAreaShippingMethodMap> ebayAreaShippingMethodMaps = new HashSet<EbayAreaShippingMethodMap>(0);
+	private Set<EbayShippingFee> ebayShippingFeesForThirdGroupAreaId = new HashSet<EbayShippingFee>(0);
+	private Set<EbayShippingFee> ebayShippingFeesForFourGroupAreaId = new HashSet<EbayShippingFee>(0);
 
 	public EbayShippingArea() {
 	}
@@ -36,10 +39,18 @@ public class EbayShippingArea implements java.io.Serializable {
 	}
 
 	public EbayShippingArea(String name, Set<EbaySettingLayoutConfiguration> ebaySettingLayoutConfigurations,
-			Set<EbayAreaShippingMethodMap> ebayAreaShippingMethodMaps) {
+			Set<EbayShippingFee> ebayShippingFeesForFirstGroupAreaId,
+			Set<EbayShippingFee> ebayShippingFeesForSecondGroupAreaId,
+			Set<EbayAreaShippingMethodMap> ebayAreaShippingMethodMaps,
+			Set<EbayShippingFee> ebayShippingFeesForThirdGroupAreaId,
+			Set<EbayShippingFee> ebayShippingFeesForFourGroupAreaId) {
 		this.name = name;
 		this.ebaySettingLayoutConfigurations = ebaySettingLayoutConfigurations;
+		this.ebayShippingFeesForFirstGroupAreaId = ebayShippingFeesForFirstGroupAreaId;
+		this.ebayShippingFeesForSecondGroupAreaId = ebayShippingFeesForSecondGroupAreaId;
 		this.ebayAreaShippingMethodMaps = ebayAreaShippingMethodMaps;
+		this.ebayShippingFeesForThirdGroupAreaId = ebayShippingFeesForThirdGroupAreaId;
+		this.ebayShippingFeesForFourGroupAreaId = ebayShippingFeesForFourGroupAreaId;
 	}
 
 	@Id
@@ -72,6 +83,26 @@ public class EbayShippingArea implements java.io.Serializable {
 		this.ebaySettingLayoutConfigurations = ebaySettingLayoutConfigurations;
 	}
 
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "ebayShippingAreaByFirstGroupAreaId")
+	public Set<EbayShippingFee> getEbayShippingFeesForFirstGroupAreaId() {
+		return this.ebayShippingFeesForFirstGroupAreaId;
+	}
+
+	public void setEbayShippingFeesForFirstGroupAreaId(
+			Set<EbayShippingFee> ebayShippingFeesForFirstGroupAreaId) {
+		this.ebayShippingFeesForFirstGroupAreaId = ebayShippingFeesForFirstGroupAreaId;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "ebayShippingAreaBySecondGroupAreaId")
+	public Set<EbayShippingFee> getEbayShippingFeesForSecondGroupAreaId() {
+		return this.ebayShippingFeesForSecondGroupAreaId;
+	}
+
+	public void setEbayShippingFeesForSecondGroupAreaId(
+			Set<EbayShippingFee> ebayShippingFeesForSecondGroupAreaId) {
+		this.ebayShippingFeesForSecondGroupAreaId = ebayShippingFeesForSecondGroupAreaId;
+	}
+
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "ebayShippingArea")
 	public Set<EbayAreaShippingMethodMap> getEbayAreaShippingMethodMaps() {
 		return this.ebayAreaShippingMethodMaps;
@@ -79,6 +110,26 @@ public class EbayShippingArea implements java.io.Serializable {
 
 	public void setEbayAreaShippingMethodMaps(Set<EbayAreaShippingMethodMap> ebayAreaShippingMethodMaps) {
 		this.ebayAreaShippingMethodMaps = ebayAreaShippingMethodMaps;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "ebayShippingAreaByThirdGroupAreaId")
+	public Set<EbayShippingFee> getEbayShippingFeesForThirdGroupAreaId() {
+		return this.ebayShippingFeesForThirdGroupAreaId;
+	}
+
+	public void setEbayShippingFeesForThirdGroupAreaId(
+			Set<EbayShippingFee> ebayShippingFeesForThirdGroupAreaId) {
+		this.ebayShippingFeesForThirdGroupAreaId = ebayShippingFeesForThirdGroupAreaId;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "ebayShippingAreaByFourGroupAreaId")
+	public Set<EbayShippingFee> getEbayShippingFeesForFourGroupAreaId() {
+		return this.ebayShippingFeesForFourGroupAreaId;
+	}
+
+	public void setEbayShippingFeesForFourGroupAreaId(
+			Set<EbayShippingFee> ebayShippingFeesForFourGroupAreaId) {
+		this.ebayShippingFeesForFourGroupAreaId = ebayShippingFeesForFourGroupAreaId;
 	}
 
 }

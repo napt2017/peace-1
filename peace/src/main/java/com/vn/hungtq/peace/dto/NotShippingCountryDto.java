@@ -12,4 +12,4 @@ public class NotShippingCountryDto {
 	public void setLstCountryGroup(List<CountryGroupDto> lstCountryGroup) {
 		this.lstCountryGroup = lstCountryGroup;
 	} 
-}
+} 

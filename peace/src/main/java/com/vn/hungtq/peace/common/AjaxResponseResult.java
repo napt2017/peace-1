@@ -46,4 +46,4 @@ public class AjaxResponseResult<T> {
 	public T getExtraData(){
 		return this.extraData;
 	}
-}
+} 

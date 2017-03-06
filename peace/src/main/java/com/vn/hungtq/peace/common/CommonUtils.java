@@ -29,7 +29,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.SortedMap;
 import java.util.TimeZone;
-import java.util.TreeMap; 
+import java.util.TreeMap;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -44,23 +44,24 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
-import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.codec.binary.Base64;  
+import org.apache.commons.codec.binary.Base64;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.util.UriUtils;
 
+import com.vn.hungtq.peace.dto.ItemInfomationDto;
 import com.vn.hungtq.peace.dto.UserDto;
 import com.vn.hungtq.peace.dto.UserTemplateDto;
-import com.vn.hungtq.peace.entity.Contact;  
+import com.vn.hungtq.peace.entity.Contact;
+import com.vn.hungtq.peace.entity.User;
 import com.vn.hungtq.peace.entity.UserTemplate;
-import com.vn.hungtq.peace.common.GmailConfiguration;
-import com.vn.hungtq.peace.common.PeaceContactEmail;
-import com.vn.hungtq.peace.controller.ItemInfomationDto;
-
-import org.slf4j.Logger;
+import com.vn.hungtq.peace.service.UserDaoService;
 
 /**
  * 
@@ -73,6 +74,8 @@ import org.slf4j.Logger;
 public class CommonUtils {  
 	
 	private static final Logger logger = LoggerFactory.getLogger(CommonUtils.class);
+	private static final PasswordEncoder  bCryptPasswordEncoder= new BCryptPasswordEncoder();
+	
 	/**
 	 * 
 	 *  The buildMessgeContent method <br>
@@ -100,6 +103,14 @@ public class CommonUtils {
 		return MessageFormat.format(sb.toString(), UriUtils.decode(contact.getName(),"UTF-8"),UriUtils.decode(contact.getEmail(),"UTF-8"),
 									contact.getPhone(),UriUtils.decode(contact.getExhibitionCategory(),"UTF-8"),
 									UriUtils.decode(contact.getDescribeContent(),"UTF-8"));
+	}
+	
+	public static boolean isSameHash(String rawPassword,String hash){  
+		return bCryptPasswordEncoder.matches(rawPassword, hash);
+	} 
+	
+	public static String encryptPassword(String rawPassword){
+		return bCryptPasswordEncoder.encode(rawPassword);
 	}
 	
 	/**
@@ -180,8 +191,17 @@ public class CommonUtils {
 		} 
 	} 
 	
-	public static UserDto getUserFromSession(HttpServletRequest request){
-		return (UserDto)request.getSession().getAttribute("user");
+	public static UserDto getUserFromSession(org.springframework.security.core.userdetails.User userSSO, UserDaoService userService){
+		UserDto userDto = new UserDto();
+		
+		// Get user from db
+		User user = userService.findBySSO(userSSO.getUsername());
+		
+		if (user != null) {
+			
+			BeanUtils.copyProperties(user, userDto);
+		}
+		return userDto;
 	}
 	
 	public static Tuple<Boolean,String> tryToValidateItemInfomation(ItemInfomationDto itemInfomation){
@@ -216,6 +236,10 @@ public class CommonUtils {
 		}
 		
 		return lstUserTemplateDto;
+	}
+	
+	public static boolean getBooleanValue(Boolean bVal){
+		return bVal!=null?bVal.booleanValue():false;
 	}
 	
 	public static String buildQuestionMark(int length){
@@ -355,8 +379,11 @@ public class CommonUtils {
 	 *  follow the paramter 
 	 *  
 	 *  @param List<T> listOfType
+	 *  			The list of type to sub
 	 *  @param groupCount
-	 *  @return List<List<T>> s
+	 *  			The size of sub group
+	 *  @return List<List<T>> 
+	 *  			The list of list sub
 	 * 
 	 * 
 	 * **/
@@ -366,16 +393,28 @@ public class CommonUtils {
 			List<List<T>> retList = new ArrayList<List<T>>();
 			List<T> tempList = new ArrayList<T>(groupCount);
 			int count = 0;
-			
+			int processed =0;
 			for(T item :listOfType){
 				tempList.add(item);
 				count++;
 				if(count==groupCount){
 					retList.add(tempList);
 					tempList = new ArrayList<T>(groupCount);
+					processed+=count;
 					count=0;
 				}
 			}
+			
+			if(processed<sizeOfList){
+				tempList = new ArrayList<>(sizeOfList-processed);
+				for(int lostIndex=processed;lostIndex<sizeOfList;lostIndex++){
+					tempList.add(listOfType.get(lostIndex));
+				}
+				
+				retList.add(tempList);
+			}
+			
+			return retList;
 		}
 		
 		return Arrays.asList(listOfType);

@@ -11,6 +11,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -24,6 +27,7 @@ import com.vn.hungtq.peace.common.AjaxResponseResult;
 import com.vn.hungtq.peace.common.CommonUtils;
 import com.vn.hungtq.peace.common.EbayServiceInfo;
 import com.vn.hungtq.peace.common.Tuple;
+import com.vn.hungtq.peace.dto.ItemInfomationDto;
 import com.vn.hungtq.peace.dto.UserDto;
 import com.vn.hungtq.peace.dto.UserTemplateDto;
 import com.vn.hungtq.peace.ebay.FetchTokenCall;
@@ -31,6 +35,7 @@ import com.vn.hungtq.peace.ebay.GetSessionIDCall;
 import com.vn.hungtq.peace.entity.ItemInfomation;
 import com.vn.hungtq.peace.entity.UserTemplate;
 import com.vn.hungtq.peace.service.ItemInfomationDaoService;
+import com.vn.hungtq.peace.service.UserDaoService;
 import com.vn.hungtq.peace.service.UserTemplateDaoService;
 
 @Controller
@@ -42,15 +47,19 @@ public class EbaySettingController {
 	private final static String COOKIE_EBAY_SESSION = "PeaceEbaySessionId";
 	private final static String COOKIE_EBAY_TOKEN = "PeaceEbayToken";
 	
-	
 	@Autowired
 	UserTemplateDaoService userTemplateDaoService;
 	
 	@Autowired
-	ItemInfomationDaoService itemInfomationDaoService;
+	ItemInfomationDaoService itemInfomationDaoService; 
 	
 	@Autowired
 	EbayServiceInfo ebayServiceInfo; 
+	
+	@Autowired
+	private UserDaoService userService;
+	
+	private Authentication authentication;
 	
 	@RequestMapping("/ListTemplate")
 	public ModelAndView actionListTemplate(){
@@ -75,15 +84,123 @@ public class EbaySettingController {
 	@RequestMapping("/SetBuyer")
 	public ModelAndView actionSetBuyer(){
 		return new ModelAndView("/pages/G_SetBuyer");
+	} 
+	
+	@RequestMapping("/ListResearchAll")
+	public ModelAndView listSearchAll(){ 
+		return new ModelAndView("/pages/G_ListResearchAll");
 	}
 	
-	@RequestMapping("/SetEbayLogin")
+	@RequestMapping(value = "/LoadItemInfomation",method = RequestMethod.GET)
+	public @ResponseBody ItemInfomationDto loadItemInfomation(HttpServletRequest request){ 
+		authentication = SecurityContextHolder.getContext().getAuthentication();
+		UserDto user = CommonUtils.getUserFromSession((User)authentication.getPrincipal(), userService);
+		int userId = user.getId();
+		
+		ItemInfomation itemInfomation = itemInfomationDaoService.getItemInfomationByUserId(userId);
+		if(itemInfomation!=null){
+			return new ItemInfomationDto().copyFrom(itemInfomation);
+		}
+		return new ItemInfomationDto().withDefaultId();
+	}
+	
+	@RequestMapping(value ="/AddItemInfomation",method=RequestMethod.POST)
+	public @ResponseBody AjaxResponseResult<String> addNewItemInfomation(@RequestBody ItemInfomationDto itemInfomation,HttpServletRequest request){ 
+		//Log
+		logger.debug("Item infomation :"+itemInfomation.getInternationalBuyersNote());
+		
+		Tuple<Boolean, String> validateResult = CommonUtils.tryToValidateItemInfomation(itemInfomation);
+		AjaxResponseResult<String> ajaxResult = new AjaxResponseResult<String>();
+		if(validateResult.getFirst()){ 
+			ItemInfomation dbItemInfomation = new ItemInfomation();
+			dbItemInfomation.setAboutUs(itemInfomation.getAboutUs());
+			dbItemInfomation.setInternationalBuyerNote(itemInfomation.getInternationalBuyersNote());
+			dbItemInfomation.setPayment(itemInfomation.getPayment());
+			dbItemInfomation.setTermsOfSale(itemInfomation.getTermsOfSale()); 
+			
+			authentication = SecurityContextHolder.getContext().getAuthentication();
+			UserDto user = CommonUtils.getUserFromSession((User)authentication.getPrincipal(), userService);
+			int userId = user.getId();
+			dbItemInfomation.setUserId(userId);
+			if(itemInfomation.getItemId()!=-1){
+				//Update
+				dbItemInfomation.setId(itemInfomation.getItemId());
+				itemInfomationDaoService.updateItemInfomation(dbItemInfomation);
+			}else{
+				//Insert new
+				itemInfomationDaoService.addItemInfomation(dbItemInfomation);
+			}
+			
+			ajaxResult.setStatus("OK");
+			ajaxResult.setRecordId(dbItemInfomation.getId());
+			
+		}else{
+			ajaxResult.setStatus("FAILED");
+			ajaxResult.setCause(validateResult.getSecond());
+		}
+		return ajaxResult;
+	}
+	
+	@RequestMapping(value ="/CustomTemplateUpload",method=RequestMethod.POST)
+	public @ResponseBody AjaxResponseResult<String> uploadTemplate(@RequestBody UserTemplateDto templateUploadDto,
+											  HttpServletRequest request){ 
+		Tuple<Boolean,String> validateResult = CommonUtils.tryToValidateUserTemplate(templateUploadDto);
+		AjaxResponseResult<String> ajaxResult = new AjaxResponseResult<>();
+		
+		if(validateResult.getFirst()){
+			if(templateUploadDto.getTemplateId()!=-1){
+				UserTemplate userTemplate = userTemplateDaoService.getUserTemplateById(templateUploadDto.getTemplateId());
+				if(userTemplate!=null){
+					userTemplate.setTitle(templateUploadDto.getTitle());
+					userTemplate.setHtmlCode(templateUploadDto.getHtmlCode());
+					userTemplate.setImage(CommonUtils.convertStringByteArray(templateUploadDto.getBase64StringImage()));
+					userTemplateDaoService.updateUserTemplate(userTemplate);
+					ajaxResult.setStatus("OK");
+					ajaxResult.setRecordId(userTemplate.getId());
+					
+				}else{
+					ajaxResult.setStatus("FAILED");
+					ajaxResult.setCause("Cannot found the exist user template! Update failed!");
+				}
+			}else{
+				authentication = SecurityContextHolder.getContext().getAuthentication();
+				UserDto user = CommonUtils.getUserFromSession((User)authentication.getPrincipal(), userService);
+				int userId = user.getId();
+				
+				UserTemplate userTemplate = new UserTemplate();
+				userTemplate.setHtmlCode(templateUploadDto.getHtmlCode());
+				userTemplate.setImage(CommonUtils.convertStringByteArray(templateUploadDto.getBase64StringImage()));
+				userTemplate.setTitle(templateUploadDto.getTitle());  
+				userTemplate.setUserId(userId);
+				userTemplateDaoService.saveUserTemplate(userTemplate);
+				ajaxResult.setStatus("OK");
+				ajaxResult.setRecordId(userTemplate.getId());
+				logger.debug("Save user template success!");
+			}
+		}else{
+			ajaxResult.setStatus("FAILED");
+			ajaxResult.setCause("Insert new template failed! Cause by : \n" +validateResult.getSecond());
+		}
+		
+		return ajaxResult;
+	}
+	
+	@RequestMapping(value ="/LoadUserTemplate",method=RequestMethod.GET)
+	public @ResponseBody List<List<UserTemplateDto>> loadUserTemplates(HttpServletRequest request){ 
+		authentication = SecurityContextHolder.getContext().getAuthentication();
+		UserDto user = CommonUtils.getUserFromSession((User)authentication.getPrincipal(), userService);
+		int userId = user.getId();
+		List<UserTemplate> lstUserTemplate = userTemplateDaoService.getListTemplateOfUser(userId);
+		List<UserTemplateDto> lstUserTemplateDtos = CommonUtils.convertToUserTemplateDto(lstUserTemplate);  
+		return CommonUtils.divToListGroup(lstUserTemplateDtos, 5);
+	}
+	
+	@RequestMapping("/SetEbayLogin") 
 	public ModelAndView actionSetEbayLogin(@CookieValue(value = COOKIE_EBAY_SESSION, defaultValue = "") String cachedSessionID, HttpServletResponse response){
 		ModelAndView model = new ModelAndView(VIEW_LOGIN_EBAY);
 		boolean isProduction = false;
 		// Create Url login base
-		StringBuilder loginEbayUrl = new StringBuilder();
-		
+		StringBuilder loginEbayUrl = new StringBuilder(); 
 		
 		if ("prod".equals(ebayServiceInfo.getEnvironment())) {
 			isProduction = true;
@@ -185,86 +302,4 @@ public class EbaySettingController {
         
         return ajaxResult;
     }
-	
-	@RequestMapping("/ListResearchAll")
-	public ModelAndView listSearchAll(){ 
-		return new ModelAndView("/pages/G_ListResearchAll");
-	}
-	
-	@RequestMapping("/AddItemInfomation")
-	public @ResponseBody AjaxResponseResult addNewItemInfomation(@RequestBody ItemInfomationDto itemInfomation,HttpServletRequest request){ 
-		Tuple<Boolean, String> validateResult = CommonUtils.tryToValidateItemInfomation(itemInfomation);
-		AjaxResponseResult ajaxResult = new AjaxResponseResult();
-		if(validateResult.getFirst()){
-			ItemInfomation dbItemInfomation = new ItemInfomation();
-			dbItemInfomation.setAboutUs(itemInfomation.getAboutUs());
-			dbItemInfomation.setInternationalBuyerNote(itemInfomation.getInternationalBuyersNote());
-			dbItemInfomation.setPayment(itemInfomation.getPayment());
-			dbItemInfomation.setTermsOfSale(itemInfomation.getTermsOfSale());
-			
-			UserDto user = (UserDto)request.getSession().getAttribute("user");
-			int userId = user.getId();
-			dbItemInfomation.setUserId(userId);
-			itemInfomationDaoService.addItemInfomation(dbItemInfomation);
-			ajaxResult.setStatus("OK");
-			ajaxResult.setRecordId(dbItemInfomation.getId());
-			
-		}else{
-			ajaxResult.setStatus("FAILED");
-			ajaxResult.setCause(validateResult.getSecond());
-		}
-		return ajaxResult;
-	}
-	
-	@RequestMapping(value ="/CustomTemplateUpload",method=RequestMethod.POST)
-	public @ResponseBody AjaxResponseResult uploadTemplate(@RequestBody UserTemplateDto templateUploadDto,
-											  HttpServletRequest request){ 
-		Tuple<Boolean,String> validateResult = CommonUtils.tryToValidateUserTemplate(templateUploadDto);
-		AjaxResponseResult ajaxResult = new AjaxResponseResult();
-		
-		if(validateResult.getFirst()){
-			if(templateUploadDto.getTemplateId()!=-1){
-				UserTemplate userTemplate = userTemplateDaoService.getUserTemplateById(templateUploadDto.getTemplateId());
-				if(userTemplate!=null){
-					userTemplate.setTitle(templateUploadDto.getTitle());
-					userTemplate.setHtmlCode(templateUploadDto.getHtmlCode());
-					userTemplate.setImage(CommonUtils.convertStringByteArray(templateUploadDto.getBase64StringImage()));
-					userTemplateDaoService.updateUserTemplate(userTemplate);
-					ajaxResult.setStatus("OK");
-					ajaxResult.setRecordId(userTemplate.getId());
-					
-				}else{
-					ajaxResult.setStatus("FAILED");
-					ajaxResult.setCause("Cannot found the exist user template! Update failed!");
-				}
-			}else{
-				UserDto user = (UserDto)request.getSession().getAttribute("user");
-				int userId = user.getId();
-				
-				UserTemplate userTemplate = new UserTemplate();
-				userTemplate.setHtmlCode(templateUploadDto.getHtmlCode());
-				userTemplate.setImage(CommonUtils.convertStringByteArray(templateUploadDto.getBase64StringImage()));
-				userTemplate.setTitle(templateUploadDto.getTitle());  
-				userTemplate.setUserId(userId);
-				userTemplateDaoService.saveUserTemplate(userTemplate);
-				ajaxResult.setStatus("OK");
-				ajaxResult.setRecordId(userTemplate.getId());
-				logger.debug("Save user template success!");
-			}
-		}else{
-			ajaxResult.setStatus("FAILED");
-			ajaxResult.setCause("Insert new template failed! Cause by : \n" +validateResult.getSecond());
-		}
-		
-		return ajaxResult;
-	}
-	
-	@RequestMapping(value ="/LoadUserTemplate",method=RequestMethod.GET)
-	public @ResponseBody List<List<UserTemplateDto>> loadUserTemplates(HttpServletRequest request){ 
-		UserDto user = (UserDto)request.getSession().getAttribute("user");
-		int userId = user.getId();
-		List<UserTemplate> lstUserTemplate = userTemplateDaoService.getListTemplateOfUser(userId);
-		List<UserTemplateDto> lstUserTemplateDtos = CommonUtils.convertToUserTemplateDto(lstUserTemplate);  
-		return CommonUtils.divToListGroup(lstUserTemplateDtos, 5);
-	}
-}
+} 

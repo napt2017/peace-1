@@ -44,6 +44,33 @@
  
  <bean id="ebayAreaShippingMethodMapDaoService" class="com.vn.hungtq.peace.service.impl.EbayAreaShippingMethodMapDaoServiceImpl">
      <property name="sessionFactory" ref="mySessionFactory" />
+ </bean>  
+ 
+ <bean id="returnWarrantyMethodDaoService" class="com.vn.hungtq.peace.service.impl.ReturnWarrantyMethodDaoServiceImpl">
+     <property name="sessionFactory" ref="mySessionFactory" />
+ </bean>
+  
+ <bean id="ebayDeliveryMethodDaoService" class="com.vn.hungtq.peace.service.impl.EbayDeliveryMethodDaoServiceImpl">
+     <property name="sessionFactory" ref="mySessionFactory" />
  </bean> 
  
+ <bean id="ebayShippingFeeDaoService" class="com.vn.hungtq.peace.service.impl.EbayShippingFeeDaoServiceImpl">
+     <property name="sessionFactory" ref="mySessionFactory" />
+ </bean> 
+ 
+ <bean id="ebayShippingAreaDaoService" class="com.vn.hungtq.peace.service.impl.EbayShippingAreaDaoServiceImpl">
+     <property name="sessionFactory" ref="mySessionFactory" />
+ </bean> 
+ 
+ <bean id="areaSettingInfoDaoService" class="com.vn.hungtq.peace.service.impl.AreaSettingInfoDaoServiceImpl">
+     <property name="sessionFactory" ref="mySessionFactory" />
+ </bean> 
+ 
+ <bean id="timeUnitMappingDaoService" class="com.vn.hungtq.peace.service.impl.TimeUnitMappingDaoServiceImpl">
+     <property name="sessionFactory" ref="mySessionFactory" />
+ </bean>  
+ 
+ <bean id="accountSettingDaoService" class="com.vn.hungtq.peace.service.impl.AccountSettingDaoServiceImpl">
+     <property name="sessionFactory" ref="mySessionFactory" />
+ </bean>  
 </beans>

@@ -13,7 +13,7 @@
 					</a> 
 					<ul class="dropdown-menu" role="menu">
 						<li>
-							<a href="G_SetAccount.html" title="Account"><i class="fa fa-fw fa-user"></i> My Account</a>
+							<a href="SetAccount" title="Account"><i class="fa fa-fw fa-user"></i> My Account</a>
 						</li>
 						<li class="divider"></li>
 						<li>
@@ -107,7 +107,7 @@
 						</ul>
 					</li>
 					<li>
-						<a href="G_SetAccount.html"> <span class="menu-item-parent">Account</span></a>						
+						<a href="SetAccount"> <span class="menu-item-parent">Account</span></a>						
 					</li>	
 					<li>
 						<a href="#"><span class="menu-item-parent">Manual</span></a>

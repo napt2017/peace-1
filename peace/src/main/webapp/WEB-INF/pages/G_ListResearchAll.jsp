@@ -372,24 +372,18 @@ input, textarea, button {
 
 							/*--------------------------------RAKUTEN SEARCH--------------------------------------*/
 							$scope.rakuten = {};
-							$scope.rakuten.searchProductByKeyword = function(
-									keyWord) {
+							$scope.rakuten.searchProductByKeyword = function(keyWord) {
 								//I dont know but rakuten say this! :-p
-								if (keyWord.length > 1) {
+								if (keyWord.length > 1) { 
+									
 									//Send ajax to server to search product
-									$http
-											.post(
-													"RakutenProductSearch/"
-															+ keyWord)
-											.success(
-													function(data, status,
-															headers, config) {
-														$scope.listOfProduct = data;
-													}).error(
-													function(data, status,
-															headers, config) {
-														console.log(data);
-													});
+									$http.get("RakutenProductSearch/"+ keyWord)
+										 .success(function(data, status,headers, config) {
+													$scope.listOfProduct = data;
+										 }).error(
+										 function(data, status,headers, config) {
+											console.log(data);
+										});
 								}
 							};
 

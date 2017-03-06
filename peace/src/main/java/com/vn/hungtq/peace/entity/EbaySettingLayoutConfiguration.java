@@ -1,5 +1,6 @@
 package com.vn.hungtq.peace.entity;
  
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -20,10 +21,11 @@ public class EbaySettingLayoutConfiguration implements java.io.Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 9005646814557710079L;
+	private static final long serialVersionUID = 3212656253898959001L;
 	private Integer id;
 	private EbayShippingArea ebayShippingArea;
 	private LayoutSettingArea layoutSettingArea;
+	private Integer order;
 
 	public EbaySettingLayoutConfiguration() {
 	}
@@ -32,6 +34,13 @@ public class EbaySettingLayoutConfiguration implements java.io.Serializable {
 			LayoutSettingArea layoutSettingArea) {
 		this.ebayShippingArea = ebayShippingArea;
 		this.layoutSettingArea = layoutSettingArea;
+	}
+
+	public EbaySettingLayoutConfiguration(EbayShippingArea ebayShippingArea,
+			LayoutSettingArea layoutSettingArea, Integer order) {
+		this.ebayShippingArea = ebayShippingArea;
+		this.layoutSettingArea = layoutSettingArea;
+		this.order = order;
 	}
 
 	@Id
@@ -63,6 +72,15 @@ public class EbaySettingLayoutConfiguration implements java.io.Serializable {
 
 	public void setLayoutSettingArea(LayoutSettingArea layoutSettingArea) {
 		this.layoutSettingArea = layoutSettingArea;
+	}
+
+	@Column(name = "order")
+	public Integer getOrder() {
+		return this.order;
+	}
+
+	public void setOrder(Integer order) {
+		this.order = order;
 	}
 
 }

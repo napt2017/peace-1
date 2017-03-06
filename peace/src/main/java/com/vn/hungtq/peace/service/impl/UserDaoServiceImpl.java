@@ -8,6 +8,7 @@ import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.vn.hungtq.peace.common.CommonUtils;
 import com.vn.hungtq.peace.entity.User;
 import com.vn.hungtq.peace.service.UserDaoService;
 
@@ -56,5 +57,23 @@ public class UserDaoServiceImpl extends BaseDaoServiceImpl implements UserDaoSer
 														   .setParameter(0, userId)
 														   .list();
 		return users.get(0);
+	}
+
+	@Override
+	public boolean isPasswordCorrect(int userId ,String rawPassword) { 
+		@SuppressWarnings("unchecked")
+		List<User> lstUser = getCurrentSession().createQuery("from User where id = ?")
+												.setParameter(0, userId) 
+												.list();
+		if(lstUser.size()>0){
+			return CommonUtils.isSameHash(rawPassword, lstUser.get(0).getPassword());
+		}
+		
+		return false;
+	}
+
+	@Override
+	public void updateUser(User user) {
+		getCurrentSession().update(user);
 	}
 }
