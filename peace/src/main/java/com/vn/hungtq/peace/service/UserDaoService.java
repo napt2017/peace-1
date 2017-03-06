@@ -16,4 +16,8 @@ public interface UserDaoService {
 	List<User> findAllUsers(); 
 	
 	User getUserById(int userId);
+	
+	boolean isPasswordCorrect(int userId ,String rawPassword);
+	
+	void updateUser(User user);
 }

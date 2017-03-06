@@ -1,10 +1,12 @@
 package com.vn.hungtq.peace.controller;
 
+import java.io.UnsupportedEncodingException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,23 +24,29 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.util.UriUtils;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.vn.hungtq.peace.common.AjaxResponseResult;
 import com.vn.hungtq.peace.common.AmazonServiceInfo;
 import com.vn.hungtq.peace.common.CommonUtils;
 import com.vn.hungtq.peace.common.EbayServiceInfo;
 import com.vn.hungtq.peace.common.ProductSearch;
 import com.vn.hungtq.peace.common.RakutenServiceInfo;
 import com.vn.hungtq.peace.common.YahooServiceInfo;
+import com.vn.hungtq.peace.dto.AccountSettingDto;
 import com.vn.hungtq.peace.dto.UserDto;
+import com.vn.hungtq.peace.entity.AccountSetting;
 import com.vn.hungtq.peace.entity.User;
+import com.vn.hungtq.peace.service.AccountSettingDaoService;
 import com.vn.hungtq.peace.service.UserDaoService;
 
 @Controller
@@ -66,6 +74,9 @@ public class MainController {
 	
 	@Autowired
 	MessageSource messageSource;
+	
+	@Autowired
+	AccountSettingDaoService accountSettingDaoService;
 	
 	@RequestMapping(value ="/", method = RequestMethod.GET)
 	public String welcome(Locale locale, ModelMap model) {
@@ -146,6 +157,109 @@ public class MainController {
 		return  new ModelAndView("/pages/G_Contract");
 	}
 	
+	@RequestMapping("SetAccount")
+	public ModelAndView setAccount(){
+		return  new ModelAndView("/pages/G_SetAccount");
+	}
+	
+	@RequestMapping(value ="/GetAccountSetting",method=RequestMethod.GET)
+	public @ResponseBody AjaxResponseResult<AccountSettingDto> getAccountSetting(){
+		AjaxResponseResult<AccountSettingDto> responseResult = new AjaxResponseResult<AccountSettingDto>();
+		responseResult.setStatus("Ok");
+		
+		//Default set record id 
+		responseResult.setRecordId(-1);
+		
+		//Get user id
+		final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		UserDto user = CommonUtils.getUserFromSession((org.springframework.security.core.userdetails.User)authentication.getPrincipal(), userService);
+		int userId = user.getId();
+		
+		Optional<AccountSetting> optionalOfAccountSetting = accountSettingDaoService.loadAccountSettingByUser(userId);
+		optionalOfAccountSetting.ifPresent(ac->{
+			AccountSettingDto asDto = new AccountSettingDto();
+			asDto.setAmazonAccessKey(ac.getAmazonAccessKey());
+			asDto.setAmazoneId(ac.getAmazoneId());
+			asDto.setAmazonSecretKey(ac.getAmazonSecretKey());
+			asDto.setIsDeliver(ac.getIsDeliver());
+			asDto.setIsImmediateStettlement(ac.getIsImmediateStettlement());
+			asDto.setPaypalEmail(ac.getPaypalEmail());
+			asDto.setEmail(user.getEmail());
+			asDto.setId(ac.getId());
+			
+			responseResult.setRecordId(ac.getId());
+			responseResult.setExtraData(asDto);  
+		}); 
+		
+		return responseResult;
+	}
+	
+	@RequestMapping(value="ChangeUserPasswordEmail",method = RequestMethod.POST)
+	public @ResponseBody AjaxResponseResult<String> changeUserPasswordEmail(@RequestBody UserDto userDto){
+		AjaxResponseResult<String> responseResult = new AjaxResponseResult<String>();
+		responseResult.setStatus("OK");
+		
+		//Get current user from session
+		final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		UserDto user = CommonUtils.getUserFromSession((org.springframework.security.core.userdetails.User)authentication.getPrincipal(), userService);
+		int userId = user.getId();
+		
+		//Encrypt password
+		String encryptPassword = CommonUtils.encryptPassword(userDto.getPassword());
+		
+		//Load user from db
+		User dbUser = userService.getUserById(userId);
+		dbUser.setEmail(userDto.getEmail());
+		dbUser.setPassword(encryptPassword);
+		
+		//Update
+		userService.updateUser(dbUser);
+		
+		return responseResult;
+	}
+	
+	@RequestMapping(value="SaveAccountSetting",method = RequestMethod.POST)
+	public @ResponseBody AjaxResponseResult<String> saveAccountSetting(@RequestBody AccountSettingDto accountSettingDto){
+		AjaxResponseResult<String> responseResult = new AjaxResponseResult<String>();
+		responseResult.setStatus("OK");
+		AccountSetting acSetting ;
+		//Get user id
+		final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		UserDto user = CommonUtils.getUserFromSession((org.springframework.security.core.userdetails.User)authentication.getPrincipal(), userService);
+		int userId = user.getId();
+				
+		Optional<AccountSetting> optionalOfAccoutSetting = accountSettingDaoService.loadAccountSettingByUser(userId);
+		if(optionalOfAccoutSetting.isPresent()){
+			acSetting = optionalOfAccoutSetting.get();
+			acSetting.setAmazonAccessKey(accountSettingDto.getAmazonAccessKey());
+			acSetting.setAmazoneId(accountSettingDto.getAmazoneId());
+			acSetting.setAmazonSecretKey(accountSettingDto.getAmazonSecretKey());
+			acSetting.setIsDeliver(accountSettingDto.getIsDeliver());
+			acSetting.setIsImmediateStettlement(accountSettingDto.getIsImmediateStettlement());
+			acSetting.setPaypalEmail(accountSettingDto.getPaypalEmail());
+			acSetting.setId(accountSettingDto.getId());
+			
+			//Update to db
+			accountSettingDaoService.updateAccountSetting(acSetting);
+		}else{
+			//Convert data
+			acSetting = new AccountSetting();
+			acSetting.setAmazonAccessKey(accountSettingDto.getAmazonAccessKey());
+			acSetting.setAmazoneId(accountSettingDto.getAmazoneId());
+			acSetting.setAmazonSecretKey(accountSettingDto.getAmazonSecretKey());
+			acSetting.setIsDeliver(accountSettingDto.getIsDeliver());
+			acSetting.setIsImmediateStettlement(accountSettingDto.getIsImmediateStettlement());
+			acSetting.setPaypalEmail(accountSettingDto.getPaypalEmail());
+			acSetting.setId(accountSettingDto.getId());
+			acSetting.setUserId(userId);
+			
+			//Save to db
+			accountSettingDaoService.saveAccountSetting(acSetting);
+		} 
+		
+		return responseResult;
+	}
+	
 	@RequestMapping(value ="/AmazoneGetServiceUrl/{keyword}",method=RequestMethod.POST)
 	public @ResponseBody String amazoneGetServiceUrl(@PathVariable(value = "keyword") String keyword){
 		return CommonUtils.buildAmazonServiceUrl(keyword,amazonServiceInfo);
@@ -204,6 +318,31 @@ public class MainController {
 		
 		return Collections.emptyList();
 	} 
+	
+	 @RequestMapping(value="/CheckPassword/{rawPassword}", method = RequestMethod.GET)
+	 public @ResponseBody AjaxResponseResult<Boolean> checkPassword(@PathVariable("rawPassword") String rawPassword){
+		AjaxResponseResult<Boolean> responseResult = new AjaxResponseResult<Boolean>();
+		responseResult.setStatus("OK");
+		
+		//Get user id
+		final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		UserDto user = CommonUtils.getUserFromSession((org.springframework.security.core.userdetails.User)authentication.getPrincipal(), userService);
+		int userId = user.getId();
+		
+		//Decode password 
+		try {
+			rawPassword = UriUtils.decode(rawPassword, "UTF-8");
+		} catch (UnsupportedEncodingException e) { 
+			e.printStackTrace();
+		}
+		
+		//Check
+		boolean isCorrect = userService.isPasswordCorrect(userId, rawPassword);
+		responseResult.setExtraData(isCorrect);
+		
+		return responseResult;		 
+	 }
+	
 	
 	/**
      * This method handles logout requests.

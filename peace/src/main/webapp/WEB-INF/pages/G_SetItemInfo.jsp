@@ -6,7 +6,9 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en-us">
-	<jsp:include page="../pages/common/header.jsp"/> 
+	<jsp:include page="../pages/common/header.jsp"/>
+	<meta name="_csrf" content="${_csrf.token}"/>
+ 	<meta name="_csrf_header" content="${_csrf.headerName}"/>
 	<body class="fixed-page-footer" ng-app="item_infomation_app">
 	<style>
 			input, textarea, button { margin-top:10px }
@@ -249,29 +251,35 @@
 					if($("#international_buyers_note").val()===""){
 						alert("Empty international buyers note!!!");
 						return;
-					}
-					
+					} 
+				    
 					var postData = {
 							payment:$("#payment").val(),
 							termsOfSale:$("#terms_of_sale").val(),
 							aboutUs:$("#about_us").val(),
 							internationalBuyersNote:$("#international_buyers_note").val(),
-							itemId:$("#item_infomation_id").val()
-					}; 
+							itemId:$("#item_infomation_id").val(),
+							
+					};  
 					
-					var headers =  {
-							'Accept':'application/json',
-							'Content-Type': 'application/json'
-						};
+					var token = $("meta[name='_csrf']").attr("content");
+				    var header = $("meta[name='_csrf_header']").attr("content"); 
+					var config = {
+							headers:{ 
+									'Accept':'application/json',
+									'Content-Type': 'application/json' ,
+									'X-CSRF-TOKEN':token
+							}  
+					} 
 					
-					$http.post("AddItemInfomation",JSON.stringify(postData),headers)
-					 .success(function(data, status, headers,config) {
-						 	$scope.itemInfomationModel.itemId=data.recordId;
-						 	alert("Save successfull!!!");
-						})
-					 .error(function(data, status, headers,config) {
-							console.log(data);
-						});
+					$http.post("AddItemInfomation",JSON.stringify(postData),config)
+						 .success(function(data, status, headers,config) {
+							 	$scope.itemInfomationModel.itemId=data.recordId;
+							 	alert("Save successfull!!!");
+							})
+						 .error(function(data, status, headers,config) {
+								console.log(data);
+						 });   
 				}
 				
 				$scope.loadDefaultLoadExistIF();

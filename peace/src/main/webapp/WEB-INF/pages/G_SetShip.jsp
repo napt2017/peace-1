@@ -6,7 +6,9 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en-us" ng-app="shipping_setting_app">
-	 <jsp:include page="../pages/common/header.jsp"/>  
+	<jsp:include page="../pages/common/header.jsp"/>  
+	<meta name="_csrf" content="${_csrf.token}"/>
+ 	<meta name="_csrf_header" content="${_csrf.headerName}"/>
 	<body class="fixed-page-footer">
 	<style>
 			input, textarea, button { margin-top:10px }
@@ -180,7 +182,7 @@
 												<td class="">{{sfModel.shippingMethodName}}</td>
 												<td class="" ng-repeat ="areaTimeUnitMapping in sfModel.listOfAreaTimeUnitMapping">
 													<section>
-														<input type="text" class="input only-number" value="areaTimeUnitMapping.timeShipping" ng-model="areaTimeUnitMapping.timeShipping" placeholder="{{areaTimeUnitMapping.placeHolder}}"> {{areaTimeUnitMapping.moneyName}}
+														<input type="number" class="input" value="areaTimeUnitMapping.timeShipping" ng-model="areaTimeUnitMapping.timeShipping" placeholder="{{areaTimeUnitMapping.placeHolder}}"> {{areaTimeUnitMapping.moneyName}}
 													</section>
 												</td>
 											  </tr> 
@@ -206,7 +208,7 @@
 												<td class="">{{userAreaModel.shippingMethodName}}</td>
 												<td class="" ng-repeat="areaTimeUnitMapping in userAreaModel.listOfAreaTimeUnitMapping">
 													<section id="area-time-unit-mapping-{{areaTimeUnitMapping.recordId}}">
-														<input type="text" class="input only-number" value="areaTimeUnitMapping.timeShipping" ng-model="areaTimeUnitMapping.timeShipping" placeholder="{{areaTimeUnitMapping.placeHolder}}">
+														<input type="number" class="input" value="areaTimeUnitMapping.timeShipping" ng-model="areaTimeUnitMapping.timeShipping" placeholder="{{areaTimeUnitMapping.placeHolder}}">
 														<div class="inline-group" style="margin-top:5px">
 															<label class="">
 															<input type="radio" name="radio-inline-{{areaTimeUnitMapping.recordId}}" ng-model="areaTimeUnitMapping.valueOfAskFreeAndNoShipping" ng-value="0"  >
@@ -269,7 +271,7 @@
 										<section class="col col-6" >
 											<h3 style="margin-bottom: 10px">Number of days to ship</h3>
 											<label class="">
-												<input type="text" id="number-day-ofship" class="input only-number" placeholder="day"> 
+												<input type="number" id="number-day-ofship" class="input only-number" placeholder="day"> 
 											</label>
 										</section>
 									</div>
@@ -435,11 +437,18 @@
 					});
 				}
 				
+				var token = $("meta[name='_csrf']").attr("content");
+			    var header = $("meta[name='_csrf_header']").attr("content"); 
+				var config = {
+						headers:{ 
+								'Accept':'application/json',
+								'Content-Type': 'application/json' ,
+								'X-CSRF-TOKEN':token
+						}  
+				} 
+				
 				//Global header for ajax http post request
-				$scope.headers =  {
-						'Accept':'application/json',
-						'Content-Type': 'application/json'
-				};
+				$scope.headers = config;
 				
 				//Div an array to array of sub array follow parameter
 				$scope.divToSubArray = function(array,size){
@@ -472,25 +481,8 @@
 						
 						return retArray;
 					}
-				}
+				} 
 				
-				//Only type number on input which has class .only-number
-				$scope.registerOnlyTypeNumber = function(){
-					$(".only-number").on("keydown",function(event){
-						  if ( event.keyCode == 46 || event.keyCode == 8  || 
-								 event.keyCode == 9  || event.keyCode == 27 ||  
-						         (event.keyCode == 65 && event.ctrlKey === true)|| 
-						         (event.keyCode >= 35 && event.keyCode <= 39)) {  
-						                 return;
-					        }else{
-					        	 if(event.keyCode < 48 || event.keyCode > 57){
-					        		 if(event.keyCode < 96 || event.keyCode > 105 ){
-					        			 event.preventDefault();
-					        		 } 
-					        	 }
-					        }
-					});
-				};
 				/*#######################[ 		SHIPPING FREE BUSSINESS LOGIC 	 ]###################################*/
 				$scope.loadShippingFree = function(){
 					$http.get("LoadLayoutAreaSetting/1")
@@ -515,7 +507,7 @@
 					var dataPost = $scope.shippingFreeTableModelData;
 					$http.post("SaveUserAreaSetting",JSON.stringify(dataPost),$scope.headers)
 						 .success(function(data, status, headers,config) {  
-							  alert(data.status);
+							  console.log(data)
 						 })
 						 .error(function(data, status, headers,config) {
 							  console.log(data);
@@ -545,7 +537,7 @@
 					var dataPost = $scope.areaTableModelData;
 					$http.post("SaveUserAreaSetting",JSON.stringify(dataPost),$scope.headers)
 						 .success(function(data, status, headers,config) {  
-							  alert(data.status);
+							  console.log(data);
 						 })
 						 .error(function(data, status, headers,config) {
 							  console.log(data);
@@ -572,7 +564,7 @@
 					
 					$http.post("SaveEbayDeliveryMethod",JSON.stringify(dataPost),$scope.headers)
 						 .success(function(data, status, headers,config) {  
-							  alert(data.status);
+							  console.log(data);
 						 })
 						 .error(function(data, status, headers,config) {
 							  console.log(data);
@@ -718,10 +710,10 @@
 				
 				$scope.saveAllShippingSetting = function($event){
 					$event.preventDefault(); 
-					//$scope.saveNotShippingCountry();
-					//$scope.saveEbayDeliveryMethod();
-					//$scope.saveEbayShippingFee(); 
-					//$scope.saveUserShippingSetting();
+					$scope.saveNotShippingCountry();
+					$scope.saveEbayDeliveryMethod();
+					$scope.saveEbayShippingFee(); 
+					$scope.saveUserShippingSetting();
 					$scope.saveShippingFreeSetting();
 				};
 				 
@@ -750,10 +742,7 @@
 				$scope.loadEbayShippingSettingLayout();
 				
 				//Load shipping free
-				$scope.loadShippingFree();
-				
-				//Register only type number
-				$scope.registerOnlyTypeNumber();
+				$scope.loadShippingFree(); 
 			});
 		</script>
 

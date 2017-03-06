@@ -11,6 +11,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -32,6 +35,7 @@ import com.vn.hungtq.peace.ebay.GetSessionIDCall;
 import com.vn.hungtq.peace.entity.ItemInfomation;
 import com.vn.hungtq.peace.entity.UserTemplate;
 import com.vn.hungtq.peace.service.ItemInfomationDaoService;
+import com.vn.hungtq.peace.service.UserDaoService;
 import com.vn.hungtq.peace.service.UserTemplateDaoService;
 
 @Controller
@@ -51,6 +55,11 @@ public class EbaySettingController {
 	
 	@Autowired
 	EbayServiceInfo ebayServiceInfo; 
+	
+	@Autowired
+	private UserDaoService userService;
+	
+	private Authentication authentication;
 	
 	@RequestMapping("/ListTemplate")
 	public ModelAndView actionListTemplate(){
@@ -84,7 +93,8 @@ public class EbaySettingController {
 	
 	@RequestMapping(value = "/LoadItemInfomation",method = RequestMethod.GET)
 	public @ResponseBody ItemInfomationDto loadItemInfomation(HttpServletRequest request){ 
-		UserDto user = (UserDto)request.getSession().getAttribute("user");
+		authentication = SecurityContextHolder.getContext().getAuthentication();
+		UserDto user = CommonUtils.getUserFromSession((User)authentication.getPrincipal(), userService);
 		int userId = user.getId();
 		
 		ItemInfomation itemInfomation = itemInfomationDaoService.getItemInfomationByUserId(userId);
@@ -108,7 +118,8 @@ public class EbaySettingController {
 			dbItemInfomation.setPayment(itemInfomation.getPayment());
 			dbItemInfomation.setTermsOfSale(itemInfomation.getTermsOfSale()); 
 			
-			UserDto user = (UserDto)request.getSession().getAttribute("user");
+			authentication = SecurityContextHolder.getContext().getAuthentication();
+			UserDto user = CommonUtils.getUserFromSession((User)authentication.getPrincipal(), userService);
 			int userId = user.getId();
 			dbItemInfomation.setUserId(userId);
 			if(itemInfomation.getItemId()!=-1){
@@ -152,7 +163,8 @@ public class EbaySettingController {
 					ajaxResult.setCause("Cannot found the exist user template! Update failed!");
 				}
 			}else{
-				UserDto user = (UserDto)request.getSession().getAttribute("user");
+				authentication = SecurityContextHolder.getContext().getAuthentication();
+				UserDto user = CommonUtils.getUserFromSession((User)authentication.getPrincipal(), userService);
 				int userId = user.getId();
 				
 				UserTemplate userTemplate = new UserTemplate();
@@ -175,7 +187,8 @@ public class EbaySettingController {
 	
 	@RequestMapping(value ="/LoadUserTemplate",method=RequestMethod.GET)
 	public @ResponseBody List<List<UserTemplateDto>> loadUserTemplates(HttpServletRequest request){ 
-		UserDto user = (UserDto)request.getSession().getAttribute("user");
+		authentication = SecurityContextHolder.getContext().getAuthentication();
+		UserDto user = CommonUtils.getUserFromSession((User)authentication.getPrincipal(), userService);
 		int userId = user.getId();
 		List<UserTemplate> lstUserTemplate = userTemplateDaoService.getListTemplateOfUser(userId);
 		List<UserTemplateDto> lstUserTemplateDtos = CommonUtils.convertToUserTemplateDto(lstUserTemplate);  
@@ -187,8 +200,7 @@ public class EbaySettingController {
 		ModelAndView model = new ModelAndView(VIEW_LOGIN_EBAY);
 		boolean isProduction = false;
 		// Create Url login base
-		StringBuilder loginEbayUrl = new StringBuilder();
-		
+		StringBuilder loginEbayUrl = new StringBuilder(); 
 		
 		if ("prod".equals(ebayServiceInfo.getEnvironment())) {
 			isProduction = true;

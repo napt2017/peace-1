@@ -69,4 +69,8 @@
  <bean id="timeUnitMappingDaoService" class="com.vn.hungtq.peace.service.impl.TimeUnitMappingDaoServiceImpl">
      <property name="sessionFactory" ref="mySessionFactory" />
  </bean>  
+ 
+ <bean id="accountSettingDaoService" class="com.vn.hungtq.peace.service.impl.AccountSettingDaoServiceImpl">
+     <property name="sessionFactory" ref="mySessionFactory" />
+ </bean>  
 </beans>

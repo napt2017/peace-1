@@ -51,6 +51,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.util.UriUtils;
 
 import com.vn.hungtq.peace.dto.ItemInfomationDto;
@@ -72,6 +74,7 @@ import com.vn.hungtq.peace.service.UserDaoService;
 public class CommonUtils {  
 	
 	private static final Logger logger = LoggerFactory.getLogger(CommonUtils.class);
+	private static final PasswordEncoder  bCryptPasswordEncoder= new BCryptPasswordEncoder();
 	
 	/**
 	 * 
@@ -100,6 +103,14 @@ public class CommonUtils {
 		return MessageFormat.format(sb.toString(), UriUtils.decode(contact.getName(),"UTF-8"),UriUtils.decode(contact.getEmail(),"UTF-8"),
 									contact.getPhone(),UriUtils.decode(contact.getExhibitionCategory(),"UTF-8"),
 									UriUtils.decode(contact.getDescribeContent(),"UTF-8"));
+	}
+	
+	public static boolean isSameHash(String rawPassword,String hash){  
+		return bCryptPasswordEncoder.matches(rawPassword, hash);
+	} 
+	
+	public static String encryptPassword(String rawPassword){
+		return bCryptPasswordEncoder.encode(rawPassword);
 	}
 	
 	/**

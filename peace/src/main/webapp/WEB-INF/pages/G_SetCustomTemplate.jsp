@@ -7,6 +7,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en-us" ng-app="template_upload_app">
 	 <jsp:include page="../pages/common/header.jsp"/> 
+	 <meta name="_csrf" content="${_csrf.token}"/>
+ 	 <meta name="_csrf_header" content="${_csrf.headerName}"/>
 	<body class="fixed-page-footer">
 		<style>
 			input, textarea, button { margin-top:10px }
@@ -404,14 +406,19 @@
 							htmlCode:encodeURI(ckEditorFrameContent.innerHTML),
 							base64StringImage:$("#preview_image").attr("src"),
 							templateId:$("#user_template_id").val()
-					};
+					}; 
 					
-					var headers =  {
-						'Accept':'application/json',
-						'Content-Type': 'application/json'
-					};
+					var token = $("meta[name='_csrf']").attr("content");
+				    var header = $("meta[name='_csrf_header']").attr("content"); 
+					var config = {
+							headers:{ 
+									'Accept':'application/json',
+									'Content-Type': 'application/json' ,
+									'X-CSRF-TOKEN':token
+							}  
+					} 
 					
-					$http.post("CustomTemplateUpload",JSON.stringify(uploadData),headers)
+					$http.post("CustomTemplateUpload",JSON.stringify(uploadData),config)
 						 .success(function(data, status, headers,config) {
 							 if(data.status==="OK"){
 								 $scope.reloadUserTemplate();
