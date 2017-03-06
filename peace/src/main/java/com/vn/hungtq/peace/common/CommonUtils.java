@@ -280,9 +280,8 @@ public class CommonUtils {
 				httpUrlConnection.setDoOutput(true);
 
 				try (final InputStream in = cnn.getInputStream();
-						final InputStreamReader inRead = new InputStreamReader(
-								in);
-						final BufferedReader bRead = new BufferedReader(inRead)) {
+					 final InputStreamReader inRead = new InputStreamReader(in,"UTF-8");
+					 final BufferedReader bRead = new BufferedReader(inRead)) {
 					StringBuilder sb = new StringBuilder();
 					String line;
 					while ((line = bRead.readLine()) != null) {

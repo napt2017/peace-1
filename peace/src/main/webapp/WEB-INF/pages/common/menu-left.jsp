@@ -54,16 +54,16 @@
 						<a href="#"> <span class="menu-item-parent">Ebay Product List</span></a>
 						<ul>
 							<li class="">
-								<a href="G_ListSell.html" title=""> <span class="menu-item-parent">Sending</span></a>
+								<a href="ListSell" title=""> <span class="menu-item-parent">Sending</span></a>
 							</li>
 							<li class="">
-								<a href="G_ListUnsold.html" title=""><span class="menu-item-parent">Listing End</span></a>
+								<a href="ListUnsold" title=""><span class="menu-item-parent">Listing End</span></a>
 							</li>
 							<li>
-								<a href="G_ListSold.html">Sold</a>
+								<a href="ListSold">Sold</a>
 							</li>
 							<li>
-								<a href="G_ListError.html">Error</a>
+								<a href="ListError">Error</a>
 							</li>
 						</ul>
 					</li>
