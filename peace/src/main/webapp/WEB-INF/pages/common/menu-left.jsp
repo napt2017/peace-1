@@ -40,7 +40,7 @@
 						<a href="#"> <span class="menu-item-parent">EBay Listing</span></a>
 						<ul>
 							<li class="">
-								<a href="G_Sell.html" title=""><i class=""></i> <span class="menu-item-parent">Item Listing</span></a>
+								<a href="Sell" title=""><i class=""></i> <span class="menu-item-parent">Item Listing</span></a>
 							</li>
 							<li class="">
 								<a href="G_SellDetail.html" title=""><i class=""></i> <span class="menu-item-parent">For Ebay Listing</span></a>
