@@ -55,4 +55,12 @@ public class EbayListingController {
 		
 		return "";
 	}
+	
+	@RequestMapping(value="/GetCategory",method= RequestMethod.POST)
+	public @ResponseBody AjaxResponseResult<String> getCategory(){
+		AjaxResponseResult<String> responseResult = new AjaxResponseResult<String>();
+		String data = ebayAddItem();
+		responseResult.setExtraData(data);
+		return responseResult;
+	}
 }

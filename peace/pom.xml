@@ -191,6 +191,26 @@
 			<artifactId>okhttp</artifactId>
 			<version>2.7.2</version>
 		</dependency> 
+		<!-- mvn install:install-file -Dfile=ebaysdkcore.jar -DgroupId=com.ebay.sdk -DartifactId=core -Dversion=987 -Dpackaging=jar -DgeneratePom=true -->
+		<dependency>
+			<groupId>com.ebay.sdk</groupId>
+			<artifactId>core</artifactId>
+			<version>987</version>
+		</dependency>
+		
+		<!-- mvn install:install-file -Dfile=ebaycalls.jar -DgroupId=com.ebay.sdk -DartifactId=api -Dversion=987 -Dpackaging=jar -DgeneratePom=true -->
+		<dependency>
+			<groupId>com.ebay.sdk</groupId>
+			<artifactId>api</artifactId>
+			<version>987</version>
+		</dependency>
+		
+		<!-- mvn install:install-file -Dfile=helper.jar -DgroupId=com.ebay.sdk -DartifactId=helper -Dversion=987 -Dpackaging=jar -DgeneratePom=true -->
+		<dependency>
+			<groupId>com.ebay.sdk</groupId>
+			<artifactId>helper</artifactId>
+			<version>987</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>peace</finalName>

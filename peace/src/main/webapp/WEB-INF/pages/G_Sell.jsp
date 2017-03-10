@@ -6,11 +6,14 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en-us">
-	 <jsp:include page="../pages/common/header.jsp"/>  
+	<jsp:include page="../pages/common/header.jsp"/>  
 	<meta name="_csrf" content="${_csrf.token}"/>
  	<meta name="_csrf_header" content="${_csrf.headerName}"/> 
 	<body class="fixed-page-footer">
 		<style>
+			.pickListSelect {
+				  height: 200px !important;
+			}
 			input, textarea, button { margin-top:10px }
 
 			/* Required field START */
@@ -82,7 +85,7 @@
 			/* Required field END */
 
 		</style>
-		 <jsp:include page="../pages/common/menu-top.jsp"/>
+		<jsp:include page="../pages/common/menu-top.jsp"/>
 		<jsp:include page="../pages/common/menu-left.jsp"/>  
 
 		<!-- MAIN PANEL -->
@@ -102,18 +105,6 @@
 					<li>Home</li><li>Sell</li>
 				</ol>
 				<!-- end breadcrumb -->
-
-				<!-- You can also add more buttons to the
-				ribbon for further usability
-
-				Example below:
-
-				<span class="ribbon-button-alignment pull-right">
-				<span id="search" class="btn btn-ribbon hidden-xs" data-title="search"><i class="fa-grid"></i> Change Grid</span>
-				<span id="add" class="btn btn-ribbon hidden-xs" data-title="add"><i class="fa-plus"></i> Add</span>
-				<span id="search" class="btn btn-ribbon" data-title="search"><i class="fa-search"></i> <span class="hidden-mobile">Search</span></span>
-				</span> -->
-
 			</div>
 			<!-- END RIBBON -->
 
@@ -121,11 +112,48 @@
 			<div id="content">
 				<!-- widget grid -->
 				<section id="widget-grid" class="" style="margin: 15px;">
-
+					
+					<!-- widget content -->
+					<div class="col-sm-4 col-md-4 col-lg-4">
+						<div id="category" class="tab-content padding-10">
+							<div class="container">
+							  <div class="panel panel-default">
+							    <div class="panel-heading">
+							      <h3 class="panel-title">Pick Category</h3>
+							    </div>
+							    <div class="panel-body">
+							
+							      <div id="pickList">
+									<div class="col-sm-3">
+										<select class="form-control pickListSelect" id="pickDataCategory"
+											multiple=""><option id="1">Isis</option>
+											<option id="2">Sophia</option>
+											<option id="3">Alice</option>
+											<option id="4">Isabella</option>
+											<option id="5">Manuela</option>
+											<option id="6">Laura</option>
+											<option id="7">Luiza</option>
+											<option id="8">Valentina</option>
+											<option id="9">Giovanna</option>
+											<option id="10">Maria Eduarda</option>
+											<option id="11">Helena</option>
+											<option id="12">Beatriz</option>
+											<option id="13">Maria Luiza</option>
+											<option id="14">Lara</option>
+											<option id="15">Julia</option>
+										</select>
+									</div>
+								</div>
+							    </div>
+							  </div>
+							</div>
+						</div>
+					</div>
+									<!-- end widget content -->
 					<!-- row -->
-					<form class="smart-form">
+					<form class="smart-form" style="display:none">
 						<header>
-										<h2>Item Listing </h2>
+								<h2>Item Listing </h2>
 						</header>
 						<div class="row">
 							<article class="col-sm-12 col-md-12 col-lg-6">

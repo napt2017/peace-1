@@ -293,7 +293,7 @@ public class EbaySettingController {
             } else {
             	ajaxResult.setStatus("OK");
             	ajaxResult.setMsg("Success");
-            	
+            	System.out.println(call.getUsertoken());
             	// Add session Id to cookie
                 Cookie cookie = new Cookie(COOKIE_EBAY_TOKEN, call.getUsertoken());
                 response.addCookie(cookie);
