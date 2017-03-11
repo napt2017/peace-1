@@ -60,8 +60,15 @@
 
 							<label>
 								<span>Lastest</span>
-								<input type="text" class="input-sm"/>
-								
+								<input type="text" class="input-sm"/> 
+							</label>
+							<label>
+								<span>From Date</span>
+								<input type="date" class="input-sm"/> 
+							</label>
+							<label>
+								<span>To Date</span>
+								<input type="date" class="input-sm"/> 
 							</label>
 							<button class="btn btn-default">Download</button>
 							<span>Matter</span>
@@ -671,7 +678,11 @@
 				$scope.loadListSell = function(){
 					$http.get("GetListProduct/1")
 						 .success(function(data, status, headers,config) { 
-							 $scope.listSell = data.extraData;
+							 if(data.status==="FAILED"){
+								 alert(data.cause)
+							 }else{
+								 $scope.listSell = data.extraData;
+							 }
 						 })
 						 .error(function(data, status, headers,config) {
 							  console.log(data);

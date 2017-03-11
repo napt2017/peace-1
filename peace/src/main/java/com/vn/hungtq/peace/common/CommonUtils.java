@@ -11,8 +11,6 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
@@ -21,6 +19,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -55,6 +54,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.util.UriUtils;
 
+import com.ebay.sdk.ApiContext;
+import com.ebay.sdk.ApiCredential;
+import com.ebay.soap.eBLBaseComponents.ItemType;
+import com.ebay.soap.eBLBaseComponents.SiteCodeType;
+import com.vn.hungtq.peace.dto.EbayProductSearch;
 import com.vn.hungtq.peace.dto.ItemInfomationDto;
 import com.vn.hungtq.peace.dto.UserDto;
 import com.vn.hungtq.peace.dto.UserTemplateDto;
@@ -221,6 +225,15 @@ public class CommonUtils {
 		return new byte[0];
 	}
 	
+	public static ApiContext getApiContext(String authToken,String soapUrl){
+		ApiContext apiContext = new ApiContext();
+		ApiCredential apiCred = apiContext.getApiCredential();
+		apiCred.seteBayToken(authToken);
+		apiContext.setApiServerUrl(soapUrl);
+		apiContext.setSite(SiteCodeType.US);
+		return apiContext;		
+	}
+	
 	public static List<UserTemplateDto> convertToUserTemplateDto(List<UserTemplate> lstOfUserTemplate){
 		List<UserTemplateDto> lstUserTemplateDto = new ArrayList<UserTemplateDto>(lstOfUserTemplate.size());
 		int index = 0;
@@ -297,16 +310,28 @@ public class CommonUtils {
 		}
 
 		return "";
-	} 
+	}
 	
-	public static String getSampleImage(){
-		try {
-			return Files.readAllLines(Paths.get("F:\\SampleImageString.txt")).get(0);
-		} catch (IOException e) { 
-			e.printStackTrace();
+	public static List<EbayProductSearch> convertToEbayProductSearch(ItemType [] itemTypes){
+		if(itemTypes.length>0){
+			List<EbayProductSearch> lstEbayProductSearch = new ArrayList<EbayProductSearch>(itemTypes.length);
+			for(ItemType it: itemTypes){
+				String title = it.getTitle();
+				String currency = it.getCurrency().name();
+				String endTime = it.getTimeLeft().toString();
+				String listPrice = "__FixLatter";
+				String purchaser = it.getPartnerName();
+				String edit= it.getEBayNotes();
+				String end = "__FixLatter";
+				String reListing = "__FixLatter";
+				String error = "__FixLatter";
+				
+				EbayProductSearch ebayProductSearch = new EbayProductSearch(title, endTime, listPrice, currency, purchaser, edit, end, reListing, error);
+				lstEbayProductSearch.add(ebayProductSearch);
+			}
+			return lstEbayProductSearch;
 		}
-		
-		return "";
+		return Collections.emptyList();
 	}
 	
 	public static Tuple<Boolean,String> tryToValidateContactModel(Contact contact){
