@@ -73,24 +73,6 @@ public class EbayProductListController {
 		return resposeResult; 
 	}
 	
-	/**
-	 *  
-	 *  The getSellerListEbayApi method <br>
-	 *  Get all seller of current user token </br>
-	 *  
-	 *  @param apiContext
-	 * 			The context which contain the connection token information to service
-	 * 
-	 *  @throws ApiException
-	 *  @throws SdkException
-	 *  @throws Exception
-	 *  
-	 *  @return ItemType[]
-	 *  		The array of item which was associated with current user
-	 *  
-	 *  @author napt2017 
-	 * 
-	 * **/
 	private ItemType[] getSellerListEbayApi(ApiContext apiContext) throws ApiException, SdkException, Exception{
 		
 		//Error language

@@ -680,7 +680,6 @@
 						 .success(function(data, status, headers,config) { 
 							 if(data.status==="FAILED"){
 								 alert(data.cause)
-								 window.location.href="SetEbayLogin";
 							 }else{
 								 $scope.listSell = data.extraData;
 							 }
