@@ -15,7 +15,25 @@ public class EbayServiceInfo {
 	private String prodServerURL;
 	private String sandboxServerURL;
 	private String environment;
+	private String sandboxApiUrl;
+	private String prodApiUrl;
 	
+	public String getSandboxApiUrl() {
+		return sandboxApiUrl;
+	}
+
+	public void setSandboxApiUrl(String sandboxApiUrl) {
+		this.sandboxApiUrl = sandboxApiUrl;
+	}
+
+	public String getProdApiUrl() {
+		return prodApiUrl;
+	}
+
+	public void setProdApiUrl(String prodApiUrl) {
+		this.prodApiUrl = prodApiUrl;
+	}
+
 	public String getAppidSBX() {
 		return appidSBX;
 	}

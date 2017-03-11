@@ -56,8 +56,12 @@ import org.springframework.web.util.UriUtils;
 
 import com.ebay.sdk.ApiContext;
 import com.ebay.sdk.ApiCredential;
+import com.ebay.sdk.call.GetCategoriesCall;
+import com.ebay.soap.eBLBaseComponents.CategoryType;
+import com.ebay.soap.eBLBaseComponents.DetailLevelCodeType;
 import com.ebay.soap.eBLBaseComponents.ItemType;
 import com.ebay.soap.eBLBaseComponents.SiteCodeType;
+import com.vn.hungtq.peace.dto.EbayCategory;
 import com.vn.hungtq.peace.dto.EbayProductSearch;
 import com.vn.hungtq.peace.dto.ItemInfomationDto;
 import com.vn.hungtq.peace.dto.UserDto;
@@ -225,7 +229,14 @@ public class CommonUtils {
 		return new byte[0];
 	}
 	
-	public static ApiContext getApiContext(String authToken,String soapUrl){
+	public static ApiContext getApiContext(String authToken,EbayServiceInfo ebayServiceInfo){
+		String soapUrl;
+		if("prod".equals(ebayServiceInfo.getEnvironment())){
+			soapUrl = ebayServiceInfo.getProdApiUrl();
+		}else{
+			soapUrl = ebayServiceInfo.getSandboxApiUrl();
+		}
+		
 		ApiContext apiContext = new ApiContext();
 		ApiCredential apiCred = apiContext.getApiCredential();
 		apiCred.seteBayToken(authToken);
@@ -396,11 +407,42 @@ public class CommonUtils {
         return requestUrl;
 	}
 	
+	public static Tuple<Boolean,List<EbayCategory>> getListCategories(ApiContext apiContext){
+		GetCategoriesCall gCategoriesCall = new GetCategoriesCall(apiContext);
+		gCategoriesCall.setDetailLevel(new DetailLevelCodeType []{
+				DetailLevelCodeType.RETURN_ALL
+		});
+		gCategoriesCall.setViewAllNodes(true);
+		
+		try {
+			CategoryType [] categories = gCategoriesCall.getCategories();
+			List<EbayCategory> lstEbayCategories = new ArrayList<EbayCategory>();
+			for(CategoryType ct : categories){
+				int id 						= Integer.valueOf(ct.getCategoryID());
+				String name 				= ct.getCategoryName();
+				int parentId 				= Integer.valueOf(ct.getCategoryParentID(0));
+				int categoryLevel 			= ct.getCategoryLevel();
+				boolean isBestOfferEnable 	= ct.isBestOfferEnabled();
+				boolean isAutoPayEnable 	= ct.isAutoPayEnabled();
+				
+				EbayCategory ebayCategory = new EbayCategory(id, parentId, name, categoryLevel, isBestOfferEnable, isAutoPayEnable);
+				lstEbayCategories.add(ebayCategory); 
+			}
+			return Tuple.make(true, lstEbayCategories);
+		} catch (Exception e) { 
+			return Tuple.make(false, null);
+		}
+	}
+	
+	public static Tuple<Boolean,List<String>> getAccountInfomation(ApiContext apiContext){
+		return null;
+	}
+	
 	/**
 	 * 
 	 *  The divToListGroup method
 	 *  Div the list of item to list of group item
-	 *  follow the paramter 
+	 *  follow the parameter 
 	 *  
 	 *  @param List<T> listOfType
 	 *  			The list of type to sub

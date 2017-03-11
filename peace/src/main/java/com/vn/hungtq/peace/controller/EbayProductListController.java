@@ -4,6 +4,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,11 +24,15 @@ import com.ebay.soap.eBLBaseComponents.ItemType;
 import com.ebay.soap.eBLBaseComponents.PaginationType;
 import com.vn.hungtq.peace.common.AjaxResponseResult;
 import com.vn.hungtq.peace.common.CommonUtils;
+import com.vn.hungtq.peace.common.EbayServiceInfo;
 import com.vn.hungtq.peace.dto.EbayProductSearch;
 
 @Controller
 public class EbayProductListController {
 	private final static String COOKIE_EBAY_TOKEN = "PeaceEbayToken";
+	
+	@Autowired
+	EbayServiceInfo ebayServiceInfo; 
 	
 	@RequestMapping(value="ListUnsold",method = RequestMethod.GET)
 	public ModelAndView listUnSold(){
@@ -59,11 +64,11 @@ public class EbayProductListController {
 			resposeResult.setCause("You must login to ebay site to init the ebay token");
 		}else{    
 			//Get api context
-			ApiContext apiContext = CommonUtils.getApiContext(ebayToken, "https://api.sandbox.ebay.com/wsapi");
+			ApiContext apiContext = CommonUtils.getApiContext(ebayToken,ebayServiceInfo);
 			try {
 				ItemType [] itemTypes = getSellerListEbayApi(apiContext);
 				List<EbayProductSearch> lstEbayProductSearch = CommonUtils.convertToEbayProductSearch(itemTypes);
-				resposeResult.setExtraData(lstEbayProductSearch);
+				resposeResult.setExtraData(lstEbayProductSearch); 
 			} catch (Exception e) { 
 				resposeResult.setStatus("FAILED");
 				resposeResult.setCause(e.getMessage());
@@ -71,7 +76,7 @@ public class EbayProductListController {
 		}
 		
 		return resposeResult; 
-	}
+	} 	
 	
 	/**
 	 *  

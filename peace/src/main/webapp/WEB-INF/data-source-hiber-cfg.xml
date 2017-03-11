@@ -51,6 +51,8 @@
 		<property name="prodServerURL" value="${ebay.prodServerURL}" />
 		<property name="sandboxServerURL" value="${ebay.sandboxServerURL}" />
 		<property name="environment" value="${ebay.environment}" />
+		<property name="sandboxApiUrl" value="${ebay.sandboxApiURL}" />
+		<property name="prodApiUrl" value="${ebay.prodApiURL}" /> 
 	</bean>
 	
 	<!-- Gmail configuration bean -->
