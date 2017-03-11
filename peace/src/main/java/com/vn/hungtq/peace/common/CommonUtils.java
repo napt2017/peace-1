@@ -323,19 +323,19 @@ public class CommonUtils {
 		return "";
 	}
 	
-	public static List<EbayProductSearch> convertToEbayProductSearch(ItemType [] itemTypes){
+	public static synchronized List<EbayProductSearch> convertToEbayProductSearch(ItemType [] itemTypes){
 		if(itemTypes!=null && itemTypes.length>0){
 			List<EbayProductSearch> lstEbayProductSearch = new ArrayList<EbayProductSearch>(itemTypes.length);
 			for(ItemType it: itemTypes){
 				String title = it.getTitle();
-				String currency = it.getCurrency().name();
-				String endTime = it.getTimeLeft().toString();
-				String listPrice = "__FixLatter";
+				String currency = it.getCurrency()!=null?it.getCurrency().name():"";
+				String endTime = it.getListingDetails()!=null?CommonUtils.getDateStringFromCalendar(it.getListingDetails().getEndTime()):"";
+				String listPrice = it.getSellingStatus()!=null?it.getSellingStatus().getCurrentPrice().getValue()+"":"";
 				String purchaser = it.getPartnerName();
 				String edit= it.getEBayNotes();
-				String end = "__FixLatter";
-				String reListing = "__FixLatter";
-				String error = "__FixLatter";
+				String end = "__Unmapped__";
+				String reListing = "__Unmapped";
+				String error = it.getDescription();
 				
 				EbayProductSearch ebayProductSearch = new EbayProductSearch(title, endTime, listPrice, currency, purchaser, edit, end, reListing, error);
 				lstEbayProductSearch.add(ebayProductSearch);
@@ -344,6 +344,16 @@ public class CommonUtils {
 		}
 		return Collections.emptyList();
 	}
+	
+	public static String getDateStringFromCalendar(Calendar cld){
+		if(cld!=null){
+			Date date = cld.getTime();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			return sdf.format(date);
+		}
+		return "";
+	}
+	
 	
 	public static Tuple<Boolean,String> tryToValidateContactModel(Contact contact){
 		return Tuple.make(true, "Ok");
