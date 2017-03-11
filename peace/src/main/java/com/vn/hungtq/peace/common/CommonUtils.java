@@ -312,8 +312,21 @@ public class CommonUtils {
 		return "";
 	}
 	
+	/**
+	 * 
+	 *  The convertToEbayProductSearch method </br>
+	 *  Convert the ItemType array to list of EbayProductSearch </br>
+	 *  @param itemTypes
+	 * 			The data which was returned from ebay api service call
+	 *  @return List<EbayProductSearch> 
+	 *  		The list of ebay product search model
+	 *  
+	 *  @author napt2017 
+	 * 
+	 * 
+	 * **/
 	public static List<EbayProductSearch> convertToEbayProductSearch(ItemType [] itemTypes){
-		if(itemTypes.length>0){
+		if(itemTypes!=null && itemTypes.length>0){
 			List<EbayProductSearch> lstEbayProductSearch = new ArrayList<EbayProductSearch>(itemTypes.length);
 			for(ItemType it: itemTypes){
 				String title = it.getTitle();
