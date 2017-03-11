@@ -313,7 +313,7 @@ public class CommonUtils {
 	}
 	
 	public static List<EbayProductSearch> convertToEbayProductSearch(ItemType [] itemTypes){
-		if(itemTypes.length>0){
+		if(itemTypes!=null && itemTypes.length>0){
 			List<EbayProductSearch> lstEbayProductSearch = new ArrayList<EbayProductSearch>(itemTypes.length);
 			for(ItemType it: itemTypes){
 				String title = it.getTitle();
