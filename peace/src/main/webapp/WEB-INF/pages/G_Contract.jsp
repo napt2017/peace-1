@@ -6,6 +6,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <html lang="en-us"> 
 	<jsp:include page="../pages/common/header.jsp"/>
+	<meta name="_csrf" content="${_csrf.token}"/>
+ 	<meta name="_csrf_header" content="${_csrf.headerName}"/>
 	<body class="fixed-page-footer">  
 		<jsp:include page="../pages/common/menu-top.jsp"/>
 		<jsp:include page="../pages/common/menu-left.jsp"/>
@@ -231,6 +233,8 @@
 	                    	describeContent:encodeURIComponent($("#contact_describle").val()),
 	                    };
 					
+					var token = $("meta[name='_csrf']").attr("content");
+				    var header = $("meta[name='_csrf_header']").attr("content"); 					
 					
 					//Process main bussiness logic
 					$.ajax({
@@ -238,6 +242,9 @@
 	                    headers: {
 	                        'Accept':'application/json',
 	                        'Content-Type': 'application/json'
+	                    },
+	                    beforeSend:function(xhr){
+	                    	xhr.setRequestHeader(header, token);
 	                    },
 	                    url: "Contact",
 	                    data:JSON.stringify(postData),

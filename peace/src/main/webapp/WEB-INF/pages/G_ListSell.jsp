@@ -62,6 +62,7 @@
 								<span>Lastest</span>
 								<input type="text" class="input-sm"/> 
 							</label>
+							<!-- 
 							<label>
 								<span>From Date</span>
 								<input type="date" class="input-sm"/> 
@@ -70,6 +71,7 @@
 								<span>To Date</span>
 								<input type="date" class="input-sm"/> 
 							</label>
+							 -->
 							<button class="btn btn-default">Download</button>
 							<span>Matter</span>
 							
