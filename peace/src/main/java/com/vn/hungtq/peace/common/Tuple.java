@@ -27,7 +27,5 @@ public class Tuple<FType,SType> {
 
 	public void setSecond(SType secondValue) {
 		this.secondValue = secondValue;
-	}
-	
-	
+	} 
 }
