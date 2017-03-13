@@ -52,6 +52,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.util.StringUtils;
 import org.springframework.web.util.UriUtils;
 
 import com.ebay.sdk.ApiContext;
@@ -407,29 +408,52 @@ public class CommonUtils {
         return requestUrl;
 	}
 	
-	public static Tuple<Boolean,List<EbayCategory>> getListCategories(ApiContext apiContext){
+	/**
+	 * Get List category from Ebay
+	 * @param apiContext
+	 * @param levelLimit default 0 is load all
+	 * @return
+	 */
+	public static Tuple<Boolean,List<EbayCategory>> getListCategories(ApiContext apiContext, int levelLimit, String categoryId){
 		GetCategoriesCall gCategoriesCall = new GetCategoriesCall(apiContext);
 		gCategoriesCall.setDetailLevel(new DetailLevelCodeType []{
 				DetailLevelCodeType.RETURN_ALL
 		});
 		gCategoriesCall.setViewAllNodes(true);
 		
+		if (levelLimit != 0) {
+			gCategoriesCall.setLevelLimit(levelLimit);
+		}
+		
+		if (!StringUtils.isEmpty(categoryId) && !"0".equals(categoryId)) {
+			gCategoriesCall.setParentCategories(new String[]{categoryId});
+		}
+		
+		
 		try {
 			CategoryType [] categories = gCategoriesCall.getCategories();
 			List<EbayCategory> lstEbayCategories = new ArrayList<EbayCategory>();
 			for(CategoryType ct : categories){
+				
+				// Loai phan tu dau tien
+				if (ct.getCategoryLevel()+1 == levelLimit) {
+					continue;
+				}
+				
 				int id 						= Integer.valueOf(ct.getCategoryID());
 				String name 				= ct.getCategoryName();
 				int parentId 				= Integer.valueOf(ct.getCategoryParentID(0));
 				int categoryLevel 			= ct.getCategoryLevel();
-				boolean isBestOfferEnable 	= ct.isBestOfferEnabled();
-				boolean isAutoPayEnable 	= ct.isAutoPayEnabled();
+				Boolean isBestOfferEnable 	= (ct.isBestOfferEnabled() == null ) ? Boolean.FALSE : ct.isBestOfferEnabled();
+				Boolean isAutoPayEnable 	= (ct.isAutoPayEnabled() == null ) ? Boolean.FALSE : ct.isAutoPayEnabled();
+				Boolean leafCategory 	= (ct.isLeafCategory() == null ) ? Boolean.FALSE : ct.isLeafCategory();
 				
-				EbayCategory ebayCategory = new EbayCategory(id, parentId, name, categoryLevel, isBestOfferEnable, isAutoPayEnable);
+				EbayCategory ebayCategory = new EbayCategory(id, parentId, name, categoryLevel, isBestOfferEnable, isAutoPayEnable, leafCategory);
 				lstEbayCategories.add(ebayCategory); 
 			}
 			return Tuple.make(true, lstEbayCategories);
-		} catch (Exception e) { 
+		} catch (Exception e) {
+			e.printStackTrace();
 			return Tuple.make(false, null);
 		}
 	}

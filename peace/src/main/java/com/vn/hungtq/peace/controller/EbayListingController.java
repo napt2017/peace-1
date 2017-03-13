@@ -1,22 +1,40 @@
 package com.vn.hungtq.peace.controller;
 
 import java.io.IOException;
+import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ebay.sdk.ApiContext;
+import com.ebay.sdk.call.GetCategoriesCall;
+import com.ebay.soap.eBLBaseComponents.ItemType;
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 import com.vn.hungtq.peace.common.AjaxResponseResult;
+import com.vn.hungtq.peace.common.CommonUtils;
+import com.vn.hungtq.peace.common.EbayServiceInfo;
+import com.vn.hungtq.peace.common.Tuple;
+import com.vn.hungtq.peace.dto.EbayCategory;
+import com.vn.hungtq.peace.dto.EbayProductSearch;
 
 @Controller
 public class EbayListingController {
+	
+	@Autowired
+	EbayServiceInfo ebayServiceInfo;
+	
+	private final static String COOKIE_EBAY_TOKEN = "PeaceEbayToken";
+	
 	@RequestMapping(value="/Sell",method= RequestMethod.GET)
 	public ModelAndView sell(){
 		return new ModelAndView("pages/G_Sell");
@@ -56,11 +74,39 @@ public class EbayListingController {
 		return "";
 	}
 	
+	/**
+	 * Get Category Ebay
+	 * @param ebayToken
+	 * @return
+	 */
 	@RequestMapping(value="/GetCategory",method= RequestMethod.POST)
-	public @ResponseBody AjaxResponseResult<String> getCategory(){
-		AjaxResponseResult<String> responseResult = new AjaxResponseResult<String>();
-		String data = ebayAddItem();
-		responseResult.setExtraData(data);
+	public @ResponseBody AjaxResponseResult<List<EbayCategory>> getCategory(@org.springframework.web.bind.annotation.RequestBody EbayCategory ebayCategory, @CookieValue(value=COOKIE_EBAY_TOKEN ,defaultValue="") String ebayToken){
+		AjaxResponseResult<List<EbayCategory>> responseResult = new AjaxResponseResult<List<EbayCategory>>();
+		
+		if(StringUtils.isEmpty(ebayToken)){
+			responseResult.setStatus("FAILED");
+			responseResult.setCause("You must login to ebay site to init the ebay token");
+		}else{    
+			//Get api context
+			ApiContext apiContext = CommonUtils.getApiContext(ebayToken, ebayServiceInfo);
+			try {
+				
+				Tuple<Boolean,List<EbayCategory>> tupleCategory = null;
+				if (ebayCategory.getId() == 0) {
+					tupleCategory = CommonUtils.getListCategories(apiContext, ebayCategory.getCategoryLevel(), null);
+				} else {
+					tupleCategory = CommonUtils.getListCategories(apiContext, ebayCategory.getCategoryLevel(), String.valueOf(ebayCategory.getId()));
+				}
+				
+				if (Boolean.TRUE == tupleCategory.getFirst() ) {
+					responseResult.setExtraData(tupleCategory.getSecond());
+				}
+			} catch (Exception e) { 
+				responseResult.setStatus("FAILED");
+				responseResult.setCause(e.getMessage());
+			} 
+		}
+		
 		return responseResult;
 	}
 }

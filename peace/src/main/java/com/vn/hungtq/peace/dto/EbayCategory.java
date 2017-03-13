@@ -5,11 +5,12 @@ public class EbayCategory {
 	private int parentId;
 	private String name;
 	private int categoryLevel;
-	private boolean isBestOfferEnable;
-	private boolean isAutoPayEnable; 
+	private Boolean isBestOfferEnable;
+	private Boolean isAutoPayEnable; 
+	private Boolean leafCategory;
 	
 	public EbayCategory(int id, int parentId, String name, int categoryLevel,
-			boolean isBestOfferEnable, boolean isAutoPayEnable) {
+			boolean isBestOfferEnable, boolean isAutoPayEnable, boolean leafCategory) {
 		super();
 		this.id = id;
 		this.parentId = parentId;
@@ -17,6 +18,7 @@ public class EbayCategory {
 		this.categoryLevel = categoryLevel;
 		this.isBestOfferEnable = isBestOfferEnable;
 		this.isAutoPayEnable = isAutoPayEnable;
+		this.leafCategory = leafCategory;
 	}
 
 	public int getId() {
@@ -66,4 +68,11 @@ public class EbayCategory {
 	public void setAutoPayEnable(boolean isAutoPayEnable) {
 		this.isAutoPayEnable = isAutoPayEnable;
 	} 
+	public Boolean getLeafCategory() {
+		return leafCategory;
+	}
+
+	public void setLeafCategory(Boolean leafCategory) {
+		this.leafCategory = leafCategory;
+	}
 }

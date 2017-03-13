@@ -11,80 +11,85 @@
  	<meta name="_csrf_header" content="${_csrf.headerName}"/> 
 	<body class="fixed-page-footer">
 		<style>
-			.pickListSelect {
-				  height: 200px !important;
-			}
-			input, textarea, button { margin-top:10px }
 
-			/* Required field START */
 
-			.required-field-block {
-				position: relative;   
-			}
 
-			.required-field-block .required-icon {
-				display: inline-block;
-				vertical-align: middle;
-				margin: -0.25em 0.25em 0em;
-				background-color: #E8E8E8;
-				border-color: #E8E8E8;
-				padding: 0.5em 0.8em;
-				color: rgba(0, 0, 0, 0.65);
-				text-transform: uppercase;
-				font-weight: normal;
-				border-radius: 0.325em;
-				-webkit-box-sizing: border-box;
-				-moz-box-sizing: border-box;
-				-ms-box-sizing: border-box;
-				box-sizing: border-box;
-				-webkit-transition: background 0.1s linear;
-				-moz-transition: background 0.1s linear;
-				transition: background 0.1s linear;
-				font-size: 75%;
-			}
-				
-			.required-field-block .required-icon {
-				background-color: transparent;
-				position: absolute;
-				top: 0em;
-				right: 0em;
-				z-index: 10;
-				margin: 0em;
-				width: 30px;
-				height: 30px;
-				padding: 0em;
-				text-align: center;
-				-webkit-transition: color 0.2s ease;
-				-moz-transition: color 0.2s ease;
-				transition: color 0.2s ease;
-			}
+.pickListSelect {
+	height: 220px !important;
+	
+}
 
-			.required-field-block .required-icon:after {
-				position: absolute;
-				content: "";
-				right: 1px;
-				top: 1px;
-				z-index: -1;
-				width: 0em;
-				height: 0em;
-				border-top: 0em solid transparent;
-				border-right: 30px solid transparent;
-				border-bottom: 30px solid transparent;
-				border-left: 0em solid transparent;
-				border-right-color: inherit;
-				-webkit-transition: border-color 0.2s ease;
-				-moz-transition: border-color 0.2s ease;
-				transition: border-color 0.2s ease;
-			}
+input, textarea, button {
+	margin-top: 10px
+}
 
-			.required-field-block .required-icon .text {
-				color: #B80000;
-				font-size: 26px;
-				margin: -3px 0 0 12px;
-			}
-			/* Required field END */
+/* Required field START */
+.required-field-block {
+	position: relative;
+}
 
-		</style>
+.required-field-block .required-icon {
+	display: inline-block;
+	vertical-align: middle;
+	margin: -0.25em 0.25em 0em;
+	background-color: #E8E8E8;
+	border-color: #E8E8E8;
+	padding: 0.5em 0.8em;
+	color: rgba(0, 0, 0, 0.65);
+	text-transform: uppercase;
+	font-weight: normal;
+	border-radius: 0.325em;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	box-sizing: border-box;
+	-webkit-transition: background 0.1s linear;
+	-moz-transition: background 0.1s linear;
+	transition: background 0.1s linear;
+	font-size: 75%;
+}
+
+.required-field-block .required-icon {
+	background-color: transparent;
+	position: absolute;
+	top: 0em;
+	right: 0em;
+	z-index: 10;
+	margin: 0em;
+	width: 30px;
+	height: 30px;
+	padding: 0em;
+	text-align: center;
+	-webkit-transition: color 0.2s ease;
+	-moz-transition: color 0.2s ease;
+	transition: color 0.2s ease;
+}
+
+.required-field-block .required-icon:after {
+	position: absolute;
+	content: "";
+	right: 1px;
+	top: 1px;
+	z-index: -1;
+	width: 0em;
+	height: 0em;
+	border-top: 0em solid transparent;
+	border-right: 30px solid transparent;
+	border-bottom: 30px solid transparent;
+	border-left: 0em solid transparent;
+	border-right-color: inherit;
+	-webkit-transition: border-color 0.2s ease;
+	-moz-transition: border-color 0.2s ease;
+	transition: border-color 0.2s ease;
+}
+
+.required-field-block .required-icon .text {
+	color: #B80000;
+	font-size: 26px;
+	margin: -3px 0 0 12px;
+}
+/* Required field END */
+</style>
 		<jsp:include page="../pages/common/menu-top.jsp"/>
 		<jsp:include page="../pages/common/menu-left.jsp"/>  
 
@@ -111,388 +116,51 @@
 			<!-- MAIN CONTENT -->
 			<div id="content">
 				<!-- widget grid -->
-				<section id="widget-grid" class="" style="margin: 15px;">
+				<section id="widget-grid" class="row" style="margin-left:15px">
 					
 					<!-- widget content -->
-					<div class="col-sm-4 col-md-4 col-lg-4">
-						<div id="category" class="tab-content padding-10">
-							<div class="container">
-							  <div class="panel panel-default">
-							    <div class="panel-heading">
-							      <h3 class="panel-title">Pick Category</h3>
-							    </div>
-							    <div class="panel-body">
-							
-							      <div id="pickList">
-									<div class="col-sm-3">
-										<select class="form-control pickListSelect" id="pickDataCategory"
-											multiple=""><option id="1">Isis</option>
-											<option id="2">Sophia</option>
-											<option id="3">Alice</option>
-											<option id="4">Isabella</option>
-											<option id="5">Manuela</option>
-											<option id="6">Laura</option>
-											<option id="7">Luiza</option>
-											<option id="8">Valentina</option>
-											<option id="9">Giovanna</option>
-											<option id="10">Maria Eduarda</option>
-											<option id="11">Helena</option>
-											<option id="12">Beatriz</option>
-											<option id="13">Maria Luiza</option>
-											<option id="14">Lara</option>
-											<option id="15">Julia</option>
-										</select>
-									</div>
-								</div>
-							    </div>
-							  </div>
-							</div>
-						</div>
-					</div>
-									<!-- end widget content -->
+					<!-- end widget content -->
 					<!-- row -->
-					<form class="smart-form" style="display:none">
-						<header>
-								<h2>Item Listing </h2>
-						</header>
+					<form class="smart-form" style="">
 						<div class="row">
-							<article class="col-sm-12 col-md-12 col-lg-6">
-								<div class="" id="wid-id-2">
-										<!-- end widget edit box -->
-										<!-- widget content -->
-									<div class="widget-body no-padding">
-										<fieldset>
-											
-											<section>
-												<label class="label">Product title</label>
-												<label class="input ">
-													<input type="text" class="input-lg" id="product_title" maxlength="80">
-												</label>
-												<div class="note">
-													<p>0 characters (max. 80 letters)</p>
-													<a href="#">
-														<i class="fa fa-hand-o-right" aria-hidden="true"></i>
-														<span>Translate English</span>
-													</a>
+							<fieldset>
+		
+								<section> <label class="label">Product title</label> <label
+									class="input "> <input type="text" class="input"
+									id="product_title" maxlength="80">
+								</label>
+								<div class="note">
+									<p>0 characters (max. 80 letters)</p>
+									<a href="#"> <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+										<span>Translate English</span>
+									</a>
+								</div>
+								</section>
+		
+								<div class="col-sm-12 col-md-12 col-lg-12">
+									<label class="label">Pick Category</label>
+									<div id="category" class="tab-content padding-10">
+										<div class="container">
+											<div class="panel panel-default">
+												<div class="panel-body">
+		
+													<div id="pickList"></div>
 												</div>
-											</section>
-			
-											<section>
-												<label class="label">Item description</label>
-												<label class="input ">
-													<input type="text" class="input-lg" id="item-description">
-												</label>
-												<div class="note">
-													<p style="font-weight:bold;color:red">Note: When decorating letters, please use after translating into English.</p>
-													<a href="#">
-														<i class="fa fa-hand-o-right" aria-hidden="true"></i>
-														<span>Translate English</span>
-													</a>
-												</div>
-											</section>
-			
-											<section>
-												<label class="label">Exhibitor country</label>
-												<label class="input ">
-													<select class="form-control input-lg" id="select-exhibitor-country">
-														<option>United States</option>
-														<option>Australia</option>
-														<option>United Kingdoom</option>
-														<option>Canada</option>
-														<option>Ebay Motors</option>
-													</select>
-												</label>
-											</section>
-																			
-											<section>
-												<label class="label">Category</label>
-												<label class="input ">
-													<select class="form-control input-lg" id="select-category">
-														<option>Parts & Accessories</option>
-														<option>Automotive Tools & Supplies</option>
-													</select>
-												</label>
-											</section>
-											<section>
-												<label class="label">Air Options</label>
-												<label class="input ">
-													<select class="form-control input-lg" id="select-air-option">
-														<option>Air Compressors</option>
-														<option>Air Tools</option>
-													</select>
-												</label>
-											</section>
-											<section>
-												<label class="label">State  UPC (JAN code etc.) Item Specifics</label>
-												<label class="input ">
-													<select class="form-control input-lg" id="select-item-state">
-														<option>Please select</option>
-														<option>New</option>
-													</select>
-												</label>
-											</section>
-											<section>
-												<label class="label"></label>
-												<label class="input ">
-													<div class="required-field-block">
-														<input type="text" placeholder="Does not apply" class="input-lg required" id="donot-apply" >
-														<div class="required-icon">
-															<div class="text">*</div>
-														</div>
-													</div>
-												</label>
-											</section>
-											<section class="row">
-												<fieldset style="    padding-top: 0px;">
-												<div class="col-sm-12 col-md-12 col-lg-6">
-													
-													<section>
-														<label class="label">Type</label>
-														<label class="input " style="padding-right: 5px;">
-															<input type="text" class="input-lg" id="type" >
-														</label>
-													</section>
-													<section>
-														<label class="label">Size</label>
-														<label class="input " style="padding-right: 5px;">
-															<input type="text" class="input-lg" id="size" >
-														</label>
-													</section>
-													<section>
-														<label class="label">Country / Region of Manufacture</label>
-														<label class="input " style="padding-right: 6px;">
-															<select class="form-control input-lg" id="select-country-region-of-manufacture" style="height:42px">
-																<option>Please select</option>
-																<option>Unknow</option>
-															</select>
-														</label>
-													</section>
-													<section>
-														<label class="label">Brand</label>
-														<label class="input " style="padding-right: 5px;">
-															<input type="text" class="input-lg" id="branch" >
-														</label>
-													</section>
-												</div>
-												<div class="col-sm-12 col-md-12 col-lg-6">
-													<section>
-														<label class="label">Fragrance Name</label>
-														<label class="input ">
-															<input type="text" class="input-lg" id="fragrance-name">
-														</label>
-													</section>
-													<section>
-														<label class="label">Color</label>
-														<label class="input ">
-															<input type="text" class="input-lg" id="color">
-														</label>
-													</section>
-													<section>
-														<label class="label">MPN</label>
-														<label class="input ">
-															<input type="text" class="input-lg" id="mpn" >
-														</label>
-													</section>
-													<section>
-														<label class="label"></label>
-														<label class="input ">
-															<input type="text" class="input-lg" style="visibility:hidden">
-														</label>
-													</section>
-												</div>
-												</fieldset>
-											</section>
-											<section class="row">
-												<fieldset style="    padding-top: 0px;">
-													<label class="label">EBay Store category</label>
-													<label class="input ">
-														<select class="form-control input-lg" id="select-ebay-store-category" style="height:42px">
-																<option>Please select</option>
-																<option>Unknow</option>
-														</select>
-													</label>
-												</fieldset>
-											</section>
-											
-										</fieldset>
+											</div>
+										</div>
 									</div>
 								</div>
-							</article>
-							<article class="col-sm-12 col-md-12 col-lg-6">
-							<div>
-								<div class="widget-body no-padding">
-									<fieldset>
-										
-										<section>
-											<label class="label">Title image URL</label>
-											<div class="input input-file">
-												<span class="button input-lg" style="    height: 38px;">
-													<input type="file"  id="file" name="file" class="input-lg" onchange="this.parentNode.nextSibling.value = this.value">Browse</span>
-													<input type="text" class="input-lg" placeholder="Include some files" readonly="" id="title-image-url">
-											</div>
-											<div class="note">
-													<p>&nbsp;</p>
-													<a href="#">
-														<i class="fa fa-hand-o-right" aria-hidden="true" style="visibility:hidden"></i>
-														<span></span>
-													</a>
-											</div>
-										</section>
-										<section>
-											<label class="label">Product image URL for product description</label>
-											<label class="input ">
-												<input type="text" class="input-lg" id="product-image-url" >
-											</label>
-											<div class="note">
-													<p>&nbsp;</p>
-													<a href="#">
-														<i class="fa fa-hand-o-right" aria-hidden="true" style="visibility:hidden"></i>
-														<span></span>
-													</a>
-											</div>
-										</section>
-										<section>
-											<label class="label">YouTube URL </label>
-											<label class="input ">
-												<input type="text" class="input-lg" id="youtube-url" >
-											</label>
-										</section>
-										<section style="height:69px">
-											<div class="inline-group" style="padding-top: 30px">
-												<label class="radio ">
-													<input type="radio" name="radio-inline" value="0" checked="checked">
-													<i></i>Auction</label>
-												<label class="radio ">
-													<input type="radio" name="radio-inline" value="1" >
-													<i></i> Prompt decision  </label>
-											</div>
-										</section>
-										<section>
-											<label class="label">Buy It Now Price </label>
-											<label class="input ">
-												<input type="text" class="input-lg" id="buyit-now-price" >
-											</label>
-										</section>
-										<section>
-											<label class="checkbox ">
-												<input type="checkbox" name="checkbox" id="is-best-offer-price" checked="checked" >
-												<i></i> Best offer price  </label>
-										</section>
-										<section>
-											<label class="input ">
-												<input type="text" class="input-lg" > We accept more than this automatically 
-											</label>
-										</section>
-										<section>
-											<label class="input ">
-												<input type="text" class="input-lg" > The amount below this is automatically rejected 
-											</label>
-										</section>
-										<section>
-											<div class="inline-group">
-														<label class="checkbox ">
-															<input type="checkbox" name="checkbox-inline" checked="checked" >
-															<i></i>Alexandra</label>
-														<label class="checkbox ">
-															<input type="checkbox" name="checkbox-inline" >
-															<i></i>Alice</label>
-														<label class="checkbox ">
-															<input type="checkbox" name="checkbox-inline" >
-															<i></i>Anastasia</label>
-				
-													</div>
-										</section>
-										<section>
-											<label class="label">Number of items </label>
-											<label class="input ">
-												<input type="text" class="input-lg" id="number-of-item">
-											</label>
-										</section>
-										<section>
-											<label class="label">Days of sale </label>
-											<label class="input ">
-												<select class="form-control input-lg" id="select-day-of-sale" style="height:42px">
-													<option>Please select</option>
-													<option>Unknow</option>
-												</select>
-											</label>
-										</section>
-										<section>
-											<label class="checkbox ">
-													<input type="checkbox" name="checkbox" id="is-specific-date-of-sale" checked="checked" >
-													<i></i> Specify date of sale </label>
-											<div>
-												<label class="label"> US Pacific Time (PST)</label>
-												<label class="input ">
-													<input type="text" class="input-lg" id="us-pacific-time" >
-												</label>
-												<label class="label"> Seller's date</label>
-												<label class="input ">
-													<input type="text" class="input-lg" id="seller-date" >
-												</label>
-												<p>The most successful bidding is around 22 o'clock in the US Pacific time, Sunday in the week 
-													PST Current date and time: Saturday, February 11, 2017 21 : 10</p>
-											</div>
-										</section>
-										<section>
-											<label class="checkbox ">
-													<input type="checkbox" name="checkbox" id="is-free-shipping" checked="checked" >
-													<i></i> Free shipping </label>
-											<div>
-												<label class="label"> Weight (ex: 0.5)</label> 
-												<label class="input ">
-													<input type="text" class="input-lg" id="weight" >
-												</label>
-											</div>
-											<div class="note">
-												<a href="#" style="margin-right:10px">
-													<i class="fa fa-hand-o-right" aria-hidden="true" ></i>
-													<span>Shipping indicator</span>
-												</a>
-												<a href="#">
-													<i class="fa fa-hand-o-right" aria-hidden="true" ></i>
-													<span>Edit shipping fee</span>
-												</a>
-											</div>
-										</section>
-										<section>
-											<label class="label"> SKU</label> 
-											<label class="input ">
-												<input type="text" class="input-lg" id="sku">
-											</label>
-										</section>
-										<section>
-											<label class="checkbox ">
-													<input type="checkbox" name="checkbox" id="is-private-listing" checked="checked" >
-													<i></i>  Private Listing </label>
-											<div class="note">
-												<a href="#">
-													<i class="fa fa-hand-o-right" aria-hidden="true" ></i>
-													<span>Change of sending details</span>
-												</a>
-											</div>
-										</section>
-										<section>
-												<label class="label"> Inventory URL</label> 
-												<label class="input ">
-													<input type="text" class="input-lg" id="inventory-url" >
-												</label>
-										</section>
-									</fieldset>
-								</div>
-							</div>
-							</article>
+							</fieldset>
+		
 						</div>
 						<footer>
-							<button type="submit" class="btn btn-primary" id="btnAddEbayItem">
-								Submit
-							</button>
-							<button type="button" class="btn btn-default" id="btnBackHistory">
-								Back
-							</button>
+						<button type="submit" class="btn btn-primary" id="btnAddEbayItem">
+							Submit</button>
+						<button type="button" class="btn btn-default" id="btnBackHistory">
+							Back</button>
 						</footer>
 					</form>
-					<!-- end row -->
+			<!-- end row -->
 
 					<!-- row -->
 
@@ -515,13 +183,48 @@
 				placement: 'left',
 				title: 'Required field'
 				});
+			
 		});
-		// DO NOT REMOVE : GLOBAL FUNCTIONS!
 		
+		
+		// DO NOT REMOVE : GLOBAL FUNCTIONS!
+		var pickListId = 2;
 		$(document).ready(function() {
 			
 			pageSetUp();
-		
+			
+			// Get ebay Category
+			
+			// Init all category level 1
+			var pick = $("#pickList").pickList({
+				  data: []
+			});
+			
+			getCategoryEbay(1, 0, pick);
+			
+			$( "#pickData").on('change', function() {
+	      		// Set default level limit
+	      		var levelLimit = 2;
+	      		
+	      		for (var int = 2; int <= pickListId; int++) {
+    				//$( "#pickListResult" + pickListId).css("display","none");
+    				$("#col" + int).remove();
+				}
+	      		
+	      		pickListId = pickListId+1;
+	      		// Initial template select
+	      		var temp =  " <div class='col-sm-3' id='col"+levelLimit+"'>" +
+    			"    <select class='form-control pickListSelect' count='" +pickListId+ "' style='display:none' levelLimit='"+ levelLimit +"' id='pickListResult"+pickListId+"' multiple></select>" +
+    			" </div>";
+    			
+    			// If have not pickListResult, add template
+    			// Else Remove other pickListResut have limitLevel > 2
+				$("#categories").append(temp);
+        			
+	    	  	
+	    		var p = pick.find("#pickData option:selected");
+	    	  	getCategoryEbay(levelLimit, p[0].id, pick);
+	   	 	});
 		})
 
 		</script>
@@ -724,7 +427,148 @@
 				}
 			});
 		</script>
-
+		
+		<!-- Thu vien xu ly picklist -->
+		<script type="text/javascript">
+		(function($) {
+	
+			  $.fn.pickList = function(options) {
+	
+			    var opts = $.extend({}, $.fn.pickList.defaults, options);
+			    var levelLimit = 2;
+			    var isHandle = false;
+			
+    			
+			    // Fill data
+			    this.fill = function(data) {
+			      var option = '';
+					if (data) {
+						$.each(data, function(key, val) {
+					        option += '<option id=' + val.id + '>' + val.name + ' > </option>';
+					      });
+					      this.find('#pickData').append(option);
+				    };
+				};
+			      
+			    
+			    // Controll data
+			    this.controll = function(data) {
+			      	var pickThis = this;
+			      	if (data) {
+						  $( "#pickListResult" + pickListId).css("display","block");
+							  var option = '';
+							  $.each(data, function(key, val) {
+								  if (val.leafCategory) {
+							  		option += '<option id=' + val.id + ' isLeafCategory=' + val.leafCategory + '>' + val.name + '</option>';
+								  } else {
+									  option += '<option id=' + val.id + '>' + val.name + ' > </option>';
+								  }
+							});
+							this.find('#pickListResult' + pickListId).append(option);
+							return this.controll();
+					}
+			      	
+			      	$("#pickListResult" + pickListId).on('change', function() {
+			      		
+			    	  	var levelLimitTemp = parseInt($(this).attr("levellimit"),10);
+			    	  	var electmentId = $(this).attr("id");
+			    	  	var count = parseInt($(this).attr("count"));
+			    	  	
+			    		var p = pickThis.find("#" + electmentId + " option:selected");
+			    		var isLeafCategory = $(p[0]).attr("isLeafCategory");
+			    		
+			    		for (var int = (count + 1); int <= (pickListId + 5); int++) {
+	        				$("#col" + int).remove();
+						}
+			    		
+			    		if (p[0] && !isLeafCategory) {
+			    			
+			    			// If have not select next
+			      			pickListId = pickListId + 1;
+				      		var temp =  " <div class='col-sm-3' id='col" + pickListId + "'>" +
+			    			"    <select class='form-control pickListSelect' style='display:none' count='" +pickListId+ "' levellimit='" + (levelLimitTemp + 1)+ "' id='pickListResult"+pickListId+"' multiple></select>" +
+			    			" </div>";
+			    			
+				    	  	$("#categories").append(temp);
+				    	  	getCategoryEbay((levelLimitTemp + 1), p[0].id, pickThis);
+			    		}
+			   	 	});
+			   		
+			    }
+			    
+			    this.getValues = function() {
+			      var objResult = [];
+			      this.find("#pickListResult option").each(function() {
+			        objResult.push({
+			          id: this.id,
+			          text: this.text
+			        });
+			      });
+			      return objResult;
+			    };
+			    this.init = function() {
+			      var pickListHtml =
+			        "<div class='row' id='categories'>" +
+			        "  <div class='col-sm-3'>" +
+			        "	 <select class='form-control pickListSelect' multiple id='pickData'></select>" +
+			        " </div>" 
+			        "</div>";
+	
+			      this.append(pickListHtml);
+	
+			      this.fill();
+			      this.controll();
+			    };
+	
+			    this.init();
+			    return this;
+			  };
+	
+			  $.fn.pickList.defaults = {
+			    add: 'Add',
+			    addAll: 'Add All',
+			    remove: 'Remove',
+			    removeAll: 'Remove All'
+			  };
+	
+	
+			}(jQuery));
+		
+		function getCategoryEbay(levelLimit, categoryId, pick) {
+			var data = {categoryLevel : levelLimit, id : categoryId}
+//				data["query"] = $("#query").val();
+			var token = $("meta[name='_csrf']").attr("content");
+		    var header = $("meta[name='_csrf_header']").attr("content");
+		    
+			$.ajax({
+				type : "POST",
+				contentType : "application/json",
+				url : "/peace/GetCategory",
+				data: JSON.stringify(data),
+		        beforeSend:function(xhr){
+		             xhr.setRequestHeader(header, token);
+		        },
+				dataType : 'json',
+				timeout : 100000,
+				success : function(data) {
+					console.log("SUCCESS: ", data);
+					if (categoryId == 0) {
+						pick.fill(data.extraData);	
+					} else {
+						
+						pick.controll(data.extraData);
+					}
+					 
+				},
+				error : function(e) {
+					console.log("ERROR: ", e);
+				},
+				done : function(e) {
+					console.log("DONE");
+				}
+			});
+		}
+		</script>
 		<!-- Your GOOGLE ANALYTICS CODE Below -->
 		<script type="text/javascript">
 			var _gaq = _gaq || [];
