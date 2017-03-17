@@ -221,333 +221,23 @@ input, textarea, button {
 											</li>
 										</ul>
 									</label> 
-								</section>
-								
-								<!-- The add item specific part -->
-								<section> 
-									<fieldset class="ebay-fieldset">
-										<legend>Add item specifics</legend>
-										<p>Buyers often refine their search using these item specifics. If you don't provide these details here, your listing may not appear in their search results.</p>
-										<table>
-											<thead>
-												<th>
-													<td> </td>
-													<td></td> 
-												</th>
-											</thead>
-											<tbody>
-												<!-- UPC -->
-												<tr>
-													<td> <b>UPC</b> </td> <td> </td> 
-												</tr>
-												<tr>
-													<td> <input type="text" > </td> <td> </td> 
-												</tr>
-												
-												<!-- Brand -->
-												<tr>
-													<td> <b>Brand</b> </td> <td> </td> 
-												</tr>
-												<tr>
-													<td>
-														<select id="select-">
-															<option>Unbranded/Generic</option>
-															<option>3M</option>
-															<option>Aeroquip</option>
-															<option>Aftermarket</option>
-															<option>Alemite</option>
-															<option>Allis-Chalmers</option>
-															<option>Amco</option>
-															<option>Amoco</option>
-															<option>Anchor</option>
-															<option>Anderson</option>
-														</select> 
-													</td> 
-												</tr>
-												
-												<!-- Model -->
-												<tr>
-													<td> <b>Model</b> </td> <td> </td> 
-												</tr>
-												<tr>
-													<td> <input type="text" > </td> <td> </td> 
-												</tr>
-												
-												<!-- MPN -->
-												<tr>
-													<td> <b>MPN</b> <br/>Enter the manufacturer's part number to optimize your listing for internet search engines </td> <td> </td> 
-												</tr>
-												<tr>
-													<td>
-														<select id="select-">
-															<option> Does not apply</option>
-															<option> Enter your own</option>
-														</select> 
-													</td> <td> </td> 
-												</tr>
-												
-												<!-- UPC -->
-												<tr>
-													<td> <b>Country/Region of Manufacture</b> <br> Specifying the country/region of manufacture can help streamline customs clearance. </td> <td> </td> 
-												</tr>
-												<tr>
-													<td>
-														<select name="st_selval_0_3" id="st_selval_0_3" autocomplete="off" aria-required="true">
-														   <option value="-" selected="selected">-</option>
-														   <option value="Unknown">Unknown</option>
-														   <option value="Afghanistan">Afghanistan</option>
-														   <option value="Albania">Albania</option>
-														   <option value="Algeria">Algeria</option>
-														   <option value="American Samoa">American Samoa</option>
-														   <option value="Andorra">Andorra</option>
-														   <option value="Angola">Angola</option>
-														   <option value="Anguilla">Anguilla</option>
-														   <option value="Antarctica">Antarctica</option>
-														   <option value="Antigua and Barbuda">Antigua and Barbuda</option>
-														   <option value="Argentina">Argentina</option>
-														   <option value="Armenia">Armenia</option>
-														   <option value="Aruba">Aruba</option>
-														   <option value="Australia">Australia</option>
-														   <option value="Austria">Austria</option>
-														   <option value="Azerbaijan">Azerbaijan</option>
-														   <option value="Bahamas">Bahamas</option>
-														   <option value="Bahrain">Bahrain</option>
-														   <option value="Bangladesh">Bangladesh</option>
-														   <option value="Barbados">Barbados</option>
-														   <option value="Belarus">Belarus</option>
-														   <option value="Belgium">Belgium</option>
-														   <option value="Belize">Belize</option>
-														   <option value="Benin">Benin</option>
-														   <option value="Bermuda">Bermuda</option>
-														   <option value="Bhutan">Bhutan</option>
-														   <option value="Bolivia">Bolivia</option>
-														   <option value="Bosnia and Herzegovina">Bosnia and Herzegovina</option>
-														   <option value="Botswana">Botswana</option>
-														   <option value="Bouvet Island">Bouvet Island</option>
-														   <option value="Brazil">Brazil</option>
-														   <option value="British Indian Ocean Territory">British Indian Ocean Territory</option>
-														   <option value="Brunei Darussalam">Brunei Darussalam</option>
-														   <option value="Bulgaria">Bulgaria</option>
-														   <option value="Burkina Faso">Burkina Faso</option>
-														   <option value="Burundi">Burundi</option>
-														   <option value="Cambodia">Cambodia</option>
-														   <option value="Cameroon">Cameroon</option>
-														   <option value="Canada">Canada</option>
-														   <option value="Cape Verde">Cape Verde</option>
-														   <option value="Cayman Islands">Cayman Islands</option>
-														   <option value="Central African Republic">Central African Republic</option>
-														   <option value="Chad">Chad</option>
-														   <option value="Chile">Chile</option>
-														   <option value="China">China</option>
-														   <option value="Christmas Island">Christmas Island</option>
-														   <option value="Cocos (Keeling) Islands">Cocos (Keeling) Islands</option>
-														   <option value="Colombia">Colombia</option>
-														   <option value="Comoros">Comoros</option>
-														   <option value="Congo">Congo</option>
-														   <option value="Congo, The Democratic Republic of the">Congo, The Democratic Republic of the</option>
-														   <option value="Cook Islands">Cook Islands</option>
-														   <option value="Costa Rica">Costa Rica</option>
-														   <option value="Cote d'Ivoire">Cote d'Ivoire</option>
-														   <option value="Croatia">Croatia</option>
-														   <option value="Cyprus">Cyprus</option>
-														   <option value="Czech Republic">Czech Republic</option>
-														   <option value="Denmark">Denmark</option>
-														   <option value="Djibouti">Djibouti</option>
-														   <option value="Dominica">Dominica</option>
-														   <option value="Dominican Republic">Dominican Republic</option>
-														   <option value="Ecuador">Ecuador</option>
-														   <option value="Egypt">Egypt</option>
-														   <option value="El Salvador">El Salvador</option>
-														   <option value="Equatorial Guinea">Equatorial Guinea</option>
-														   <option value="Eritrea">Eritrea</option>
-														   <option value="Estonia">Estonia</option>
-														   <option value="Ethiopia">Ethiopia</option>
-														   <option value="Falkland Islands (Malvinas)">Falkland Islands (Malvinas)</option>
-														   <option value="Faroe Islands">Faroe Islands</option>
-														   <option value="Fiji">Fiji</option>
-														   <option value="Finland">Finland</option>
-														   <option value="France">France</option>
-														   <option value="French Guiana">French Guiana</option>
-														   <option value="French Polynesia Includes Tahiti">French Polynesia Includes Tahiti</option>
-														   <option value="French Southern Territories">French Southern Territories</option>
-														   <option value="Gabon">Gabon</option>
-														   <option value="Gambia">Gambia</option>
-														   <option value="Georgia">Georgia</option>
-														   <option value="Germany">Germany</option>
-														   <option value="Ghana">Ghana</option>
-														   <option value="Gibraltar">Gibraltar</option>
-														   <option value="Greece">Greece</option>
-														   <option value="Greenland">Greenland</option>
-														   <option value="Grenada">Grenada</option>
-														   <option value="Guadeloupe">Guadeloupe</option>
-														   <option value="Guam">Guam</option>
-														   <option value="Guatemala">Guatemala</option>
-														   <option value="Guernsey">Guernsey</option>
-														   <option value="Guinea">Guinea</option>
-														   <option value="Guinea-Bissau">Guinea-Bissau</option>
-														   <option value="Guyana">Guyana</option>
-														   <option value="Haiti">Haiti</option>
-														   <option value="Heard Island and Mcdonald Islands">Heard Island and Mcdonald Islands</option>
-														   <option value="Holy See (Vatican City State)">Holy See (Vatican City State)</option>
-														   <option value="Honduras">Honduras</option>
-														   <option value="Hong Kong">Hong Kong</option>
-														   <option value="Hungary">Hungary</option>
-														   <option value="Iceland">Iceland</option>
-														   <option value="India">India</option>
-														   <option value="Indonesia">Indonesia</option>
-														   <option value="Iraq">Iraq</option>
-														   <option value="Ireland">Ireland</option>
-														   <option value="Israel">Israel</option>
-														   <option value="Italy">Italy</option>
-														   <option value="Jamaica">Jamaica</option>
-														   <option value="Japan">Japan</option>
-														   <option value="Jersey">Jersey</option>
-														   <option value="Jordan">Jordan</option>
-														   <option value="Kazakhstan">Kazakhstan</option>
-														   <option value="Kenya">Kenya</option>
-														   <option value="Kiribati">Kiribati</option>
-														   <option value="Korea, Republic of">Korea, Republic of</option>
-														   <option value="Kuwait">Kuwait</option>
-														   <option value="Kyrgyzstan">Kyrgyzstan</option>
-														   <option value="Lao People's Democratic Republic">Lao People's Democratic Republic</option>
-														   <option value="Latvia">Latvia</option>
-														   <option value="Lebanon">Lebanon</option>
-														   <option value="Lesotho">Lesotho</option>
-														   <option value="Liberia">Liberia</option>
-														   <option value="Libyan Arab Jamahiriya">Libyan Arab Jamahiriya</option>
-														   <option value="Liechtenstein">Liechtenstein</option>
-														   <option value="Lithuania">Lithuania</option>
-														   <option value="Luxembourg">Luxembourg</option>
-														   <option value="Macao">Macao</option>
-														   <option value="Macedonia, the Former Yugoslav Republic of">Macedonia, the Former Yugoslav Republic of</option>
-														   <option value="Madagascar">Madagascar</option>
-														   <option value="Malawi">Malawi</option>
-														   <option value="Malaysia">Malaysia</option>
-														   <option value="Maldives">Maldives</option>
-														   <option value="Mali">Mali</option>
-														   <option value="Malta">Malta</option>
-														   <option value="Marshall Islands">Marshall Islands</option>
-														   <option value="Martinique">Martinique</option>
-														   <option value="Mauritania">Mauritania</option>
-														   <option value="Mauritius">Mauritius</option>
-														   <option value="Mayotte">Mayotte</option>
-														   <option value="Mexico">Mexico</option>
-														   <option value="Micronesia, Federated States of">Micronesia, Federated States of</option>
-														   <option value="Moldova, Republic of">Moldova, Republic of</option>
-														   <option value="Monaco">Monaco</option>
-														   <option value="Mongolia">Mongolia</option>
-														   <option value="Montenegro">Montenegro</option>
-														   <option value="Montserrat">Montserrat</option>
-														   <option value="Morocco">Morocco</option>
-														   <option value="Mozambique">Mozambique</option>
-														   <option value="Namibia">Namibia</option>
-														   <option value="Nauru">Nauru</option>
-														   <option value="Nepal">Nepal</option>
-														   <option value="Netherlands">Netherlands</option>
-														   <option value="Netherlands Antilles">Netherlands Antilles</option>
-														   <option value="New Caledonia">New Caledonia</option>
-														   <option value="New Zealand">New Zealand</option>
-														   <option value="Nicaragua">Nicaragua</option>
-														   <option value="Niger">Niger</option>
-														   <option value="Nigeria">Nigeria</option>
-														   <option value="Niue">Niue</option>
-														   <option value="Norfolk Island">Norfolk Island</option>
-														   <option value="Northern Mariana Islands">Northern Mariana Islands</option>
-														   <option value="Norway">Norway</option>
-														   <option value="Oman">Oman</option>
-														   <option value="Pakistan">Pakistan</option>
-														   <option value="Palau">Palau</option>
-														   <option value="Palestinian Territories">Palestinian Territories</option>
-														   <option value="Panama">Panama</option>
-														   <option value="Papua New Guinea">Papua New Guinea</option>
-														   <option value="Paraguay">Paraguay</option>
-														   <option value="Peru">Peru</option>
-														   <option value="Philippines">Philippines</option>
-														   <option value="Pitcairn">Pitcairn</option>
-														   <option value="Poland">Poland</option>
-														   <option value="Portugal">Portugal</option>
-														   <option value="Puerto Rico">Puerto Rico</option>
-														   <option value="Qatar">Qatar</option>
-														   <option value="Reunion">Reunion</option>
-														   <option value="Romania">Romania</option>
-														   <option value="Russian Federation">Russian Federation</option>
-														   <option value="Rwanda">Rwanda</option>
-														   <option value="Saint Helena">Saint Helena</option>
-														   <option value="Saint Kitts and Nevis">Saint Kitts and Nevis</option>
-														   <option value="Saint Lucia">Saint Lucia</option>
-														   <option value="Saint Pierre and Miquelon">Saint Pierre and Miquelon</option>
-														   <option value="Saint Vincent and the Grenadines">Saint Vincent and the Grenadines</option>
-														   <option value="Samoa">Samoa</option>
-														   <option value="San Marino">San Marino</option>
-														   <option value="Sao Tome and Principe">Sao Tome and Principe</option>
-														   <option value="Saudi Arabia">Saudi Arabia</option>
-														   <option value="Senegal">Senegal</option>
-														   <option value="Serbia">Serbia</option>
-														   <option value="Seychelles">Seychelles</option>
-														   <option value="Sierra Leone">Sierra Leone</option>
-														   <option value="Singapore">Singapore</option>
-														   <option value="Slovakia">Slovakia</option>
-														   <option value="Slovenia">Slovenia</option>
-														   <option value="Solomon Islands">Solomon Islands</option>
-														   <option value="Somalia">Somalia</option>
-														   <option value="South Africa">South Africa</option>
-														   <option value="South Georgia and the South Sandwich Islands">South Georgia and the South Sandwich Islands</option>
-														   <option value="Spain">Spain</option>
-														   <option value="Sri Lanka">Sri Lanka</option>
-														   <option value="Suriname">Suriname</option>
-														   <option value="Svalbard and Jan Mayen">Svalbard and Jan Mayen</option>
-														   <option value="Swaziland">Swaziland</option>
-														   <option value="Sweden">Sweden</option>
-														   <option value="Switzerland">Switzerland</option>
-														   <option value="Taiwan">Taiwan</option>
-														   <option value="Tajikistan">Tajikistan</option>
-														   <option value="Tanzania, United Republic of">Tanzania, United Republic of</option>
-														   <option value="Thailand">Thailand</option>
-														   <option value="Togo">Togo</option>
-														   <option value="Tokelau">Tokelau</option>
-														   <option value="Tonga">Tonga</option>
-														   <option value="Trinidad and Tobago">Trinidad and Tobago</option>
-														   <option value="Tunisia">Tunisia</option>
-														   <option value="Turkey">Turkey</option>
-														   <option value="Turkmenistan">Turkmenistan</option>
-														   <option value="Turks and Caicos Islands">Turks and Caicos Islands</option>
-														   <option value="Tuvalu">Tuvalu</option>
-														   <option value="Uganda">Uganda</option>
-														   <option value="Ukraine">Ukraine</option>
-														   <option value="United Arab Emirates">United Arab Emirates</option>
-														   <option value="United Kingdom">United Kingdom</option>
-														   <option value="United States">United States</option>
-														   <option value="Uruguay">Uruguay</option>
-														   <option value="Uzbekistan">Uzbekistan</option>
-														   <option value="Vanuatu">Vanuatu</option>
-														   <option value="Venezuela">Venezuela</option>
-														   <option value="Vietnam">Vietnam</option>
-														   <option value="Virgin Islands, British">Virgin Islands, British</option>
-														   <option value="Virgin Islands, U S">Virgin Islands, U S</option>
-														   <option value="Wallis and Futuna">Wallis and Futuna</option>
-														   <option value="Western Sahara">Western Sahara</option>
-														   <option value="Yemen">Yemen</option>
-														   <option value="Zambia">Zambia</option>
-														   <option value="Zimbabwe">Zimbabwe</option>
-														</select>
-													</td> 
-													<td> </td> 
-												</tr>
-											</tbody>
-										</table>
-										<a href="#"> Add your own item specific</a>
-									</fieldset>
-								</section>
-						</div>
+								</section>  
 						
 						<!-- The detail part -->
 						<section> 
-								<label class="label">Details</label>   
-								<textarea id="ckEditorForDetails"></textarea> 
+								<label class="label">Description</label>   
+								<textarea id="ckEditorForDescription"></textarea>
+								<!--  
 								<ul class="detail-action">
 									<li> <a href="#">Preview</a></li>
 									<li> <a href="#">Save Draft</a></li>
 								</ul>
+								 -->
+						</section>
+						<!-- The quantity part -->
+						<section> 
+								<label class="label">Quantity</label> 
+								<input type="number" id="quantity" value="1" />  
 						</section>
 						
 						<!-- The format part -->
@@ -574,7 +264,15 @@ input, textarea, button {
 				                 				<td></td>
 				                 			</tr>
 				                 			<tr>
-				                 				<td>$ <input type="number" /> </td>
+				                 				<td>$ <input type="number" id="startingPrice" /> </td>
+				                 				<td></td>
+				                 			</tr>
+				                 			<tr>
+				                 				<td>Reserve price (<a href="http://pages.ebay.com/help/sell/fees.html">see listing fees</a> - opens in a new window or tab) </td>
+				                 				<td></td>
+				                 			</tr>
+				                 			<tr>
+				                 				<td>$ <input type="number" id="reservePrice" /> </td>
 				                 				<td></td>
 				                 			</tr>
 				         
@@ -583,7 +281,7 @@ input, textarea, button {
 				                 				<td></td>
 				                 			</tr>
 				                 			<tr>
-				                 				<td>$ <input type="number" /> </td>
+				                 				<td>$ <input type="number" id="buyNowPrice" /> </td>
 				                 				<td></td>
 				                 			</tr>
 				                 			<tr>
@@ -592,15 +290,16 @@ input, textarea, button {
 				                 			</tr>
 				                 			<tr>
 				                 				<td>
-				                 					<select id="duration" name="duration" title="Duration">
-													   <option value="3">3 days</option>
-													   <option value="5">5 days</option>
-													   <option value="7" selected="">7 days</option>
-													   <option value="10">10 days</option>
+				                 					<select id="duration" name="duration" title="Duration"> 
+													   <option value="Days_3">3 days</option>
+													   <option value="Days_5" selected>5 days</option>
+													   <option value="Days_7" >7 days</option>
+													   <option value="Days_10">10 days</option>
 													</select>
 				                 				</td>
 				                 				<td></td>
 				                 			</tr>
+				                 			<!-- 
 				                 			<tr>
 				                 				<td>
 				                 					eBay for Charity <br>
@@ -662,6 +361,7 @@ input, textarea, button {
 				                 				</td>
 				                 				<td></td>
 				                 			</tr>
+				                 			 -->
 				                 		</tbody>
 				                 	</table>
 				                </div> 
@@ -686,11 +386,12 @@ input, textarea, button {
 				                  		<tr>
 				                  			<td>
 				                  				<span>Electronic payment methods</span><br>
-				                  				<input type="checkbox"/> <span>PayPal <a href="http://pages.ebay.com/help/sell/paypalfees.html">(fees vary)</a></span> <br>
+				                  				<input type="checkbox" id="use-paypal-email"/> 
+				                  				<!--  <span>PayPal <a href="http://pages.ebay.com/help/sell/paypalfees.html">(fees vary)</a></span> <br> -->
 				                  				<span>Accept credit or debit card and bank payments safely and easily with PayPal</span> <br>
 				                  				<span>Your PayPal account email address (to receive payments)</span> <br>
-				                  				<input type="text" /> <br>
-				                  				<input type ="checkbox" > <span> Require immediate payment when buyer uses Buy It Now</span> <br>
+				                  				<input type="text" id="paypal-email" readonly="readonly" /> <br>
+				                  				<!-- <input type ="checkbox" > <span> Require immediate payment when buyer uses Buy It Now</span> <br> -->
 				                  				
 				                  			</td>
 				                  			<td> </td>
@@ -708,70 +409,760 @@ input, textarea, button {
 				                    <b>Add shipping details</b>
 				                </div>
 				                <div class="panel-body">
-				                   <a href="http://cgi5.ebay.com/ws/eBayISAPI.dll#">Show all shipping options</a> <br>
-				                   U.S. shipping services <br>
-				                   <select id="shipService1" name="shipService1" title="Select domestic shipping service" onchange="ebay.run(this.id,'onchange');">
-									   <option value="0" selected="">-</option>
-									   <optgroup label="Economy services from outside US"></optgroup>
-									   <option value="161">&nbsp;&nbsp;&nbsp;    Economy Shipping from outside US&nbsp;(11 to 23 business days)</option>
-									   <option value="50044">&nbsp;&nbsp;&nbsp;    Economy Shipping from China/Hong Kong/Taiwan to worldwide&nbsp;(11 to 35 business days)</option>
-									   <optgroup label="Standard services from outside US"></optgroup>
-									   <option value="162">&nbsp;&nbsp;&nbsp;    Standard Shipping from outside US&nbsp;(5 to 10 business days)</option>
-									   <option value="50045">&nbsp;&nbsp;&nbsp;    Standard Shipping from China/Hong Kong/Taiwan to worldwide&nbsp;(7 to 19 business days)</option>
-									   <optgroup label="Expedited services from outside US"></optgroup>
-									   <option value="163">&nbsp;&nbsp;&nbsp;    Expedited Shipping from outside US&nbsp;(1 to 4 business days)</option>
-									   <option value="167">&nbsp;&nbsp;&nbsp;    FedEx International Economy&nbsp;(2 to 4 business days)</option>
-									   <option value="50046">&nbsp;&nbsp;&nbsp;    Expedited Shipping from China/Hong Kong/Taiwan  to worldwide&nbsp;(2 to 7 business days)</option>
-									   <optgroup label=" - - - - - - - - - -"></optgroup>
-									   <option value="-2">See more services</option>
-									</select>
-									$ <input type="number" />  <input type="checkbox" /> Free Shipping <br>
-									<a href="#">Offer additional service</a> <br>
-									Handling time <br>
-									<select id="shipsWithinDays" name="shipsWithinDays" style="display:block" title="Handling time" onchange="ebay.run(this.id,'onchange');">
-									   <option value="-1" selected="">Select a handling time</option>
-									   <option value="0">Same business day</option>
-									   <option value="1">1 business day</option>
-									   <option value="2">2 business days</option>
-									   <option value="3">3 business days</option>
-									   <optgroup label="Exception handling times"></optgroup>
-									   <option value="4">4 business days</option>
-									   <option value="5">5 business days</option>
-									   <option value="10">10 business days</option>
-									   <option value="15">15 business days</option>
-									   <option value="20">20 business days</option>
-									   <option value="30">30 business days</option>
-									</select> <br>
-									Package details <br>
-									Package type<br>
-									<select id="pkgSize" name="pkgSize" title="Package type" onchange="ebay.run(this.id,'onchange');">
-									   <option value="1">Letter</option>
-									   <option value="2">Large Envelope</option>
-									   <option value="4" selected="">Package (or thick envelope)</option>
-									   <option value="5">Large Package</option>
-									</select>
-									
-									<input type="number"> in. X <input type="number"/> in. X <input type="numebr"/> in. <br>
-									<input type = "checkbox"/> Irregular package <br> 
-									<b>Weight</b> <br>
-									<select id="estimatedWeight" name="estimatedWeight" title="Weight" onchange="ebay.run(this.name,'onchange');">
-									   <option value="1">1 lb. or less</option>
-									   <option value="2">1+ to 2 lbs</option>
-									   <option value="3">2+ to 3 lbs</option>
-									   <option value="4">3+ to 4 lbs</option>
-									   <option value="5">4+ to 5 lbs</option>
-									   <option value="6">5+ to 6 lbs</option>
-									   <option value="7">6+ to 7 lbs</option>
-									   <option value="8">7+ to 8 lbs</option>
-									   <option value="9">8+ to 9 lbs</option>
-									   <option value="10">9+ to 10 lbs</option>
-									   <option value="0" selected="">Custom weight</option>
-									</select>
-									<input type="number"/> lbs. <input type="number"/> oz <br>
-									Item location <br>
-									HaNoi,HaNoi ,VietNam <br>
-									<a href="#">Change location</a>
-									
+				                   <button id="add-shipping-service-option">Add Shipping Service Option</button>
+				                   <div class="shipping-detail-common-info">
+				                   		<span>Amount</span> <input type="number" value="1" id="shipping-servce-common-amount"/> <br>
+				                   		<span>Insurance Option </span> <br>
+				                   		<select id="select-isurance-option">
+				                   			<option value="Optional" selected>Optional</option>
+											<option value="Required">Required</option>
+											<option value="NotOffered">NotOffered</option>
+											<option value="IncludedInShippingHandling">IncludedInShippingHandling</option>
+											<option value="NotOfferedOnSite">NotOfferedOnSite</option>
+											<option value="CustomCode">CustomCode</option>
+				                   		</select> <br>
+				                   		<span>Shipping Type </span> <br>
+				                   		<select id="select-shipping-type">
+				                   			<option value="Flat" selected>Flat</option>
+											<option value="Calculated">Calculated</option>
+											<option value="Freight">Freight</option>
+											<option value="Free">Free</option>
+											<option value="NotSpecified">NotSpecified</option>
+											<option value="FlatDomesticCalculatedInternational">FlatDomesticCalculatedInternational</option>
+											<option value="CalculatedDomesticFlatInternational">CalculatedDomesticFlatInternational</option>
+											<option value="FreightFlat">FreightFlat</option>
+											<option value="CustomCode">CustomCode</option>
+				                   		</select> <br>
+				                   		
+				                   		<span>Payment Instructions</span><br>
+				                   		<textarea id="payment-instructions" col="30" row="20" style="margin: 0px; width: 711px; height: 58px;"></textarea> 
+				                   </div>
+				                   <hr>
+				                   <fieldset class="panel-shipping-service-option ebay-fieldset" data-index="1">
+				                   		<legend>Shipping Service Option 1</legend>
+				                    	<span>Shipping Method Type</span> <br>
+				                   		<select class="select-shipping-method-code-type">
+				                   			<option value="UPSGround">UPSGround</option>
+											<option value="UPS3rdDay">UPS3rdDay</option>
+											<option value="UPS2ndDay">UPS2ndDay</option>
+											<option value="UPSNextDay">UPSNextDay</option>
+											<option value="USPSPriority">USPSPriority</option>
+											<option value="USPSParcel">USPSParcel</option>
+											<option value="USPSStandardPost">USPSStandardPost</option>
+											<option value="USPSMedia">USPSMedia</option>
+											<option value="USPSFirstClass">USPSFirstClass</option>
+											<option value="ShippingMethodStandard" selected>ShippingMethodStandard</option>
+											<option value="ShippingMethodExpress">ShippingMethodExpress</option>
+											<option value="USPSExpressMail">USPSExpressMail</option>
+											<option value="UPSNextDayAir">UPSNextDayAir</option>
+											<option value="UPS2DayAirAM">UPS2DayAirAM</option>
+											<option value="USPSExpressMailFlatRateEnvelope">USPSExpressMailFlatRateEnvelope</option>
+											<option value="USPSExpressMailPaddedFlatRateEnvelope">USPSExpressMailPaddedFlatRateEnvelope</option>
+											<option value="USPSPriorityMailFlatRateEnvelope">USPSPriorityMailFlatRateEnvelope</option>
+											<option value="USPSPriorityMailSmallFlatRateBox">USPSPriorityMailSmallFlatRateBox</option>
+											<option value="USPSPriorityMailFlatRateBox">USPSPriorityMailFlatRateBox</option>
+											<option value="USPSPriorityMailLargeFlatRateBox">USPSPriorityMailLargeFlatRateBox</option>
+											<option value="USPSPriorityMailPaddedFlatRateEnvelope">USPSPriorityMailPaddedFlatRateEnvelope</option>
+											<option value="USPSPriorityMailLegalFlatRateEnvelope">USPSPriorityMailLegalFlatRateEnvelope</option>
+											<option value="USPSExpressMailLegalFlatRateEnvelope">USPSExpressMailLegalFlatRateEnvelope</option>
+											<option value="USPSPriorityMailRegionalBoxA">USPSPriorityMailRegionalBoxA</option>
+											<option value="USPSPriorityMailRegionalBoxB">USPSPriorityMailRegionalBoxB</option>
+											<option value="USPSPriorityMailRegionalBoxC">USPSPriorityMailRegionalBoxC</option>
+											<option value="USPSExpressMailFlatRateBox">USPSExpressMailFlatRateBox</option>
+											<option value="Other">Other</option>
+											<option value="LocalDelivery">LocalDelivery</option>
+											<option value="NotSelected">NotSelected</option>
+											<option value="InternationalNotSelected">InternationalNotSelected</option>
+											<option value="StandardInternational">StandardInternational</option>
+											<option value="ExpeditedInternational">ExpeditedInternational</option>
+											<option value="USPSGlobalExpress">USPSGlobalExpress</option>
+											<option value="USPSGlobalPriority">USPSGlobalPriority</option>
+											<option value="USPSEconomyParcel">USPSEconomyParcel</option>
+											<option value="USPSEconomyLetter">USPSEconomyLetter</option>
+											<option value="USPSAirmailLetter">USPSAirmailLetter</option>
+											<option value="USPSAirmailParcel">USPSAirmailParcel</option>
+											<option value="UPSWorldWideExpressPlus">UPSWorldWideExpressPlus</option>
+											<option value="UPSWorldWideExpress">UPSWorldWideExpress</option>
+											<option value="UPSWorldWideExpedited">UPSWorldWideExpedited</option>
+											<option value="UPSWorldwideSaver">UPSWorldwideSaver</option>
+											<option value="UPSStandardToCanada">UPSStandardToCanada</option>
+											<option value="USPSExpressMailInternationalFlatRateEnvelope">USPSExpressMailInternationalFlatRateEnvelope</option>
+											<option value="USPSExpressMailInternationalPaddedFlatRateEnvelope">USPSExpressMailInternationalPaddedFlatRateEnvelope</option>
+											<option value="USPSPriorityMailInternationalFlatRateEnvelope">USPSPriorityMailInternationalFlatRateEnvelope</option>
+											<option value="USPSPriorityMailInternationalSmallFlatRateBox">USPSPriorityMailInternationalSmallFlatRateBox</option>
+											<option value="USPSPriorityMailInternationalFlatRateBox">USPSPriorityMailInternationalFlatRateBox</option>
+											<option value="USPSPriorityMailInternationalLargeFlatRateBox">USPSPriorityMailInternationalLargeFlatRateBox</option>
+											<option value="USPSPriorityMailInternationalPaddedFlatRateEnvelope">USPSPriorityMailInternationalPaddedFlatRateEnvelope</option>
+											<option value="USPSPriorityMailInternationalLegalFlatRateEnvelope">USPSPriorityMailInternationalLegalFlatRateEnvelope</option>
+											<option value="USPSExpressMailInternationalLegalFlatRateEnvelope">USPSExpressMailInternationalLegalFlatRateEnvelope</option>
+											<option value="USPSExpressMailInternationalFlatRateBox">USPSExpressMailInternationalFlatRateBox</option>
+											<option value="OtherInternational">OtherInternational</option>
+											<option value="AT_StandardDispatch">AT_StandardDispatch</option>
+											<option value="AT_InsuredDispatch">AT_InsuredDispatch</option>
+											<option value="AT_Writing">AT_Writing</option>
+											<option value="AT_COD">AT_COD</option>
+											<option value="AT_ExpressOrCourier">AT_ExpressOrCourier</option>
+											<option value="AT_InsuredExpressOrCourier">AT_InsuredExpressOrCourier</option>
+											<option value="AT_SpecialDispatch">AT_SpecialDispatch</option>
+											<option value="AT_InsuredSpecialDispatch">AT_InsuredSpecialDispatch</option>
+											<option value="AT_Sonstige">AT_Sonstige</option>
+											<option value="AT_UnversicherterVersandInternational">AT_UnversicherterVersandInternational</option>
+											<option value="AT_VersicherterVersandInternational">AT_VersicherterVersandInternational</option>
+											<option value="AT_SonstigerVersandInternational">AT_SonstigerVersandInternational</option>
+											<option value="AT_UnversicherterExpressVersandInternational">AT_UnversicherterExpressVersandInternational</option>
+											<option value="AT_VersicherterExpressVersandInternational">AT_VersicherterExpressVersandInternational</option>
+											<option value="AT_EconomyDeliveryFromAbroad">AT_EconomyDeliveryFromAbroad</option>
+											<option value="AT_StandardDeliveryFromAbroad">AT_StandardDeliveryFromAbroad</option>
+											<option value="AT_ExpressDeliveryFromAbroad">AT_ExpressDeliveryFromAbroad</option>
+											<option value="AT_TrackedDeliveryFromAbroad">AT_TrackedDeliveryFromAbroad</option>
+											<option value="AU_Regular">AU_Regular</option>
+											<option value="AU_Express">AU_Express</option>
+											<option value="AU_Registered">AU_Registered</option>
+											<option value="AU_Courier">AU_Courier</option>
+											<option value="AU_Other">AU_Other</option>
+											<option value="AU_EMSInternationalCourierParcels">AU_EMSInternationalCourierParcels</option>
+											<option value="AU_EMSInternationalCourierDocuments">AU_EMSInternationalCourierDocuments</option>
+											<option value="AU_ExpressPostInternationalDocuments">AU_ExpressPostInternationalDocuments</option>
+											<option value="AU_AirMailInternational">AU_AirMailInternational</option>
+											<option value="AU_EconomyAirInternational">AU_EconomyAirInternational</option>
+											<option value="AU_SeaMailInternational">AU_SeaMailInternational</option>
+											<option value="AU_StandardInternational">AU_StandardInternational</option>
+											<option value="AU_ExpeditedInternational">AU_ExpeditedInternational</option>
+											<option value="AU_OtherInternational">AU_OtherInternational</option>
+											<option value="AU_AusPostRegisteredPostInternationalPaddedBag1kg">AU_AusPostRegisteredPostInternationalPaddedBag1kg</option>
+											<option value="AU_AusPostRegisteredPostInternationalPaddedBag500g">AU_AusPostRegisteredPostInternationalPaddedBag500g</option>
+											<option value="AU_AusPostRegisteredPostInternationalParcel">AU_AusPostRegisteredPostInternationalParcel</option>
+											<option value="AU_ExpeditedDeliveryFromOutsideAU">AU_ExpeditedDeliveryFromOutsideAU</option>
+											<option value="AU_EconomyDeliveryFromOutsideAU">AU_EconomyDeliveryFromOutsideAU</option>
+											<option value="AU_StandardDeliveryFromOutsideAU">AU_StandardDeliveryFromOutsideAU</option>
+											<option value="AU_AustralianAirExpressMetro15kg">AU_AustralianAirExpressMetro15kg</option>
+											<option value="AU_AustralianAirExpressFlatRate5kg">AU_AustralianAirExpressFlatRate5kg</option>
+											<option value="AU_AustralianAirExpressFlatRate3kg">AU_AustralianAirExpressFlatRate3kg</option>
+											<option value="AU_AustralianAirExpressFlatRate1kg">AU_AustralianAirExpressFlatRate1kg</option>
+											<option value="AU_ExpressDelivery">AU_ExpressDelivery</option>
+											<option value="AU_StandardDelivery">AU_StandardDelivery</option>
+											<option value="AU_eBayAusPost3kgFlatRateSatchel">AU_eBayAusPost3kgFlatRateSatchel</option>
+											<option value="AU_eBayAusPost500gFlatRateSatchel">AU_eBayAusPost500gFlatRateSatchel</option>
+											<option value="AU_Freight">AU_Freight</option>
+											<option value="BEFR_StandardDelivery">BEFR_StandardDelivery</option>
+											<option value="BEFR_PriorityDelivery">BEFR_PriorityDelivery</option>
+											<option value="BEFR_ParcelPost">BEFR_ParcelPost</option>
+											<option value="BEFR_RegisteredMail">BEFR_RegisteredMail</option>
+											<option value="BEFR_Other">BEFR_Other</option>
+											<option value="BEFR_DePostInternational">BEFR_DePostInternational</option>
+											<option value="BEFR_UPSInternational">BEFR_UPSInternational</option>
+											<option value="BEFR_FedExInternational">BEFR_FedExInternational</option>
+											<option value="BEFR_DHLInternational">BEFR_DHLInternational</option>
+											<option value="BEFR_TPGPostTNTInternational">BEFR_TPGPostTNTInternational</option>
+											<option value="BEFR_StandardInternational">BEFR_StandardInternational</option>
+											<option value="BEFR_ExpeditedInternational">BEFR_ExpeditedInternational</option>
+											<option value="BEFR_OtherInternational">BEFR_OtherInternational</option>
+											<option value="BEFR_LaPosteInternational">BEFR_LaPosteInternational</option>
+											<option value="BEFR_LaPosteStandardShipping">BEFR_LaPosteStandardShipping</option>
+											<option value="BEFR_LaPosteCertifiedShipping">BEFR_LaPosteCertifiedShipping</option>
+											<option value="BEFR_LaPosteTaxipostLLS">BEFR_LaPosteTaxipostLLS</option>
+											<option value="BEFR_LaPosteTaxipost24h">BEFR_LaPosteTaxipost24h</option>
+											<option value="BEFR_LaPosteTaxipostSecur">BEFR_LaPosteTaxipostSecur</option>
+											<option value="BEFR_PostInternationalStandard">BEFR_PostInternationalStandard</option>
+											<option value="BEFR_PostInternationalRegistered">BEFR_PostInternationalRegistered</option>
+											<option value="BEFR_TNTInternational">BEFR_TNTInternational</option>
+											<option value="BEFR_EconomyDeliveryFromAbroad">BEFR_EconomyDeliveryFromAbroad</option>
+											<option value="BEFR_StandardDeliveryFromAbroad">BEFR_StandardDeliveryFromAbroad</option>
+											<option value="BEFR_ExpressDeliveryFromAbroad">BEFR_ExpressDeliveryFromAbroad</option>
+											<option value="BEFR_TrackedDeliveryFromAbroad">BEFR_TrackedDeliveryFromAbroad</option>
+											<option value="BENL_StandardDelivery">BENL_StandardDelivery</option>
+											<option value="BENL_PriorityDelivery">BENL_PriorityDelivery</option>
+											<option value="BENL_ParcelPost">BENL_ParcelPost</option>
+											<option value="BENL_RegisteredMail">BENL_RegisteredMail</option>
+											<option value="BENL_Other">BENL_Other</option>
+											<option value="BENL_DePostInternational">BENL_DePostInternational</option>
+											<option value="BENL_UPSInternational">BENL_UPSInternational</option>
+											<option value="BENL_FedExInternational">BENL_FedExInternational</option>
+											<option value="BENL_DHLInternational">BENL_DHLInternational</option>
+											<option value="BENL_TPGPostTNTInternational">BENL_TPGPostTNTInternational</option>
+											<option value="BENL_StandardInternational">BENL_StandardInternational</option>
+											<option value="BENL_ExpeditedInternational">BENL_ExpeditedInternational</option>
+											<option value="BENL_OtherInternational">BENL_OtherInternational</option>
+											<option value="BENL_LaPosteInternational">BENL_LaPosteInternational</option>
+											<option value="BENL_DePostStandardShipping">BENL_DePostStandardShipping</option>
+											<option value="BENL_DePostCertifiedShipping">BENL_DePostCertifiedShipping</option>
+											<option value="BENL_DePostTaxipostLLS">BENL_DePostTaxipostLLS</option>
+											<option value="BENL_DePostTaxipost24h">BENL_DePostTaxipost24h</option>
+											<option value="BENL_DePostTaxipostSecur">BENL_DePostTaxipostSecur</option>
+											<option value="BENL_OtherShippingMethods">BENL_OtherShippingMethods</option>
+											<option value="BENL_PostInternationalStandard">BENL_PostInternationalStandard</option>
+											<option value="BENL_PostInternationalRegistered">BENL_PostInternationalRegistered</option>
+											<option value="BENL_TNTInternational">BENL_TNTInternational</option>
+											<option value="BENL_EconomyDeliveryFromAbroad">BENL_EconomyDeliveryFromAbroad</option>
+											<option value="BENL_StandardDeliveryFromAbroad">BENL_StandardDeliveryFromAbroad</option>
+											<option value="BENL_ExpressDeliveryFromAbroad">BENL_ExpressDeliveryFromAbroad</option>
+											<option value="BENL_TrackedDeliveryFromAbroad">BENL_TrackedDeliveryFromAbroad</option>
+											<option value="CA_StandardDelivery">CA_StandardDelivery</option>
+											<option value="CA_ExpeditedDelivery">CA_ExpeditedDelivery</option>
+											<option value="CA_PostLettermail">CA_PostLettermail</option>
+											<option value="CA_PostRegularParcel">CA_PostRegularParcel</option>
+											<option value="CA_PostExpeditedParcel">CA_PostExpeditedParcel</option>
+											<option value="CA_PostXpresspost">CA_PostXpresspost</option>
+											<option value="CA_PostPriorityCourier">CA_PostPriorityCourier</option>
+											<option value="CanadaPostExpeditedFlatRateBox">CanadaPostExpeditedFlatRateBox</option>
+											<option value="CA_PostExpeditedFlatRateBox">CA_PostExpeditedFlatRateBox</option>
+											<option value="CA_StandardInternational">CA_StandardInternational</option>
+											<option value="CA_ExpeditedInternational">CA_ExpeditedInternational</option>
+											<option value="CA_OtherInternational">CA_OtherInternational</option>
+											<option value="CA_PostExpeditedParcelUSA">CA_PostExpeditedParcelUSA</option>
+											<option value="CA_PostSmallPacketsUSA">CA_PostSmallPacketsUSA</option>
+											<option value="CA_PostXpresspostUSA">CA_PostXpresspostUSA</option>
+											<option value="CA_PostXpresspostInternational">CA_PostXpresspostInternational</option>
+											<option value="CA_PostInternationalParcelSurface">CA_PostInternationalParcelSurface</option>
+											<option value="CA_PostInternationalParcelAir">CA_PostInternationalParcelAir</option>
+											<option value="CA_SmallPacketsInternational">CA_SmallPacketsInternational</option>
+											<option value="CA_PurolatorInternational">CA_PurolatorInternational</option>
+											<option value="CA_PostSmallPacketsUSAGround">CA_PostSmallPacketsUSAGround</option>
+											<option value="CA_PostSmallPacketsUSAAir">CA_PostSmallPacketsUSAAir</option>
+											<option value="CA_SmallPacketsInternationalGround">CA_SmallPacketsInternationalGround</option>
+											<option value="CA_SmallPacketsInternationalAir">CA_SmallPacketsInternationalAir</option>
+											<option value="CA_PostUSALetterPost">CA_PostUSALetterPost</option>
+											<option value="CA_PostInternationalLetterPost">CA_PostInternationalLetterPost</option>
+											<option value="CA_PostExpeditedFlatRateBoxUSA">CA_PostExpeditedFlatRateBoxUSA</option>
+											<option value="CA_UPSExpressCanada">CA_UPSExpressCanada</option>
+											<option value="CA_UPSExpressSaverCanada">CA_UPSExpressSaverCanada</option>
+											<option value="CA_UPSExpeditedCanada">CA_UPSExpeditedCanada</option>
+											<option value="CA_UPSStandardCanada">CA_UPSStandardCanada</option>
+											<option value="CA_UPSExpressUnitedStates">CA_UPSExpressUnitedStates</option>
+											<option value="CA_UPSExpeditedUnitedStates">CA_UPSExpeditedUnitedStates</option>
+											<option value="CA_UPS3DaySelectUnitedStates">CA_UPS3DaySelectUnitedStates</option>
+											<option value="CA_UPSStandardUnitedStates">CA_UPSStandardUnitedStates</option>
+											<option value="CA_UPSWorldWideExpress">CA_UPSWorldWideExpress</option>
+											<option value="CA_UPSWorldWideExpedited">CA_UPSWorldWideExpedited</option>
+											<option value="CA_PriorityWorldwide">CA_PriorityWorldwide</option>
+											<option value="CanadaPostExpeditedFlatRateBoxUSA">CanadaPostExpeditedFlatRateBoxUSA</option>
+											<option value="CA_PostTrackedPacketsUSA">CA_PostTrackedPacketsUSA</option>
+											<option value="CA_PostTrackedPacketsInternational">CA_PostTrackedPacketsInternational</option>
+											<option value="CA_Freight">CA_Freight</option>
+											<option value="CH_StandardDispatchAPost">CH_StandardDispatchAPost</option>
+											<option value="CH_StandardDispatchBPost">CH_StandardDispatchBPost</option>
+											<option value="CH_InsuredDispatch">CH_InsuredDispatch</option>
+											<option value="CH_Writing">CH_Writing</option>
+											<option value="CH_COD">CH_COD</option>
+											<option value="CH_ExpressOrCourier">CH_ExpressOrCourier</option>
+											<option value="CH_InsuredExpressOrCourier">CH_InsuredExpressOrCourier</option>
+											<option value="CH_SpecialDispatch">CH_SpecialDispatch</option>
+											<option value="CH_InsuredSpecialDispatch">CH_InsuredSpecialDispatch</option>
+											<option value="CH_Sonstige">CH_Sonstige</option>
+											<option value="CH_SonstigerVersandInternational">CH_SonstigerVersandInternational</option>
+											<option value="CH_EconomySendungenInternational">CH_EconomySendungenInternational</option>
+											<option value="CH_PrioritySendungenInternational">CH_PrioritySendungenInternational</option>
+											<option value="CH_UrgentSendungenInternational">CH_UrgentSendungenInternational</option>
+											<option value="CH_EconomyDeliveryFromAbroad">CH_EconomyDeliveryFromAbroad</option>
+											<option value="CH_StandardDeliveryFromAbroad">CH_StandardDeliveryFromAbroad</option>
+											<option value="CH_ExpressDeliveryFromAbroad">CH_ExpressDeliveryFromAbroad</option>
+											<option value="CH_TrackedDeliveryFromAbroad">CH_TrackedDeliveryFromAbroad</option>
+											<option value="CN_PersonalDelivery">CN_PersonalDelivery</option>
+											<option value="CN_RegularPackage">CN_RegularPackage</option>
+											<option value="CN_DeliveryCompanyExpress">CN_DeliveryCompanyExpress</option>
+											<option value="CN_PostOfficeExpress">CN_PostOfficeExpress</option>
+											<option value="CN_Others">CN_Others</option>
+											<option value="CN_FastPostOffice">CN_FastPostOffice</option>
+											<option value="CN_ExpressDeliverySameCity">CN_ExpressDeliverySameCity</option>
+											<option value="CN_ExpressDeliveryOtherCities">CN_ExpressDeliveryOtherCities</option>
+											<option value="CN_StandardInternational">CN_StandardInternational</option>
+											<option value="CN_ExpeditedInternational">CN_ExpeditedInternational</option>
+											<option value="CN_OtherInternational">CN_OtherInternational</option>
+											<option value="CN_CODInternational">CN_CODInternational</option>
+											<option value="CN_StandardMailingInternational">CN_StandardMailingInternational</option>
+											<option value="CN_RegularLogisticsInternational">CN_RegularLogisticsInternational</option>
+											<option value="CN_EMSInternational">CN_EMSInternational</option>
+											<option value="CN_OthersInternational">CN_OthersInternational</option>
+											<option value="DE_StandardDispatch">DE_StandardDispatch</option>
+											<option value="DE_InsuredDispatch">DE_InsuredDispatch</option>
+											<option value="DE_Writing">DE_Writing</option>
+											<option value="DE_COD">DE_COD</option>
+											<option value="DE_ExpressOrCourier">DE_ExpressOrCourier</option>
+											<option value="DE_InsuredExpressOrCourier">DE_InsuredExpressOrCourier</option>
+											<option value="DE_SpecialDispatch">DE_SpecialDispatch</option>
+											<option value="DE_InsuredSpecialDispatch">DE_InsuredSpecialDispatch</option>
+											<option value="DE_UnversicherterVersand">DE_UnversicherterVersand</option>
+											<option value="DE_DeutschePostBrief">DE_DeutschePostBrief</option>
+											<option value="DE_eBayDHLPaket24x7">DE_eBayDHLPaket24x7</option>
+											<option value="DE_DHLPostpaket">DE_DHLPostpaket</option>
+											<option value="DE_DHLPackchen">DE_DHLPackchen</option>
+											<option value="DE_DeutschePostWarensendung">DE_DeutschePostWarensendung</option>
+											<option value="DE_DeutschePostBuchersendung">DE_DeutschePostBuchersendung</option>
+											<option value="DE_HermesPaketUnversichert">DE_HermesPaketUnversichert</option>
+											<option value="DE_HermesPaketVersichert">DE_HermesPaketVersichert</option>
+											<option value="DE_IloxxTransportXXL">DE_IloxxTransportXXL</option>
+											<option value="DE_IloxxUbernachtExpress">DE_IloxxUbernachtExpress</option>
+											<option value="DE_IloxxStandard">DE_IloxxStandard</option>
+											<option value="DE_Sonstige">DE_Sonstige</option>
+											<option value="DE_UnversicherterVersandInternational">DE_UnversicherterVersandInternational</option>
+											<option value="DE_VersicherterVersandInternational">DE_VersicherterVersandInternational</option>
+											<option value="DE_DHLPostpaketInternational">DE_DHLPostpaketInternational</option>
+											<option value="DE_DHLPackchenInternational">DE_DHLPackchenInternational</option>
+											<option value="DE_SonstigerVersandInternational">DE_SonstigerVersandInternational</option>
+											<option value="DE_UnversicherterExpressVersandInternational">DE_UnversicherterExpressVersandInternational</option>
+											<option value="DE_VersicherterExpressVersandInternational">DE_VersicherterExpressVersandInternational</option>
+											<option value="DE_DeutschePostBriefLandInternational">DE_DeutschePostBriefLandInternational</option>
+											<option value="DE_DeutschePostBriefLuftInternational">DE_DeutschePostBriefLuftInternational</option>
+											<option value="DE_IloxxEuropaInternational">DE_IloxxEuropaInternational</option>
+											<option value="DE_IloxxWorldWideInternational">DE_IloxxWorldWideInternational</option>
+											<option value="DE_Paket">DE_Paket</option>
+											<option value="DE_Express">DE_Express</option>
+											<option value="DE_DHLPaket">DE_DHLPaket</option>
+											<option value="DE_DPBuecherWarensendung">DE_DPBuecherWarensendung</option>
+											<option value="DE_HermesPaket">DE_HermesPaket</option>
+											<option value="DE_IloxxTransport">DE_IloxxTransport</option>
+											<option value="DE_SonstigeDomestic">DE_SonstigeDomestic</option>
+											<option value="DE_Einschreiben">DE_Einschreiben</option>
+											<option value="DE_Nachname">DE_Nachname</option>
+											<option value="DE_SpecialDelivery">DE_SpecialDelivery</option>
+											<option value="DE_UPS">DE_UPS</option>
+											<option value="DE_DPD">DE_DPD</option>
+											<option value="DE_GLS">DE_GLS</option>
+											<option value="DE_PaketInternational">DE_PaketInternational</option>
+											<option value="DE_DHLPaketInternational">DE_DHLPaketInternational</option>
+											<option value="DE_DHLPaketIntlExpress">DE_DHLPaketIntlExpress</option>
+											<option value="DE_SonstigeInternational">DE_SonstigeInternational</option>
+											<option value="DE_ExpressInternational">DE_ExpressInternational</option>
+											<option value="DE_DPBriefInternational">DE_DPBriefInternational</option>
+											<option value="DE_IloxxTransportInternational">DE_IloxxTransportInternational</option>
+											<option value="DE_HermesPaketInternational">DE_HermesPaketInternational</option>
+											<option value="DE_UPSInternational">DE_UPSInternational</option>
+											<option value="DE_DPDInternational">DE_DPDInternational</option>
+											<option value="DE_GLSInternational">DE_GLSInternational</option>
+											<option value="DE_eBayHermesPaketShop2ShopKaeufer">DE_eBayHermesPaketShop2ShopKaeufer</option>
+											<option value="DE_HermesPaketShop2ShopKaeufer">DE_HermesPaketShop2ShopKaeufer</option>
+											<option value="DE_eBayHermesPaketShop2Shop">DE_eBayHermesPaketShop2Shop</option>
+											<option value="DE_HermesPaketShop2Shop">DE_HermesPaketShop2Shop</option>
+											<option value="DE_HermesPaketSperrgut">DE_HermesPaketSperrgut</option>
+											<option value="DE_eBayHermesPaketSperrgutShop2Shop">DE_eBayHermesPaketSperrgutShop2Shop</option>
+											<option value="DE_DHLPaeckchenPackstation">DE_DHLPaeckchenPackstation</option>
+											<option value="DE_DHLPaketPackstation">DE_DHLPaketPackstation</option>
+											<option value="DE_eBayDHLPaeckchen">DE_eBayDHLPaeckchen</option>
+											<option value="DE_DHLStarPaeckchen">DE_DHLStarPaeckchen</option>
+											<option value="DE_TrackedDeliveryFromAbroad">DE_TrackedDeliveryFromAbroad</option>
+											<option value="ES_CartasNacionalesHasta20">ES_CartasNacionalesHasta20</option>
+											<option value="ES_CartasNacionalesDeMas20">ES_CartasNacionalesDeMas20</option>
+											<option value="ES_CartasInternacionalesHasta20">ES_CartasInternacionalesHasta20</option>
+											<option value="ES_CartasInternacionalesDeMas20">ES_CartasInternacionalesDeMas20</option>
+											<option value="ES_PaqueteAzulHasta2kg">ES_PaqueteAzulHasta2kg</option>
+											<option value="ES_PaqueteAzulDeMas2kg">ES_PaqueteAzulDeMas2kg</option>
+											<option value="ES_PaqueteInternacionalEconomico">ES_PaqueteInternacionalEconomico</option>
+											<option value="ES_Urgente">ES_Urgente</option>
+											<option value="ES_Otros">ES_Otros</option>
+											<option value="ES_StandardInternational">ES_StandardInternational</option>
+											<option value="ES_ExpeditedInternational">ES_ExpeditedInternational</option>
+											<option value="ES_OtherInternational">ES_OtherInternational</option>
+											<option value="ES_CartasPostalInternational">ES_CartasPostalInternational</option>
+											<option value="ES_EmsPostalExpressInternational">ES_EmsPostalExpressInternational</option>
+											<option value="ES_EconomyPacketInternational">ES_EconomyPacketInternational</option>
+											<option value="ES_EconomyDeliveryFromAbroad">ES_EconomyDeliveryFromAbroad</option>
+											<option value="ES_StandardDeliveryFromAbroad">ES_StandardDeliveryFromAbroad</option>
+											<option value="ES_ExpressDeliveryFromAbroad">ES_ExpressDeliveryFromAbroad</option>
+											<option value="ES_TrackedDeliveryFromAbroad">ES_TrackedDeliveryFromAbroad</option>
+											<option value="ES_ENTREGA_KIALA_8KG">ES_ENTREGA_KIALA_8KG</option>
+											<option value="FR_ChronoposteInternationalClassic">FR_ChronoposteInternationalClassic</option>
+											<option value="FR_ColiposteColissimoDirect">FR_ColiposteColissimoDirect</option>
+											<option value="FR_DHLExpressEuropack">FR_DHLExpressEuropack</option>
+											<option value="FR_UPSStandard">FR_UPSStandard</option>
+											<option value="FR_PostOfficeLetter">FR_PostOfficeLetter</option>
+											<option value="FR_PostOfficeLetterFollowed">FR_PostOfficeLetterFollowed</option>
+											<option value="FR_PostOfficeLetterRecommended">FR_PostOfficeLetterRecommended</option>
+											<option value="FR_ColiposteColissimo">FR_ColiposteColissimo</option>
+											<option value="FR_ColiposteColissimoRecommended">FR_ColiposteColissimoRecommended</option>
+											<option value="FR_UPSStandardAgainstRefund">FR_UPSStandardAgainstRefund</option>
+											<option value="FR_Autre">FR_Autre</option>
+											<option value="FR_Ecopli">FR_Ecopli</option>
+											<option value="FR_Colieco">FR_Colieco</option>
+											<option value="FR_AuteModeDenvoiDeColis">FR_AuteModeDenvoiDeColis</option>
+											<option value="FR_RemiseEnMainPropre">FR_RemiseEnMainPropre</option>
+											<option value="FR_StandardInternational">FR_StandardInternational</option>
+											<option value="FR_ExpeditedInternational">FR_ExpeditedInternational</option>
+											<option value="FR_OtherInternational">FR_OtherInternational</option>
+											<option value="FR_LaPosteInternationalPriorityCourier">FR_LaPosteInternationalPriorityCourier</option>
+											<option value="FR_LaPosteInternationalEconomyCourier">FR_LaPosteInternationalEconomyCourier</option>
+											<option value="FR_LaPosteColissimoInternational">FR_LaPosteColissimoInternational</option>
+											<option value="FR_LaPosteColisEconomiqueInternational">FR_LaPosteColisEconomiqueInternational</option>
+											<option value="FR_LaPosteColissimoEmballageInternational">FR_LaPosteColissimoEmballageInternational</option>
+											<option value="FR_ChronopostClassicInternational">FR_ChronopostClassicInternational</option>
+											<option value="FR_ChronopostPremiumInternational">FR_ChronopostPremiumInternational</option>
+											<option value="FR_UPSStandardInternational">FR_UPSStandardInternational</option>
+											<option value="FR_UPSExpressInternational">FR_UPSExpressInternational</option>
+											<option value="FR_DHLInternational">FR_DHLInternational</option>
+											<option value="FR_LaPosteLetterMax">FR_LaPosteLetterMax</option>
+											<option value="FR_KIALA_DELIVERY">FR_KIALA_DELIVERY</option>
+											<option value="FR_TrackedDeliveryFromAbroad">FR_TrackedDeliveryFromAbroad</option>
+											<option value="IN_Regular">IN_Regular</option>
+											<option value="IN_Express">IN_Express</option>
+											<option value="IN_NationalCOD">IN_NationalCOD</option>
+											<option value="IN_Courier">IN_Courier</option>
+											<option value="IN_LocalCOD">IN_LocalCOD</option>
+											<option value="IN_StandardInternational">IN_StandardInternational</option>
+											<option value="IN_ExpeditedInternational">IN_ExpeditedInternational</option>
+											<option value="IN_OtherInternational">IN_OtherInternational</option>
+											<option value="IN_FlatRateCOD">IN_FlatRateCOD</option>
+											<option value="IN_BuyerPicksUpAndPays">IN_BuyerPicksUpAndPays</option>
+											<option value="IT_RegularMail">IT_RegularMail</option>
+											<option value="IT_PriorityMail">IT_PriorityMail</option>
+											<option value="IT_MailRegisteredLetter">IT_MailRegisteredLetter</option>
+											<option value="IT_MailRegisteredLetterWithMark">IT_MailRegisteredLetterWithMark</option>
+											<option value="IT_InsuredMail">IT_InsuredMail</option>
+											<option value="IT_QuickMail">IT_QuickMail</option>
+											<option value="IT_RegularPackage">IT_RegularPackage</option>
+											<option value="IT_QuickPackage1">IT_QuickPackage1</option>
+											<option value="IT_QuickPackage3">IT_QuickPackage3</option>
+											<option value="IT_ExpressCourier">IT_ExpressCourier</option>
+											<option value="IT_ExpressPackageMaxi">IT_ExpressPackageMaxi</option>
+											<option value="IT_StandardInternational">IT_StandardInternational</option>
+											<option value="IT_ExpeditedInternational">IT_ExpeditedInternational</option>
+											<option value="IT_OtherInternational">IT_OtherInternational</option>
+											<option value="IT_TrackedDeliveryFromAbroad">IT_TrackedDeliveryFromAbroad</option>
+											<option value="NL_StandardDelivery">NL_StandardDelivery</option>
+											<option value="NL_ParcelPost">NL_ParcelPost</option>
+											<option value="NL_RegisteredMail">NL_RegisteredMail</option>
+											<option value="NL_Other">NL_Other</option>
+											<option value="NL_TPGPostTNTInternational">NL_TPGPostTNTInternational</option>
+											<option value="NL_UPSInternational">NL_UPSInternational</option>
+											<option value="NL_FedExInternational">NL_FedExInternational</option>
+											<option value="NL_DHLInternational">NL_DHLInternational</option>
+											<option value="NL_DPDGBRInternational">NL_DPDGBRInternational</option>
+											<option value="NL_GLSBusinessInternational">NL_GLSBusinessInternational</option>
+											<option value="NL_StandardInternational">NL_StandardInternational</option>
+											<option value="NL_ExpeditedInternational">NL_ExpeditedInternational</option>
+											<option value="NL_OtherInternational">NL_OtherInternational</option>
+											<option value="NL_EconomyDeliveryFromAbroad">NL_EconomyDeliveryFromAbroad</option>
+											<option value="NL_StandardDeliveryFromAbroad">NL_StandardDeliveryFromAbroad</option>
+											<option value="NL_ExpressDeliveryFromAbroad">NL_ExpressDeliveryFromAbroad</option>
+											<option value="NL_TrackedDeliveryFromAbroad">NL_TrackedDeliveryFromAbroad</option>
+											<option value="TW_RegisteredMail">TW_RegisteredMail</option>
+											<option value="TW_UnregisteredMail">TW_UnregisteredMail</option>
+											<option value="TW_COD">TW_COD</option>
+											<option value="TW_DwellingMatchPost">TW_DwellingMatchPost</option>
+											<option value="TW_DwellingMatchCOD">TW_DwellingMatchCOD</option>
+											<option value="TW_SelfPickup">TW_SelfPickup</option>
+											<option value="TW_ParcelPost">TW_ParcelPost</option>
+											<option value="TW_ExpressMail">TW_ExpressMail</option>
+											<option value="TW_Other">TW_Other</option>
+											<option value="TW_CPInternationalLetterPost">TW_CPInternationalLetterPost</option>
+											<option value="TW_CPInternationalParcelPost">TW_CPInternationalParcelPost</option>
+											<option value="TW_CPInternationalRegisteredLetterPost">TW_CPInternationalRegisteredLetterPost</option>
+											<option value="TW_CPInternationalRegisteredParcelPost">TW_CPInternationalRegisteredParcelPost</option>
+											<option value="TW_CPInternationalEMS">TW_CPInternationalEMS</option>
+											<option value="TW_CPInternationalOceanShippingParcel">TW_CPInternationalOceanShippingParcel</option>
+											<option value="TW_FedExInternationalPriority">TW_FedExInternationalPriority</option>
+											<option value="TW_FedExInternationalEconomy">TW_FedExInternationalEconomy</option>
+											<option value="TW_UPSWorldwideExpedited">TW_UPSWorldwideExpedited</option>
+											<option value="TW_UPSWorldwideExpress">TW_UPSWorldwideExpress</option>
+											<option value="TW_UPSWorldwideExpressPlus">TW_UPSWorldwideExpressPlus</option>
+											<option value="TW_OtherInternational">TW_OtherInternational</option>
+											<option value="UK_RoyalMailFirstClassStandard">UK_RoyalMailFirstClassStandard</option>
+											<option value="UK_RoyalMailSecondClassStandard">UK_RoyalMailSecondClassStandard</option>
+											<option value="UK_RoyalMailFirstClassRecorded">UK_RoyalMailFirstClassRecorded</option>
+											<option value="UK_RoyalMailSecondClassRecorded">UK_RoyalMailSecondClassRecorded</option>
+											<option value="UK_RoyalMailSpecialDelivery">UK_RoyalMailSpecialDelivery</option>
+											<option value="UK_RoyalMailStandardParcel">UK_RoyalMailStandardParcel</option>
+											<option value="UK_Parcelforce24">UK_Parcelforce24</option>
+											<option value="UK_Parcelforce48">UK_Parcelforce48</option>
+											<option value="UK_OtherCourier">UK_OtherCourier</option>
+											<option value="UK_myHermesDoorToDoorService">UK_myHermesDoorToDoorService</option>
+											<option value="UK_CollectDropAtStoreDeliveryToDoor">UK_CollectDropAtStoreDeliveryToDoor</option>
+											<option value="UK_SellersStandardRate">UK_SellersStandardRate</option>
+											<option value="UK_CollectInPerson">UK_CollectInPerson</option>
+											<option value="UK_SellersStandardInternationalRate">UK_SellersStandardInternationalRate</option>
+											<option value="UK_RoyalMailAirmailInternational">UK_RoyalMailAirmailInternational</option>
+											<option value="UK_RoyalMailAirsureInternational">UK_RoyalMailAirsureInternational</option>
+											<option value="UK_RoyalMailSurfaceMailInternational">UK_RoyalMailSurfaceMailInternational</option>
+											<option value="UK_RoyalMailInternationalSignedFor">UK_RoyalMailInternationalSignedFor</option>
+											<option value="UK_RoyalMailHMForcesMailInternational">UK_RoyalMailHMForcesMailInternational</option>
+											<option value="UK_ParcelForceInternationalDatapost">UK_ParcelForceInternationalDatapost</option>
+											<option value="UK_ParcelForceIreland24International">UK_ParcelForceIreland24International</option>
+											<option value="UK_ParcelForceEuro48International">UK_ParcelForceEuro48International</option>
+											<option value="UK_ParcelForceInternationalScheduled">UK_ParcelForceInternationalScheduled</option>
+											<option value="UK_OtherCourierOrDeliveryInternational">UK_OtherCourierOrDeliveryInternational</option>
+											<option value="UK_CollectInPersonInternational">UK_CollectInPersonInternational</option>
+											<option value="UK_ParcelForceIntlExpress">UK_ParcelForceIntlExpress</option>
+											<option value="UK_ParcelForceIntlValue">UK_ParcelForceIntlValue</option>
+											<option value="UK_ParcelForceIntlEconomy">UK_ParcelForceIntlEconomy</option>
+											<option value="UK_TrackedDeliveryFromAbroad">UK_TrackedDeliveryFromAbroad</option>
+											<option value="UK_IntlTrackedPostage">UK_IntlTrackedPostage</option>
+											<option value="IE_SellersStandardRate">IE_SellersStandardRate</option>
+											<option value="IE_FirstClassLetterService">IE_FirstClassLetterService</option>
+											<option value="IE_SwiftPostNational">IE_SwiftPostNational</option>
+											<option value="IE_RegisteredPost">IE_RegisteredPost</option>
+											<option value="IE_EMSSDSCourier">IE_EMSSDSCourier</option>
+											<option value="IE_EconomySDSCourier">IE_EconomySDSCourier</option>
+											<option value="IE_OtherCourier">IE_OtherCourier</option>
+											<option value="IE_CollectionInPerson">IE_CollectionInPerson</option>
+											<option value="IE_SellersStandardRateInternational">IE_SellersStandardRateInternational</option>
+											<option value="IE_InternationalEconomyService">IE_InternationalEconomyService</option>
+											<option value="IE_InternationalPriorityService">IE_InternationalPriorityService</option>
+											<option value="IE_SwiftPostExpressInternational">IE_SwiftPostExpressInternational</option>
+											<option value="IE_SwiftPostInternational">IE_SwiftPostInternational</option>
+											<option value="IE_EMSSDSCourierInternational">IE_EMSSDSCourierInternational</option>
+											<option value="IE_EconomySDSCourierInternational">IE_EconomySDSCourierInternational</option>
+											<option value="IE_OtherCourierInternational">IE_OtherCourierInternational</option>
+											<option value="IE_CollectionInPersonInternational">IE_CollectionInPersonInternational</option>
+											<option value="IE_EconomyDeliveryFromAbroad">IE_EconomyDeliveryFromAbroad</option>
+											<option value="IE_StandardDeliveryFromAbroad">IE_StandardDeliveryFromAbroad</option>
+											<option value="IE_ExpressDeliveryFromAbroad">IE_ExpressDeliveryFromAbroad</option>
+											<option value="IE_TrackedDeliveryFromAbroad">IE_TrackedDeliveryFromAbroad</option>
+											<option value="PL_DomesticRegular">PL_DomesticRegular</option>
+											<option value="PL_DomesticSpecial">PL_DomesticSpecial</option>
+											<option value="PL_EconomyDeliveryFromAbroad">PL_EconomyDeliveryFromAbroad</option>
+											<option value="PL_StandardDeliveryFromAbroad">PL_StandardDeliveryFromAbroad</option>
+											<option value="PL_ExpressDeliveryFromAbroad">PL_ExpressDeliveryFromAbroad</option>
+											<option value="PL_TrackedDeliveryFromAbroad">PL_TrackedDeliveryFromAbroad</option>
+											<option value="FreightShipping">FreightShipping</option>
+											<option value="FreightOtherShipping">FreightOtherShipping</option>
+											<option value="Freight">Freight</option>
+											<option value="FreightShippingInternational">FreightShippingInternational</option>
+											<option value="USPSGround">USPSGround</option>
+											<option value="ShippingMethodOvernight">ShippingMethodOvernight</option>
+											<option value="CustomCode">CustomCode</option>
+											<option value="USPSPriorityFlatRateEnvelope">USPSPriorityFlatRateEnvelope</option>
+											<option value="USPSPriorityFlatRateBox">USPSPriorityFlatRateBox</option>
+											<option value="USPSGlobalPrioritySmallEnvelope">USPSGlobalPrioritySmallEnvelope</option>
+											<option value="USPSGlobalPriorityLargeEnvelope">USPSGlobalPriorityLargeEnvelope</option>
+											<option value="USPSExpressFlatRateEnvelope">USPSExpressFlatRateEnvelope</option>
+											<option value="UPSWorldWideExpressBox10kg">UPSWorldWideExpressBox10kg</option>
+											<option value="UPSWorldWideExpressBox25kg">UPSWorldWideExpressBox25kg</option>
+											<option value="UPSWorldWideExpressPlusBox10kg">UPSWorldWideExpressPlusBox10kg</option>
+											<option value="UPSWorldWideExpressPlusBox25kg">UPSWorldWideExpressPlusBox25kg</option>
+											<option value="HK_LocalPickUpOnly">HK_LocalPickUpOnly</option>
+											<option value="HK_LocalCourier">HK_LocalCourier</option>
+											<option value="HK_DomesticRegularShipping">HK_DomesticRegularShipping</option>
+											<option value="HK_DomesticSpecialShipping">HK_DomesticSpecialShipping</option>
+											<option value="HK_InternationalRegularShipping">HK_InternationalRegularShipping</option>
+											<option value="HK_InternationalSpecialShipping">HK_InternationalSpecialShipping</option>
+											<option value="SG_LocalPickUpOnly">SG_LocalPickUpOnly</option>
+											<option value="SG_LocalCourier">SG_LocalCourier</option>
+											<option value="SG_DomesticStandardMail">SG_DomesticStandardMail</option>
+											<option value="SG_DomesticNonStandardMail">SG_DomesticNonStandardMail</option>
+											<option value="SG_DomesticSpeedpostIslandwide">SG_DomesticSpeedpostIslandwide</option>
+											<option value="SG_InternationalStandardMail">SG_InternationalStandardMail</option>
+											<option value="SG_InternationalExpressMailService">SG_InternationalExpressMailService</option>
+											<option value="SG_InternationalCourier">SG_InternationalCourier</option>
+											<option value="BENL_DePostZendingNONPRIOR">BENL_DePostZendingNONPRIOR</option>
+											<option value="BENL_DePostZendingPRIOR">BENL_DePostZendingPRIOR</option>
+											<option value="BENL_DePostZendingAangetekend">BENL_DePostZendingAangetekend</option>
+											<option value="BENL_KilopostPakje">BENL_KilopostPakje</option>
+											<option value="BENL_Taxipost">BENL_Taxipost</option>
+											<option value="BENL_KialaAfhaalpunt">BENL_KialaAfhaalpunt</option>
+											<option value="BENL_VasteKostenStandaardVerzending">BENL_VasteKostenStandaardVerzending</option>
+											<option value="BENL_VasteKostenVersneldeVerzending">BENL_VasteKostenVersneldeVerzending</option>
+											<option value="BENL_VerzekerdeVerzending">BENL_VerzekerdeVerzending</option>
+											<option value="BEFR_LaPosteEnvoiNONPRIOR">BEFR_LaPosteEnvoiNONPRIOR</option>
+											<option value="BEFR_LaPosteEnvoiPRIOR">BEFR_LaPosteEnvoiPRIOR</option>
+											<option value="BEFR_LaPosteEnvoiRecommande">BEFR_LaPosteEnvoiRecommande</option>
+											<option value="BEFR_PaquetKilopost">BEFR_PaquetKilopost</option>
+											<option value="BEFR_Taxipost">BEFR_Taxipost</option>
+											<option value="BEFR_PointRetraitKiala">BEFR_PointRetraitKiala</option>
+											<option value="BEFR_LivraisonStandardPrixforFaitaire">BEFR_LivraisonStandardPrixforFaitaire</option>
+											<option value="BEFR_LivraisonExpressPrixforFaitaire">BEFR_LivraisonExpressPrixforFaitaire</option>
+											<option value="BEFR_LivraisonSecurise">BEFR_LivraisonSecurise</option>
+											<option value="BENL_DePostZendingPRIORInternational">BENL_DePostZendingPRIORInternational</option>
+											<option value="BENL_DePostZendingNONPRIORInternational">BENL_DePostZendingNONPRIORInternational</option>
+											<option value="BENL_DePostZendingAangetekendInternational">BENL_DePostZendingAangetekendInternational</option>
+											<option value="BENL_KilopostPakjeInternational">BENL_KilopostPakjeInternational</option>
+											<option value="BENL_TaxipostExpressverzending">BENL_TaxipostExpressverzending</option>
+											<option value="BENL_VerzekerdeVerzendingInternational">BENL_VerzekerdeVerzendingInternational</option>
+											<option value="BEFR_LaPosteenvoiePRIOR">BEFR_LaPosteenvoiePRIOR</option>
+											<option value="BEFR_LaPosteenvoieNONPRIOR">BEFR_LaPosteenvoieNONPRIOR</option>
+											<option value="BEFR_LaPosteenvoieRecommande">BEFR_LaPosteenvoieRecommande</option>
+											<option value="BEFR_PaquetKilopostInternationale">BEFR_PaquetKilopostInternationale</option>
+											<option value="BEFR_ExpressTaxipost">BEFR_ExpressTaxipost</option>
+											<option value="BEFR_LivraisonStandardInternationalePrixforFaitaire">BEFR_LivraisonStandardInternationalePrixforFaitaire</option>
+											<option value="BEFR_LivraisonExpressInternationalePrixforFaitaire">BEFR_LivraisonExpressInternationalePrixforFaitaire</option>
+											<option value="BEFR_LivraisonSecuriseInternational">BEFR_LivraisonSecuriseInternational</option>
+											<option value="FR_Chronopost">FR_Chronopost</option>
+											<option value="UK_RoyalMailSpecialDeliveryNextDay">UK_RoyalMailSpecialDeliveryNextDay</option>
+											<option value="CA_PostLightPacketInternational">CA_PostLightPacketInternational</option>
+											<option value="CA_PostLightPacketUSA">CA_PostLightPacketUSA</option>
+											<option value="PL_DHLInternational">PL_DHLInternational</option>
+											<option value="PL_InternationalRegular">PL_InternationalRegular</option>
+											<option value="PL_InternationalSpecial">PL_InternationalSpecial</option>
+											<option value="PL_UPSInternational">PL_UPSInternational</option>
+											<option value="CAFR_StandardDelivery">CAFR_StandardDelivery</option>
+											<option value="CAFR_ExpeditedDelivery">CAFR_ExpeditedDelivery</option>
+											<option value="CAFR_PostLettermail">CAFR_PostLettermail</option>
+											<option value="CAFR_PostRegularParcel">CAFR_PostRegularParcel</option>
+											<option value="CAFR_PostExpeditedParcel">CAFR_PostExpeditedParcel</option>
+											<option value="CAFR_PostXpresspost">CAFR_PostXpresspost</option>
+											<option value="CAFR_PostPriorityCourier">CAFR_PostPriorityCourier</option>
+											<option value="CAFR_StandardInternational">CAFR_StandardInternational</option>
+											<option value="CAFR_ExpeditedInternational">CAFR_ExpeditedInternational</option>
+											<option value="CAFR_OtherInternational">CAFR_OtherInternational</option>
+											<option value="CAFR_PostExpeditedParcelUSA">CAFR_PostExpeditedParcelUSA</option>
+											<option value="CAFR_PostSmallPacketsUSA">CAFR_PostSmallPacketsUSA</option>
+											<option value="CAFR_PostXpresspostUSA">CAFR_PostXpresspostUSA</option>
+											<option value="CAFR_PostXpresspostInternational">CAFR_PostXpresspostInternational</option>
+											<option value="CAFR_PostInternationalParcelSurface">CAFR_PostInternationalParcelSurface</option>
+											<option value="CAFR_PostInternationalParcelAir">CAFR_PostInternationalParcelAir</option>
+											<option value="CAFR_SmallPacketsInternational">CAFR_SmallPacketsInternational</option>
+											<option value="CAFR_PurolatorInternational">CAFR_PurolatorInternational</option>
+											<option value="CAFR_PostSmallPacketsUSAGround">CAFR_PostSmallPacketsUSAGround</option>
+											<option value="CAFR_PostSmallPacketsUSAAir">CAFR_PostSmallPacketsUSAAir</option>
+											<option value="CAFR_SmallPacketsInternationalGround">CAFR_SmallPacketsInternationalGround</option>
+											<option value="CAFR_SmallPacketsInternationalAir">CAFR_SmallPacketsInternationalAir</option>
+											<option value="CAFR_PostUSALetterPost">CAFR_PostUSALetterPost</option>
+											<option value="CAFR_PostInternationalLetterPost">CAFR_PostInternationalLetterPost</option>
+											<option value="CAFR_UPSExpressCanada">CAFR_UPSExpressCanada</option>
+											<option value="CAFR_UPSExpressSaverCanada">CAFR_UPSExpressSaverCanada</option>
+											<option value="CAFR_UPSExpeditedCanada">CAFR_UPSExpeditedCanada</option>
+											<option value="CAFR_UPSStandardCanada">CAFR_UPSStandardCanada</option>
+											<option value="CAFR_UPSExpressUnitedStates">CAFR_UPSExpressUnitedStates</option>
+											<option value="CAFR_UPSExpeditedUnitedStates">CAFR_UPSExpeditedUnitedStates</option>
+											<option value="CAFR_UPS3DaySelectUnitedStates">CAFR_UPS3DaySelectUnitedStates</option>
+											<option value="CAFR_UPSStandardUnitedStates">CAFR_UPSStandardUnitedStates</option>
+											<option value="CAFR_UPSWorldWideExpress">CAFR_UPSWorldWideExpress</option>
+											<option value="CAFR_UPSWorldWideExpedited">CAFR_UPSWorldWideExpedited</option>
+											<option value="UK_RoyalMailSpecialDelivery9am">UK_RoyalMailSpecialDelivery9am</option>
+											<option value="USPSFirstClassMailInternational">USPSFirstClassMailInternational</option>
+											<option value="USPSPriorityMailInternational">USPSPriorityMailInternational</option>
+											<option value="USPSExpressMailInternational">USPSExpressMailInternational</option>
+											<option value="CH_StandardInternational">CH_StandardInternational</option>
+											<option value="CH_ExpeditedInternational">CH_ExpeditedInternational</option>
+											<option value="CH_SonstigerVersandSieheArtikelbeschreibung">CH_SonstigerVersandSieheArtikelbeschreibung</option>
+											<option value="TW_StandardInternationalFixedRate">TW_StandardInternationalFixedRate</option>
+											<option value="TW_ExpeditedInternationalFixedRate">TW_ExpeditedInternationalFixedRate</option>
+											<option value="USPSGlobalExpressGuaranteed">USPSGlobalExpressGuaranteed</option>
+											<option value="AU_RegularWithInsurance">AU_RegularWithInsurance</option>
+											<option value="AU_ExpressWithInsurance">AU_ExpressWithInsurance</option>
+											<option value="DE_DeutschePostWarensendungInternational">DE_DeutschePostWarensendungInternational</option>
+											<option value="DE_DeutschePostByendung">DE_DeutschePostByendung</option>
+											<option value="DE_HermesPaketUnversichertInternational">DE_HermesPaketUnversichertInternational</option>
+											<option value="DE_HermesPaketVersichertInternational">DE_HermesPaketVersichertInternational</option>
+											<option value="DE_iLoxxTransportXXLInternational">DE_iLoxxTransportXXLInternational</option>
+											<option value="DE_iLoxxUbernachtExpressInternational">DE_iLoxxUbernachtExpressInternational</option>
+											<option value="DE_iLoxxStandardInternational">DE_iLoxxStandardInternational</option>
+											<option value="DE_StandardInternational">DE_StandardInternational</option>
+											<option value="DE_ExpeditedInternational">DE_ExpeditedInternational</option>
+											<option value="DE_DeutschePostBriefIntlEcon">DE_DeutschePostBriefIntlEcon</option>
+											<option value="DE_DeutschePostBriefIntlPri">DE_DeutschePostBriefIntlPri</option>
+											<option value="AT_BitteTreffenSieEineAuswahl">AT_BitteTreffenSieEineAuswahl</option>
+											<option value="AT_EinschreibenVersandInklEinschreibengebuhr">AT_EinschreibenVersandInklEinschreibengebuhr</option>
+											<option value="AT_NachnahmeVersandInklNachnahmegebuhr">AT_NachnahmeVersandInklNachnahmegebuhr</option>
+											<option value="AT_ExpressOrCourierInternational">AT_ExpressOrCourierInternational</option>
+											<option value="AT_InsuredExpressOrCourierInternational">AT_InsuredExpressOrCourierInternational</option>
+											<option value="AT_SpecialDispatchInternational">AT_SpecialDispatchInternational</option>
+											<option value="AT_InsuredSpecialDispatchInternational">AT_InsuredSpecialDispatchInternational</option>
+											<option value="AT_StandardInternational">AT_StandardInternational</option>
+											<option value="AT_ExpeditedInternational">AT_ExpeditedInternational</option>
+											<option value="AT_OtherInternationalShipping">AT_OtherInternationalShipping</option>
+											<option value="CH_BitteTreffenSieEineAuswahl">CH_BitteTreffenSieEineAuswahl</option>
+											<option value="CH_UnversicherterVersand">CH_UnversicherterVersand</option>
+											<option value="CH_VersicherterVersand">CH_VersicherterVersand</option>
+											<option value="CH_EinschreibenVersandInklEinschreibengebuhr">CH_EinschreibenVersandInklEinschreibengebuhr</option>
+											<option value="CH_NachnahmeVersandInklNachnahmegebuhr">CH_NachnahmeVersandInklNachnahmegebuhr</option>
+											<option value="CH_ExpressOrCourierInternational">CH_ExpressOrCourierInternational</option>
+											<option value="CH_InsuredExpressOrCourierInternational">CH_InsuredExpressOrCourierInternational</option>
+											<option value="CH_SonderversandZBSperrgutKFZ">CH_SonderversandZBSperrgutKFZ</option>
+											<option value="CH_VersicherterSonderversandZBSperrgutKFZ">CH_VersicherterSonderversandZBSperrgutKFZ</option>
+											<option value="CH_StandardversandAPostPriority">CH_StandardversandAPostPriority</option>
+											<option value="CH_StandardversandBPostEconomy">CH_StandardversandBPostEconomy</option>
+											<option value="DE_BitteTreffenSieEineAuswahl">DE_BitteTreffenSieEineAuswahl</option>
+											<option value="DE_EinschreibenVersandInklEinschreibengebuhr">DE_EinschreibenVersandInklEinschreibengebuhr</option>
+											<option value="DE_NachnahmeVersandInklNachnahmegebuhr">DE_NachnahmeVersandInklNachnahmegebuhr</option>
+											<option value="DE_ExpressOrCourierInternational">DE_ExpressOrCourierInternational</option>
+											<option value="DE_InsuredExpressOrCourierInternational">DE_InsuredExpressOrCourierInternational</option>
+											<option value="DE_SonderversandZBMobelKFZ">DE_SonderversandZBMobelKFZ</option>
+											<option value="DE_VersicherterSonderversandZBMobelKFZ">DE_VersicherterSonderversandZBMobelKFZ</option>
+											<option value="DE_DeutschePostBriefInternational">DE_DeutschePostBriefInternational</option>
+											<option value="IE_StandardInternationalFlatRatePostage">IE_StandardInternationalFlatRatePostage</option>
+											<option value="IE_ExpeditedInternationalFlatRatePostage">IE_ExpeditedInternationalFlatRatePostage</option>
+											<option value="IE_OtherInternationalPostage">IE_OtherInternationalPostage</option>
+											<option value="UK_StandardInternationalFlatRatePostage">UK_StandardInternationalFlatRatePostage</option>
+											<option value="UK_ExpeditedInternationalFlatRatePostage">UK_ExpeditedInternationalFlatRatePostage</option>
+											<option value="UK_OtherInternationalPostage">UK_OtherInternationalPostage</option>
+											<option value="FR_ChronopostChronoRelais">FR_ChronopostChronoRelais</option>
+											<option value="FR_Chrono10">FR_Chrono10</option>
+											<option value="FR_Chrono13">FR_Chrono13</option>
+											<option value="FR_Chrono18">FR_Chrono18</option>
+											<option value="FR_ChronopostExpressInternational">FR_ChronopostExpressInternational</option>
+											<option value="Pickup">Pickup</option>
+											<option value="Delivery">Delivery</option>
+											<option value="CA_Pickup">CA_Pickup</option>
+											<option value="DE_Pickup">DE_Pickup</option>
+											<option value="AU_Pickup">AU_Pickup</option>
+											<option value="AU_SmallParcels">AU_SmallParcels</option>
+											<option value="AU_SmallParcelWithTracking">AU_SmallParcelWithTracking</option>
+											<option value="AU_SmallParcelWithTrackingAndSignature">AU_SmallParcelWithTrackingAndSignature</option>
+											<option value="AU_RegularParcelWithTracking">AU_RegularParcelWithTracking</option>
+											<option value="AU_RegularParcelWithTrackingAndSignature">AU_RegularParcelWithTrackingAndSignature</option>
+											<option value="AU_PrePaidExpressPostSatchel5kg">AU_PrePaidExpressPostSatchel5kg</option>
+											<option value="AU_PrePaidParcelPostSatchels500g">AU_PrePaidParcelPostSatchels500g</option>
+											<option value="AU_PrePaidParcelPostSatchels3kg">AU_PrePaidParcelPostSatchels3kg</option>
+											<option value="AU_PrePaidParcelPostSatchels5kg">AU_PrePaidParcelPostSatchels5kg</option>
+											<option value="AU_PrePaidExpressPostSatchel500g">AU_PrePaidExpressPostSatchel500g</option>
+											<option value="AU_PrePaidExpressPostSatchel3kg">AU_PrePaidExpressPostSatchel3kg</option>
+											<option value="AU_PrePaidExpressPostPlatinum500g">AU_PrePaidExpressPostPlatinum500g</option>
+											<option value="AU_PrePaidExpressPostPlatinum3kg">AU_PrePaidExpressPostPlatinum3kg</option>
+											<option value="AU_ExpressCourierInternational">AU_ExpressCourierInternational</option>
+											<option value="AU_ExpressPostInternational">AU_ExpressPostInternational</option>
+											<option value="AU_PrePaidExpressPostInternationalEnvelopeC5">AU_PrePaidExpressPostInternationalEnvelopeC5</option>
+											<option value="AU_PrePaidExpressPostInternationalEnvelopeB4">AU_PrePaidExpressPostInternationalEnvelopeB4</option>
+											<option value="AU_PrePaidExpressPostInternationalSatchels2kg">AU_PrePaidExpressPostInternationalSatchels2kg</option>
+											<option value="AU_PrePaidExpressPostInternationalSatchels3kg">AU_PrePaidExpressPostInternationalSatchels3kg</option>
+											<option value="AU_PrePaidExpressPostInternationalBox5kg">AU_PrePaidExpressPostInternationalBox5kg</option>
+											<option value="AU_PrePaidExpressPostInternationalBox10kg">AU_PrePaidExpressPostInternationalBox10kg</option>
+											<option value="AU_PrePaidExpressPostInternationalBox20kg">AU_PrePaidExpressPostInternationalBox20kg</option>
+											<option value="AU_RegisteredParcelPost">AU_RegisteredParcelPost</option>
+											<option value="AU_RegisteredSmallParcel">AU_RegisteredSmallParcel</option>
+											<option value="AU_RegisteredParcelPostPrepaidSatchel500g">AU_RegisteredParcelPostPrepaidSatchel500g</option>
+											<option value="AU_RegisteredParcelPostPrepaidSatchel3kg">AU_RegisteredParcelPostPrepaidSatchel3kg</option>
+											<option value="AU_RegisteredParcelPostPrepaidSatchel5kg">AU_RegisteredParcelPostPrepaidSatchel5kg</option>
+											<option value="AU_ExpressPostSatchel500g">AU_ExpressPostSatchel500g</option>
+											<option value="AU_ExpressPostSatchel3kg">AU_ExpressPostSatchel3kg</option>
+											<option value="FR_Pickup">FR_Pickup</option>
+											<option value="AT_Pickup">AT_Pickup</option>
+											<option value="BENL_Pickup">BENL_Pickup</option>
+											<option value="BEFR_Pickup">BEFR_Pickup</option>
+											<option value="CH_Pickup">CH_Pickup</option>
+											<option value="IT_Pickup">IT_Pickup</option>
+											<option value="NL_Pickup">NL_Pickup</option>
+											<option value="PL_Pickup">PL_Pickup</option>
+											<option value="ES_Pickup">ES_Pickup</option>
+											<option value="SG_Delivery">SG_Delivery</option>
+											<option value="UK_OtherCourier24">UK_OtherCourier24</option>
+											<option value="UK_OtherCourier48">UK_OtherCourier48</option>
+											<option value="UK_OtherCourier3Days">UK_OtherCourier3Days</option>
+											<option value="UK_OtherCourier5Days">UK_OtherCourier5Days</option>
+											<option value="Courier">Courier</option>
+											<option value="FedExPriorityOvernight">FedExPriorityOvernight</option>
+											<option value="FedExStandardOvernight">FedExStandardOvernight</option>
+											<option value="FedEx2Day">FedEx2Day</option>
+											<option value="FedExGround">FedExGround</option>
+											<option value="FedExHomeDelivery">FedExHomeDelivery</option>
+											<option value="FedExExpressSaver">FedExExpressSaver</option>
+											<option value="FedExGroundDisabled">FedExGroundDisabled</option>
+											<option value="FedExHomeDeliveryDisabled">FedExHomeDeliveryDisabled</option>
+											<option value="FedExInternationalFirst">FedExInternationalFirst</option>
+											<option value="FedExInternationalPriority">FedExInternationalPriority</option>
+											<option value="FedExInternationalEconomy">FedExInternationalEconomy</option>
+											<option value="FedExInternationalGround">FedExInternationalGround</option>
+											<option value="EconomyShippingFromOutsideUS">EconomyShippingFromOutsideUS</option>
+											<option value="ExpeditedShippingFromOutsideUS">ExpeditedShippingFromOutsideUS</option>
+											<option value="StandardShippingFromOutsideUS">StandardShippingFromOutsideUS</option>
+											<option value="UK_EconomyShippingFromOutside">UK_EconomyShippingFromOutside</option>
+											<option value="UK_ExpeditedShippingFromOutside">UK_ExpeditedShippingFromOutside</option>
+											<option value="UK_StandardShippingFromOutside">UK_StandardShippingFromOutside</option>
+											<option value="DE_SparversandAusDemAusland">DE_SparversandAusDemAusland</option>
+											<option value="DE_StandardversandAusDemAusland">DE_StandardversandAusDemAusland</option>
+											<option value="DE_ExpressversandAusDemAusland">DE_ExpressversandAusDemAusland</option>
+											<option value="DE_DHL2KGPaket">DE_DHL2KGPaket</option>
+											<option value="InternationalPriorityShipping">InternationalPriorityShipping</option>
+											<option value="SameDayShipping">SameDayShipping</option>
+											<option value="UK_RoyalMailNextDay">UK_RoyalMailNextDay</option>
+											<option value="UK_RoyalMailTracked">UK_RoyalMailTracked</option>
+											<option value="eBayNowImmediateDelivery">eBayNowImmediateDelivery</option>
+				                   		</select> <br>
+				                   		<span>Shipping Service Cost</span> <br>
+				                   		<input type="number" value="1" class="shipping-service-cost"> <br>
+				                   		<span>Shipping Service Addition Cost</span> <br>
+				                   		<input type="number" value="1" class="shipping-addition-cost"> <br>
+				                   		<span>Shipping Insurance Cost</span> <br>
+				                   		<input type="number" value="1" class="shipping-isurance-cost"> <br>
+				                   </fieldset>
+				                   <hr>
 				                </div> 
 					        </div>
 						</section>
@@ -780,7 +1171,7 @@ input, textarea, button {
 						<section> 
 							<div class="panel panel-default">
 				                <div class="panel-heading">
-				                    <b>Add other details</b>
+				                    <b>Return policy details</b>
 				                </div>
 				                <div class="panel-body">
 				                  <table>
@@ -789,6 +1180,7 @@ input, textarea, button {
 				                   		<th> </th>
 				                   	</thead>
 				                   	<tbody>
+				                   		<!-- 
 				                   		<tr> 
 				                   			<td>
 				                   				Sales tax <br>
@@ -799,11 +1191,12 @@ input, textarea, button {
 				                   			 </td>
 				                   			<td> </td>
 				                   		</tr>
+				                   		 -->
 				                   		<tr>
 				                   			<td>
 				                   				<fieldset class="ebay-fieldset">
 				                   					<legend>
-				                   						<select id="select-">
+				                   						<select id="select-return-accept-option">
 				                   							<option value="ReturnsAccepted" selected="">Returns Accepted</option>
 				                   							<option value="ReturnsAccepted" selected="">Returns Accepted</option>
 				                   							<option value="ReturnsNotAccepted">No returns accepted</option>
@@ -818,7 +1211,7 @@ input, textarea, button {
 				                   						<tbody>
 				                   							<tr>
 				                   								<td>After receiving the item, your buyer should start a return within <br>
-				                   									<select id="itemReturnedWithin" name="itemReturnedWithin" title="After receiving the item, your buyer should start a return within:">
+				                   									<select id="select-return-within-option" name="itemReturnedWithin" title="After receiving the item, your buyer should start a return within:">
 																	   <option value="Days_14" selected="">14 Days</option>
 																	   <option value="Days_30">30 Days</option>
 																	   <option value="Days_60">60 Days</option>
@@ -828,7 +1221,7 @@ input, textarea, button {
 				                   							</tr>
 				                   							<tr>
 				                   								<td>Refund will be given as <br>
-				                   									<select id="refundGivenAs" name="refundGivenAs" title="Refund will be given as">
+				                   									<select id="select-refund" name="refundGivenAs" title="Refund will be given as">
 																	   <option value="MoneyBack" selected="">Money Back</option>
 																	   <option value="MoneyBackOrReplacement">Money back or replacement (buyer's choice)</option>
 																	   <option value="MoneyBackOrExchange">Money back or exchange (buyer's choice)</option>
@@ -838,14 +1231,17 @@ input, textarea, button {
 				                   							</tr>
 				                   							<tr>
 				                   								<td>Return shipping will be paid by<br>
-				                   									<select id="returnsPaidBy" name="returnsPaidBy" title="Return shipping will be paid by">
+				                   									<select id="select-return-by-paid" name="returnsPaidBy" title="Return shipping will be paid by">
 																	   <option value="Buyer" selected="">Buyer</option>
 																	   <option value="Seller">Seller</option>
 																	</select> <br>
+																	<!-- 
 																	If your buyer returns this item because the item is not as described in the listing, you'll be charged return shipping on your seller invoice as a fee, which may be charged to your automatic payment method on file, if any.<br>
+																	 -->
 				                   								 </td> 
 				                   								<td> </td> 
 				                   							</tr>
+				                   							<!-- 
 				                   							<tr>
 				                   								<td>
 				                   									Do you want to charge a restocking fee? <br>
@@ -867,6 +1263,7 @@ input, textarea, button {
 				                   								</td>
 				                   								<td></td>
 				                   							</tr>
+				                   							 -->
 				                   						</tbody>
 				                   					</table>			                   									                   					 
 				                   				</fieldset>
@@ -878,6 +1275,7 @@ input, textarea, button {
 				                </div> 
 					        </div>
 						</section>
+						</div>
 								
 						<!-- The footer part -->
 						<footer>
@@ -958,11 +1356,10 @@ input, textarea, button {
 		<script type="text/javascript">
 			$(function(){
 				$("#btnAddEbayItem").on("click",function(evt){
-					evt.preventDefault();
-					addItem();
-					/* validate(function(){
+					evt.preventDefault(); 
+					validate(function(){
 						addItem();
-					}); */
+					});
 				});
 				
 				$("#btnBackHistory").on("click",function(evt){
@@ -971,9 +1368,33 @@ input, textarea, button {
 					}
 				});
 				
+				$("#use-paypal-email").on("change",function(evt){
+					if($("#use-paypal-email").is(":checked")){
+						$("#paypal-email").attr('readonly', false);
+					}else{
+						$("#paypal-email").val("");
+						$("#paypal-email").attr('readonly', true);
+					}
+				});
+				
 				function addItem(){
 					var token = $("meta[name='_csrf']").attr("content");
 				    var header = $("meta[name='_csrf_header']").attr("content");
+				    
+				    var title = $("#product_title").val();
+				    var categoryId = $("#categories").find("select").last().find("option[isleafcategory=true]:selected").attr("id");
+				    var conditionID =$("#itemCondition").val();
+				    var description =$("#cke_ckEditorForDescription").find(".cke_inner .cke_reset")
+					  .find("iframe")
+					  .contents()[0]
+					  .documentElement
+					  .getElementsByTagName("body")[0].innerHTML;  
+				    
+				   //Paypal email
+				   var paypalEmail = "";
+				   if($("#use-paypal-email").is(":checked")){
+					   paypalEmail = $("#paypal-email").val();
+				   }
 				    
 					$.ajax({
 	                    type: "POST",
@@ -985,12 +1406,39 @@ input, textarea, button {
 				             xhr.setRequestHeader(header, token);
 				        },
 	                    url: "AddItem",
-	                    data:JSON.stringify({}),
+	                    data:JSON.stringify({
+	                    	title:title,
+	                    	description:description,
+	                    	categoryId:categoryId,
+	                    	conditionId:conditionID,
+	                    	startPrice:$("#startingPrice").val(),
+	                    	reservePrice:$("#reservePrice").val(),
+	                    	buyNowPrice:$("#buyNowPrice").val(),
+	                    	paypalEmail:paypalEmail,
+	                    	quantity:$("#quantity").val(),
+	                    	listingDuration:$("#duration").val(),
+	                    	returnPolicyDto:{
+	                    		refund:$("#select-refund").val(),
+	                    		returnsWithinOption:$("#select-return-within-option").val(),
+	                    		returnsAcceptedOption:$("#select-return-accept-option").val(),
+	                    		shippingCostPaidByOption:$("#select-return-by-paid").val(),
+	                    	},
+	                    	shippingDetailDto:{
+	                    		isuranceOption:$("#select-isurance-option").val(),
+	                    		paymentInstruction:$("#payment-instructions").val(),
+	                    		shippingType:$("#select-shipping-type").val(),
+	                    		listOfShippingServiceOption:getListShippingOptionDto()
+	                    	}
+	                    }),
 	                    contentType: "application/json",
 	                    mimeType: 'application/json',
 	                    dataType: "json",
 	                    success: function(respData){
-	                        alert(respData.extraData);
+	                        if(respData.status==="OK"){
+	                        	alert(respData.msg)
+	                        }else{
+	                        	alert(respData.cause);
+	                        }
 	                    },
 	                    error:function(evt){
 	                    	console.log(evt);
@@ -998,156 +1446,125 @@ input, textarea, button {
 	                });  
 				}
 				
+				$("#add-shipping-service-option").on("click",function(evt){
+					evt.preventDefault();
+					var prev = $(".panel-shipping-service-option").last();
+					var nextIndex= parseInt(prev.attr("data-index")) +1;
+					var addition = prev.clone()
+					addition.find("legend").text("Shipping Service Option "+nextIndex);
+					addition.attr("data-index",nextIndex);
+					addition.appendTo(prev.parent());
+					$(this).remove();
+				});
+				
+				function getListShippingOptionDto(){ 
+					return $.map($(".panel-shipping-service-option"),function(val,index){
+						var shippingMethod = $(val).find(".select-shipping-method-code-type").val();
+						var shippingServiceCost = $(val).find(".shipping-service-cost").val();
+						var shippingAddtionCost = $(val).find(".shipping-addition-cost").val();
+						var shippingIsuranceCost = $(val).find(".shipping-isurance-cost").val(); 
+						return {
+							shippingMethodType:shippingMethod,
+							shippingServiceCost:shippingServiceCost,
+							shippingServiceAddtionalCost:shippingAddtionCost,
+							shippingInsuranceCost:shippingIsuranceCost
+						};						
+					})
+					
+				}
+				
 				function validate(onValidateSuccessCallBack){
 					if($("#product_title").val()===""){
 				        alert("Empty title");
 				        return;
 					}
+					
+					var selectedCategory =$("#categories").find("select").last().find("option[isleafcategory=true]:selected").attr("id");
+					if(!selectedCategory){
+						alert("You must select left category")
+						return;
+					} 
 	
-					if($("#item-description").val()===""){
-					        alert("Empty item description");
-					        return;
-					}
-	
-					/* if($("#select-exhibitor-country").val()===""){
-					        alert("Empty");
-					        return;
-					} */
-	
-					/* if($("#select-category").val()===""){
-					        alert("Empty");
-					        return;
-					}
-	
-					if($("#select-air-option").val()===""){
-					        alert("Empty");
-					        return;
-					}
-	
-					if($("#select-item-state").val()===""){
-					        alert("Empty");
-					        return;
-					} */
-	
-					if($("#donot-apply").val()===""){
-					        alert("Empty do not apply");
-					        return;
-					}
-	
-					if($("#type").val()===""){
-					        alert("Empty empty type");
-					        return;
-					}
-	
-					if($("#size").val()===""){
-					        alert("Empty size");
-					        return;
-					}
-	
-					/* if($("#select-country-region-of-manufacture").val()===""){
-					        alert("Empty");
-					        return;
-					} */
-	
-					if($("#branch").val()===""){
-					        alert("Empty branch");
-					        return;
-					}
-	
-					if($("#fragrance-name").val()===""){
-					        alert("Empty fragrance name");
-					        return;
-					}
-	
-					if($("#color").val()===""){
-					        alert("Empty color");
-					        return;
-					}
-	
-					if($("#mpn").val()===""){
-					        alert("Empty MPN");
-					        return;
-					}
-	
-					/* if($("#select-ebay-store-category").val()===""){
-					        alert("Empty");
-					        return;
-					} */
-	
-					if($("#title-image-url").val()===""){
-					        alert("Empty image url");
-					        return;
-					}
-	
-					if($("#product-image-url").val()===""){
-					        alert("Empty product image url");
-					        return;
-					}
-	
-					if($("#youtube-url").val()===""){
-					        alert("Empty youtube url");
-					        return;
-					}
-	
-					if($("#buyit-now-price").val()===""){
-					        alert("Empty empty buyit now price");
-					        return;
-					}
-	
-					/* if($("#is-best-offer-price").val()===""){
-					        alert("Empty");
-					        return;
-					} */
-	
-					if($("#number-of-item").val()===""){
-					        alert("Empty number of item");
-					        return;
-					}
-	
-					/* if($("#select-day-of-sale").val()===""){
-					        alert("Empty");
-					        return;
-					} */
-	
-					/* if($("#is-specific-date-of-sale").val()===""){
-					        alert("Empty");
-					        return;
-					} */
-	
-					if($("#us-pacific-time").val()===""){
-					        alert("Empty us pacific time");
-					        return;
-					}
-	
-					if($("#seller-date").val()===""){
-					        alert("Empty seller date");
-					        return;
-					}
-	
-					/* if($("#is-free-shipping").val()===""){
-					        alert("Empty");
-					        return;
-					} */
-	
-					if($("#weight").val()===""){
-					        alert("Empty weight");
-					        return;
-					}
-	
-					if($("#sku").val()===""){
-					        alert("Empty sku");
-					        return;
-					}
-	
-					/* if($("#is-private-listing").val()===""){
-					        alert("Empty");
-					        return;
-					} */
-	
-					if($("#inventory-url").val()===""){
-					        alert("Empty inventory url");
+					if($("#itemCondition").val()==="-1"){
+					        alert("You must select condition!");
 					        return;
 					} 
+					
+					if($("#quantity").val()===""){
+					        alert("You must enter quantity!");
+					        return;
+					}else{
+						if(parseInt($("#quantity").val())<=0){
+							alert("The quantity must be greater than zero ");
+							return;
+						}
+					} 
+					
+					if($("#startingPrice").val()===""){
+						alert("You must enter the starting price")
+						return;
+					}else{
+						if(parseInt($("#startingPrice").val())<0){
+							alert("Starting price must greater than zero")
+							return;
+						} 
+					}
+					
+					if($("#reservePrice").val()!==""){
+						if(parseInt($("#reservePrice").val())<0){
+							alert("Reserve price must greater than zero")
+							return;
+						}else{
+							if(parseInt($("#startingPrice").val())>=parseInt($("#reservePrice").val())){
+								alert("The starting price must less than reserve price");
+								return;
+							}
+						}
+					}
+					
+					if($("#buyNowPrice").val()===""){
+						alert("You must enter the buy it now price")
+						return;
+					}else{
+						if(parseInt($("#buyNowPrice").val())<0){
+							alert("Buy It Now price must greater than zero")
+							return;
+						} 
+					}
+					
+					if(parseInt($("#buyNowPrice").val() <parseInt($("#startingPrice").val()))){
+						alert("Buy it now price must greater than starting price!")
+						return;
+					}
+					
+					if($("#use-paypal-email").is(":checked")){
+						if($("#paypal-email").val()===""){
+							alert("You must enter the paypal email");
+							return;
+						}else{
+							if(!$.trim($("#paypal-email").val()).match(/^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/)){
+								alert("Paypal Email not correct form!")
+								return;
+							}
+						}
+					}
+					
+					if($("#payment-instructions").val()===""){
+						alert("You must enter the payment instruction!")
+						return;
+					}
+					
+					//Validate the shipping service option
+					var listOfShippingMethodType = $(".select-shipping-method-code-type");
+					var originLength = listOfShippingMethodType.size();
+					var mapToValue = $.map(listOfShippingMethodType,function(val,i){return $(val).val()});
+					var uniqueValue = $.unique(mapToValue);
+					var validateLength = uniqueValue.length;
+					if(originLength!==validateLength){
+						alert("The shipping method type must be different from each other");
+						return;
+					}
+					
 					onValidateSuccessCallBack();
 				}
 			});
@@ -1157,7 +1574,7 @@ input, textarea, button {
 		<script src="${pageContext.request.contextPath}/resources/js/plugin/ckeditor/ckeditor.js"></script>
 		<script type="text/javascript">
 			$(function(){  
-				CKEDITOR.replace("ckEditorForDetails"); 
+				CKEDITOR.replace("ckEditorForDescription"); 
 			});
 		</script>
 		
