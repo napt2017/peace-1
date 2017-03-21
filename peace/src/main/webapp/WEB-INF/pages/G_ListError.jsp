@@ -29,20 +29,7 @@
 				<!-- breadcrumb -->
 				<ol class="breadcrumb">
 					<li>Home</li><li>List Error</li>
-				</ol>
-				<!-- end breadcrumb -->
-
-				<!-- You can also add more buttons to the
-				ribbon for further usability
-
-				Example below:
-
-				<span class="ribbon-button-alignment pull-right">
-				<span id="search" class="btn btn-ribbon hidden-xs" data-title="search"><i class="fa-grid"></i> Change Grid</span>
-				<span id="add" class="btn btn-ribbon hidden-xs" data-title="add"><i class="fa-plus"></i> Add</span>
-				<span id="search" class="btn btn-ribbon" data-title="search"><i class="fa-search"></i> <span class="hidden-mobile">Search</span></span>
-				</span> -->
-
+				</ol> 
 			</div>
 			<!-- END RIBBON -->
 
@@ -53,23 +40,69 @@
 					<div class="container">
 						<div class="row">
 							<h1>Product list: error </h1>
-						</div>
-
-						<div class="row">
-							<table class="table table-bordered table-striped responsive-utilities">
-								<thead>
-									<th>Title</th>
-									<th>Error</th>
-								</thead>
-								<tr ng-repeat="le in listError">
-									<td>{{le.title}}</td>
-									<td>{{le.error}}</td>
-								</tr>
-							</table>
-						</div>
-					</div>
-
-					
+						</div> 
+						<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+			               <div class="ttoolbar">
+				               <div style="padding:10px;background:#d4d4d4">
+				                  <div class="btn-group">
+				                     <button class="btn btn-danger btn-labeled" onclick="removeSelectedProducts()">
+				                        <span class="btn-label">
+				                           <i class="glyphicon glyphicon-trash"></i>
+				                        </span>
+				                        <font><font>Delete</font></font>
+				                     </button> 
+				                     <button class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+				                         <span class="caret" style="height: 13px;"></span> 
+				                     </button> 
+				                     <ul class="dropdown-menu">
+				                        <li> <a href="#"><font><font>Delete All</font></font></a> </li>
+				                     </ul>
+				                  </div>
+				                  <span style="margin-left: 20px;" id="selectedCount"></span>
+				               </div>
+			            	</div>
+				            <table 	id="table-sell" 
+				            		class="table table-striped table-bordered table-hover smart-form dataTable no-footer">
+				               <thead>
+				                  <tr>
+				                     <th class="fit nowrap select-checkbox sorting_disabled" style="width: 15px;">
+				                        <label class="checkbox">
+				                        	<input name="select_all" value="1" type="checkbox"><i></i>
+				                        </label>
+				                     </th>
+				                     <th ng-click="sort('title')">Title 
+				                     	 <span class="glyphicon sort-icon" ng-show="sortKey=='title'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+				                     </th>
+				                     <th ng-click="sort('error')">Ending time 
+				                     	<span class="glyphicon sort-icon" ng-show="sortKey=='endTime'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+				                     </th> 
+									 <th> 
+									 	<span class="glyphicon sort-icon" ng-show="sortKey=='title'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+									 </th> 
+				                  </tr>
+				               </thead>
+				               <tbody>
+				                  <tr dir-paginate ="le in listError |orderBy:sortKey:reverse |itemsPerPage:10">
+				                     <td>
+				                        <label class="checkbox"> 
+				                        	<input value="1" type="checkbox"><i></i>
+				                        </label>
+				                     </td>
+				                     <td>{{le.title}}</td>
+				                     <td>{{le.error}}</td> 
+				                     <td>
+				                        <button class="btn btn-default"> Edit </button>
+				                     </td>
+				                  </tr>
+				               </tbody>
+				            </table>
+				            <dir-pagination-controls
+						       max-size="5"
+						       direction-links="true"
+						       boundary-links="true" >
+						    </dir-pagination-controls>
+				        </div>
+					</div> 
 				</section>
 				<!-- end widget grid -->
 
@@ -637,11 +670,12 @@
 
 		</script>
 		<!-- LOAD ANGULAR JS MODULE -->
-		<script type="text/javascript"src="<c:url value="/resources/js/angularjs/angular.min.js"/>"></script>
+		<script type="text/javascript"src="<c:url value="/resources/js/angularjs/angular.js"/>"></script>
+		<script type="text/javascript"src="<c:url value="/resources/js/angularjs/dirPagination.js"/>"></script>
 		
 		<!-- HANDING ALL BUSSSINESS LOGIC FOR LIST ERROR(napt2017) -->
 		<script type="text/javascript" >
-			var listErrorApp = angular.module("list-error-app",[]);
+			var listErrorApp = angular.module("list-error-app",['angularUtils.directives.dirPagination']);
 			listErrorApp.controller("listErrorController",function($scope,$http){
 				$scope.loadListError = function(){
 					$http.get("GetListProduct/4")
@@ -652,6 +686,11 @@
 							  console.log(data);
 						});
 				};
+				
+				$scope.sort = function(keyname){
+			        $scope.sortKey = keyname;   //set the sortKey to the param passed
+			        $scope.reverse = !$scope.reverse; //if true make it false and vice versa
+			    }
 				
 				//All default action here
 				$scope.loadListError();

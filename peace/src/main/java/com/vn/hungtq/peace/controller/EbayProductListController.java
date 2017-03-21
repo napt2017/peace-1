@@ -1,13 +1,27 @@
 package com.vn.hungtq.peace.controller;
   
+import java.io.File;
+import java.io.FileInputStream;   
+import java.io.IOException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,13 +47,17 @@ import com.vn.hungtq.peace.common.AjaxResponseResult;
 import com.vn.hungtq.peace.common.CommonUtils;
 import com.vn.hungtq.peace.common.EbaySellingType;
 import com.vn.hungtq.peace.common.EbayServiceInfo;
+import com.vn.hungtq.peace.common.ExportorUtil;
 import com.vn.hungtq.peace.common.Tuple;
 import com.vn.hungtq.peace.dto.EbayProductSearch;
 
 @Controller
 public class EbayProductListController {
 	private final Logger logger = LoggerFactory.getLogger(EbayProductListController.class);
-	private final static String COOKIE_EBAY_TOKEN = "PeaceEbayToken";
+	private final static String COOKIE_EBAY_TOKEN = "PeaceEbayToken"; 
+	
+	@Autowired
+    ServletContext context;
 	
 	@Autowired
 	EbayServiceInfo ebayServiceInfo; 
@@ -95,7 +113,63 @@ public class EbayProductListController {
 		}
 		
 		return resposeResult; 
-	} 	
+	}
+	
+	@RequestMapping(value="/DownloadExportFile/{type}/{numberOfItem}/{extension}",method=RequestMethod.GET)
+	public void downloadExportFile(HttpServletResponse response,
+									@PathVariable("type") int type,
+									@PathVariable("numberOfItem") int numberOfItem,
+									@PathVariable("extension") String extension,
+									@CookieValue(value=COOKIE_EBAY_TOKEN ,defaultValue="") String ebayToken){
+		if(!"".equals(ebayToken)){
+			//Get api context
+			ApiContext apiContext = CommonUtils.getApiContext(ebayToken,ebayServiceInfo);
+			
+			//Load item follow type 
+			try {
+				Tuple<Boolean, ItemType[]> tupleOfListItems = getMyEbaySelling(apiContext, type);
+				if(tupleOfListItems.getFirst()){
+					ItemType[] items = tupleOfListItems.getSecond();
+					List<EbayProductSearch> lstEbayProductSearch = CommonUtils.convertToEbayProductSearch(items);
+					String saveFile;
+					if(lstEbayProductSearch.size()>0){
+						
+						//Ensure correct number of item
+						if(numberOfItem> lstEbayProductSearch.size()){
+							numberOfItem = lstEbayProductSearch.size();
+						}
+						
+						//Sublist
+						lstEbayProductSearch = lstEbayProductSearch.subList(0, numberOfItem);  
+						
+						//Build export file path to tmp folder
+						saveFile = context.getRealPath("../resources/tmp") + "\\ExportProduct_"+System.currentTimeMillis()+".csv";
+						
+						//Export to tmp folder
+						ExportorUtil.newInstanceWithModel(lstEbayProductSearch).tryExportToCsv(saveFile,"|"); 
+					}else{
+						//Default empty file
+						saveFile =  context.getRealPath("../resources/tmp") + "\\ExportProduct.tmp";
+					}
+					
+					//Response to client download
+					File file = new File(saveFile);
+					String mimeType = URLConnection.guessContentTypeFromName(file.getName());
+					if(mimeType==null){
+						mimeType = "application/octet-stream";
+					}
+					response.setContentType(mimeType);
+					response.setContentLength((int)file.length());
+					response.setHeader("Content-Disposition", String.format("inline; filename=\"" + file.getName() +"\""));
+					try(final FileInputStream fin = new FileInputStream(file)){
+						FileCopyUtils.copy(fin, response.getOutputStream());
+					} 
+				} 
+			} catch (Exception e) { 
+				logger.debug("Exception when export file ! Cause by :"+e.getMessage()); 
+			}  
+		}
+	} 
 	
 	private Tuple<Boolean, ItemType[]> getMyEbaySelling(ApiContext apiContext ,int ebaySellingType) throws ApiException, SdkException, Exception{
 		
@@ -206,6 +280,7 @@ public class EbayProductListController {
 	 *  @author napt2017 
 	 * 
 	 * **/
+	@SuppressWarnings("unused")
 	private ItemType[] getSellerListEbayApi(ApiContext apiContext) throws ApiException, SdkException, Exception{
 		
 		//Error language

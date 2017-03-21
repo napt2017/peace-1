@@ -28,20 +28,7 @@
 				<!-- breadcrumb -->
 				<ol class="breadcrumb">
 					<li>Home</li><li>List Unsold</li>
-				</ol>
-				<!-- end breadcrumb -->
-
-				<!-- You can also add more buttons to the
-				ribbon for further usability
-
-				Example below:
-
-				<span class="ribbon-button-alignment pull-right">
-				<span id="search" class="btn btn-ribbon hidden-xs" data-title="search"><i class="fa-grid"></i> Change Grid</span>
-				<span id="add" class="btn btn-ribbon hidden-xs" data-title="add"><i class="fa-plus"></i> Add</span>
-				<span id="search" class="btn btn-ribbon" data-title="search"><i class="fa-search"></i> <span class="hidden-mobile">Search</span></span>
-				</span> -->
-
+				</ol> 
 			</div>
 			<!-- END RIBBON -->
 
@@ -67,40 +54,94 @@
 
 							<label>
 								<span>lastest</span>
-								<input type="text" class="input-sm"/>
-								
+								<input type="number" value="0" id="number-of-item" style="width: 600px;" class="input-sm"/> 
 							</label>
-							<button class="btn btn-default">Download</button>
-							<span>Matter</span>
-							
-						</div>
-						<div class="row">
-							<table class="table table-bordered table-striped responsive-utilities">
-								<thead>
-
-									<th>Title</th>
-									<th>Ending time</th>
-									<th>List price</th>
-									<th>Currency</th>
-									<th>Purchaser</th>
-									<th>Re-Listing</th>
-								</thead>
-								<tr ng-repeat="lus in listUnSold">
-									<td>{{lus.title}}</td>
-									<td>{{lus.endTime}}</td>
-									<td>{{lus.listPrice}}</td>
-									<td>{{lus.currency}}</td>
-									<td>{{lus.purchaser}}</td>
-									<td>{{lus.reListing}}</td>
-								</tr>
-							</table>
-						</div>
-						
-
-						
-					</div>
-
-					
+							<a class="btn btn-success" id="btn-download-lastest" href="#">
+								<i class="fa fa-fw fa-upload"></i>
+								<font>
+								<font class="">Download
+								</font>
+								</font>	
+							</a> 
+						</div> 
+						 <div class="dataTables_wrapper form-inline dt-bootstrap no-footer" id="table-unsold">
+			               <div class="ttoolbar">
+				               <div style="padding:10px;background:#d4d4d4">
+				                  <div class="btn-group">
+				                     <button class="btn btn-danger btn-labeled" onclick="removeSelectedProducts()">
+				                        <span class="btn-label">
+				                           <i class="glyphicon glyphicon-trash"></i>
+				                        </span>
+				                        <font><font>Delete</font></font>
+				                     </button> 
+				                     <button class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+				                         <span class="caret" style="height: 13px;"></span> 
+				                     </button> 
+				                     <ul class="dropdown-menu">
+				                        <li> <a href="#"><font><font>Delete All</font></font></a> </li>
+				                     </ul>
+				                  </div>
+				                  <span style="margin-left: 20px;" id="selectedCount"></span>
+				               </div>
+			            	</div>
+				            <table 	id="table-sell" 
+				            		class="table table-striped table-bordered table-hover smart-form dataTable no-footer">
+				               <thead>
+				                  <tr>
+				                     <th class="fit nowrap select-checkbox sorting_disabled" style="width: 15px;">
+				                        <label class="checkbox">
+				                        	<input name="select_all" value="1" type="checkbox"><i></i>
+				                        </label>
+				                     </th>
+				                     <th ng-click="sort('title')">Title 
+				                     	 <span class="glyphicon sort-icon" ng-show="sortKey=='title'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+				                     </th>
+				                     <th ng-click="sort('endTime')">Ending time 
+				                     	<span class="glyphicon sort-icon" ng-show="sortKey=='endTime'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+				                     </th>
+				                     <th ng-click="sort('listPrice')">List price
+				                     	<span class="glyphicon sort-icon" ng-show="sortKey=='listPrice'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+				                     </th>
+				                     <th ng-click="sort('currency')">Currency
+				                     	<span class="glyphicon sort-icon" ng-show="sortKey=='currency'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span> 
+				                     </th>
+				                     <th ng-click="sort('purchaser')">Purchaser
+				                     	<span class="glyphicon sort-icon" ng-show="sortKey=='purchaser'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span> 
+				                     </th>
+				                     <th ng-click="sort('reListing')">Re-Listing
+				                     	<span class="glyphicon sort-icon" ng-show="sortKey=='reListing'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span> 
+				                     </th>  
+									 <th>Sort
+									 	<span class="glyphicon sort-icon" ng-show="sortKey=='title'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+									 </th> 
+				                  </tr>
+				               </thead>
+				               <tbody>
+				                  <tr dir-paginate ="lus in listUnSold |orderBy:sortKey:reverse |itemsPerPage:6">
+				                     <td>
+				                        <label class="checkbox"> 
+				                        	<input value="1" type="checkbox"><i></i>
+				                        </label>
+				                     </td>
+				                     <td>{{lus.title}}</td>
+									 <td>{{lus.endTime}}</td>
+									 <td>{{lus.listPrice}}</td>
+									 <td>{{lus.currency}}</td>
+									 <td>{{lus.purchaser}}</td>
+									 <td>{{lus.reListing}}</td>
+				                     <td>
+				                        <button class="btn btn-default"> Edit </button>
+				                     </td>
+				                  </tr>
+				               </tbody>
+				            </table>
+				            <dir-pagination-controls
+						       max-size="5"
+						       direction-links="true"
+						       boundary-links="true" >
+						    </dir-pagination-controls>
+				        </div>
+					</div>  
 				</section>
 				<!-- end widget grid -->
 
@@ -669,11 +710,12 @@
 		</script>
 		
 		<!-- LOAD ANGULAR JS MODULE -->
-		<script type="text/javascript"src="<c:url value="/resources/js/angularjs/angular.min.js"/>"></script>
+		<script type="text/javascript"src="<c:url value="/resources/js/angularjs/angular.js"/>"></script>
+		<script type="text/javascript"src="<c:url value="/resources/js/angularjs/dirPagination.js"/>"></script>
 		
 		<!-- HANDING ALL BUSSSINESS LOGIC FOR LIST UNSOLD(napt2017) -->
 		<script type="text/javascript" >
-			var listUnSoldApp = angular.module("list-unsold-app",[]);
+			var listUnSoldApp = angular.module("list-unsold-app",['angularUtils.directives.dirPagination']);
 			listUnSoldApp.controller("listUnSoldController",function($scope,$http){
 				$scope.loadListUnSold = function(){
 					$http.get("GetListProduct/2")
@@ -684,6 +726,26 @@
 							  console.log(data);
 						});
 				};
+				
+				$scope.sort = function(keyname){
+			        $scope.sortKey = keyname;   //set the sortKey to the param passed
+			        $scope.reverse = !$scope.reverse; //if true make it false and vice versa
+			    }
+				
+				$("#btn-download-lastest").on("click",function(evt){
+					if($("#table-unsold").find("tbody").find("tr").size()>0){ 
+						var numberOfItem = parseInt($("#number-of-item").val());
+						if(numberOfItem<=0){
+							alert("The number of item to download must greater than zero!!"); 
+							evt.preventDefault();
+						}else{
+							$(this).attr("href","DownloadExportFile/2/"+numberOfItem +"/csv");
+						}
+					}else{
+						alert("Empty data to export!")
+						evt.preventDefault(); 
+					}
+				});
 				
 				//All default action here
 				$scope.loadListUnSold();

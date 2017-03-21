@@ -1,6 +1,11 @@
 package com.vn.hungtq.peace.dto;
 
-public class EbayProductSearch {
+import java.util.LinkedHashMap;
+import java.util.function.Supplier;
+
+import com.vn.hungtq.peace.common.IExport;
+
+public class EbayProductSearch implements IExport{
 	private String title;
 	private String endTime;
 	private String listPrice;
@@ -79,5 +84,21 @@ public class EbayProductSearch {
 	}
 	public void setError(String error) {
 		this.error = error;
+	}
+
+	@SuppressWarnings("rawtypes")
+	@Override
+	public LinkedHashMap<String, Supplier> getMapTitleWithSupplier() {
+		LinkedHashMap<String, Supplier> mapTitleWithSupler = new LinkedHashMap<String, Supplier>();
+		mapTitleWithSupler.put("Title",()->this.getTitle());
+		mapTitleWithSupler.put("EndTime",()->this.getEndTime());
+		mapTitleWithSupler.put("ListPrice",()->this.getListPrice());
+		mapTitleWithSupler.put("Currency",()->this.getCurrency());
+		mapTitleWithSupler.put("Purchaser",()->this.getPurchaser());
+		mapTitleWithSupler.put("Edit",()->this.getEdit());
+		mapTitleWithSupler.put("End",()->this.getEnd());
+		mapTitleWithSupler.put("ReListing",()->this.getReListing());
+		mapTitleWithSupler.put("Error",()->this.getError());
+		return mapTitleWithSupler;
 	} 
 }
