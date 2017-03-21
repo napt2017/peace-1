@@ -1,9 +1,10 @@
 <!-- HEADER -->
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 		<header id="header">
 			<div id="logo-group">
 
 				<!-- PLACE YOUR LOGO HERE -->
-				<h2 style="font-weight: bold;color: blue; margin-top:10px">PEACE-EX</h2>
+				<h2 style="font-weight: bold;color: blue; margin-top:10px"><spring:message code="logo.title"></spring:message> </h2>
 				<!-- <span id="logo"> <img src="img/logo.png" alt="SmartAdmin"> </span> -->
 				<!-- END LOGO PLACEHOLDER -->
 			</div>

@@ -14,7 +14,7 @@
 		<header id="header">
 
 			<div id="logo-group">
-				<span id="logo"> <!--<img src="img/logo.png" alt="Peace">--> <h1 style="font-weight: bold;color: blue;">PEACE-EX</h1></span>
+				<span id="logo"> <!--<img src="img/logo.png" alt="Peace">--> <h1 style="font-weight: bold;color: blue;"><spring:message code="logo.title"></spring:message></h1></span>
 			</div>
 
 			<!--<span id="extr-page-header-space"> <span class="hidden-mobile hiddex-xs">Need an account?</span> <a href="register.html" class="btn btn-danger">Create account</a> </span>-->

@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
@@ -107,48 +107,41 @@ input, textarea, button {
 
 		</div>
 		<!-- END RIBBON -->
-
+	
 		<!-- MAIN CONTENT -->
+		<form class="col-lg-8" ng-controller="accountSettingController">
 		<div id="content">
 			<div class="row">
-				<article class="col-sm-12 col-md-12 col-lg-12">
 				<div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-3"
 					data-widget-editbutton="false">
-					<header> <span class="widget-icon"> <i
-						class="fa fa-table"></i></span>
-					<h2>Infomation</h2>
+					<header> 
+						<h2><span class="widget-icon"> <i class="fa fa-table"></i></span>  Infomation</h2>
 					</header>
 					<div>
 						<div class="jarviswidget-editbox"></div>
 						<div class="widget-body ">
-							<div class="row">
-								<header>
-								<h2>UserId: HungTQ</h2>
-								</header>
-								<form class="smart-form col-lg-12"
-									ng-controller="accountSettingController">
+							<div class="row smart-form">
 									<fieldset ng-model="accountSettingModel">
-										<h3>Information</h3>
 										<section class="row "> <label
-											class="label col col-4">Old Password</label> <label
-											class="col col-6"> <input type="password"
-											class="col col-6" id="old-pass">
+											class="label col col-6">Old Password</label> <label
+											class="col col-6"> 
+											<input type="password" style="width: 100%" id="old-pass">
 										</label> </section>
 										<section class="row "> <label
-											class="label col col-4">New password</label> <label
-											class="col col-6"> <input type="password"
-											class="col col-6" id="new-pass">
+											class="label col col-6">New password</label> <label
+											class="col col-6"> 
+											<input type="password"
+											style="width: 100%" id="new-pass">
 										</label> </section>
 										<section class="row "> <label
-											class="label col col-4">Retype Password</label> <label
+											class="label col col-6">Retype Password</label> <label
 											class="col col-6"> <input type="password"
-											class="col col-6" id="re-new-pass">
+											style="width: 100%" id="re-new-pass">
 										</label> </section>
 										<section class="row "> <label
-											class="label col col-4">Inventory check result mail <br />distribution
-											setting
+											class="label col col-6">Inventory check result mail distribution setting
 										</label>
-										<div class="col col-8">
+										<div class="col col-6">
 											<label class=""> <input type="radio"
 												name="radio-inline" ng-value="true"
 												ng-model="accountSettingModel.isDeliver"> <i></i>To
@@ -160,67 +153,96 @@ input, textarea, button {
 										</div>
 										</section>
 										<section class="row "> <label
-											class="label col col-4">E-mail address</label> <label
+											class="label col col-6">E-mail address</label> <label
 											class="col col-6"> <input type="text"
-											class="col col-6" id="email"
+											style="width: 100%" id="email"
 											ng-model="accountSettingModel.email"
 											value="accountSettingModel.email">
 										</label> </section>
 									</fieldset>
-									<fieldset>
-										<h3>API key setting (Amazon)</h3>
-										<section class="row "> <label
-											class="label col col-4">Access Key</label> <label
-											class="col col-6"> <input type="text"
-											class="col col-6"
-											ng-model="accountSettingModel.amazonAccessKey"
-											value="accountSettingModel.amazonAccessKey" id="access-key">
-										</label> </section>
-										<section class="row "> <label
-											class="label col col-4">Secret Key</label> <label
-											class="col col-6"> <input type="text"
-											class="col col-6"
-											ng-model="accountSettingModel.amazonSecretKey"
-											value="accountSettingModel.amazonSecretKey" id="secret-key">
-										</label> </section>
-										<section class="row "> <label
-											class="label col col-4">Id</label> <label class="col col-6">
-											<input type="text" class="col col-6"
-											ng-model="accountSettingModel.amazoneId"
-											value="accountSettingModel.amazoneId" id="amazon-id">
-										</label> </section>
-									</fieldset>
-									<fieldset>
-										<h3>PayPal email address</h3>
-										<section class="row "> <label
-											class="label col col-4">PayPal Email</label> <label
-											class="col col-6"> <input type="text"
-											class="col col-6" ng-model="accountSettingModel.paypalEmail"
-											value="accountSettingModel.paypalEmail" id="paypal-email">
-										</label> </section>
-										<section class="row "> <label
-											class="label col col-4">Immediate settlement</label> <label
-											class="col col-8"> <input type="checkbox"
-											ng-true-value="true" ng-false-value="false"
-											ng-model="accountSettingModel.isImmediateStettlement"
-											ng-checked="accountSettingModel.isImmediateStettlement"
-											name="checkbox" checked="checked"> <i></i>
-											<p>Require immediate payment when buyer uses Buy It Now /
-												Buy It Now Buyer needs to pay immediately</p>
-										</label> </section>
-									</fieldset>
-									<footer>
-									<button type="submit" ng-click="saveAccountSetting($event)"
-										class="btn btn-primary">Save</button>
-									</footer>
-								</form>
 							</div>
 						</div>
 					</div>
 				</div>
-				</article>
+			</div>
+			<div class="row">
+				<div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-3"
+					data-widget-editbutton="false">
+					<header> 
+						<h2><span class="widget-icon"> <i class="fa fa-table"></i></span>   Setting Amazon</h2>
+					</header>
+					<div>
+						<div class="jarviswidget-editbox"></div>
+						<div class="widget-body ">
+							<div class="row smart-form">
+									<fieldset>
+										<section class="row "> <label
+											class="label col col-6">Access Key</label> <label
+											class="col col-6"> <input type="text" style="width: 100%"
+											ng-model="accountSettingModel.amazonAccessKey"
+											value="accountSettingModel.amazonAccessKey" id="access-key">
+										</label> </section>
+										<section class="row "> <label
+											class="label col col-6">Secret Key</label> <label
+											class="col col-6"> <input type="text" style="width: 100%"
+											ng-model="accountSettingModel.amazonSecretKey"
+											value="accountSettingModel.amazonSecretKey" id="secret-key">
+										</label> </section>
+										<section class="row "> <label
+											class="label col col-6">Id</label> <label class="col col-6">
+											<input type="text" style="width: 100%"
+											ng-model="accountSettingModel.amazoneId"
+											value="accountSettingModel.amazoneId" id="amazon-id">
+										</label> </section>
+									</fieldset>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-3"
+					data-widget-editbutton="false">
+					<header> 
+						<h2><span class="widget-icon"> <i class="fa fa-table"></i></span>   Paypal Setting</h2>
+					</header>
+					<div>
+						<div class="jarviswidget-editbox"></div>
+						<div class="widget-body ">
+							<div class="row smart-form">
+									<fieldset>
+										<section class="row "> <label
+											class="label col col-6">PayPal Email</label> 
+											<label class="col col-6"> 
+												<input type="text" style="width: 100%" ng-model="accountSettingModel.paypalEmail"
+												value="accountSettingModel.paypalEmail" id="paypal-email">
+											</label> 
+										</section>
+										<section class="row "> 
+											<label class="label col col-6">Immediate settlement</label> 
+											<label class="col col-6" style="    display: inline-flex;"> 
+												<input type="checkbox" ng-true-value="true" ng-false-value="false"
+												ng-model="accountSettingModel.isImmediateStettlement"
+												ng-checked="accountSettingModel.isImmediateStettlement"
+												name="checkbox" checked="checked" style="margin-right: 10px;"> <i></i>
+												<p>   Require immediate payment when buyer uses Buy It Now /
+													Buy It Now Buyer needs to pay immediately</p>
+											</label> 
+										</section>
+									</fieldset>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
+		<footer>
+			<button type="submit" ng-click="saveAccountSetting($event)"
+			class="btn btn-primary">Save
+			</button>
+		</footer>
+		</form>
 		<!-- END MAIN CONTENT -->
 
 	</div>
