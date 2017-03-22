@@ -57,33 +57,14 @@
 								<input type="number" value="0" id="number-of-item" style="width: 600px;" class="input-sm"/> 
 							</label>
 							<a class="btn btn-success" id="btn-download-lastest" href="#">
-								<i class="fa fa-fw fa-upload"></i>
+								<i class="fa fa-fw fa-download"></i>
 								<font>
 								<font class="">Download
 								</font>
 								</font>	
 							</a> 
 						</div> 
-						 <div class="dataTables_wrapper form-inline dt-bootstrap no-footer" id="table-unsold">
-			               <div class="ttoolbar">
-				               <div style="padding:10px;background:#d4d4d4">
-				                  <div class="btn-group">
-				                     <button class="btn btn-danger btn-labeled" onclick="removeSelectedProducts()">
-				                        <span class="btn-label">
-				                           <i class="glyphicon glyphicon-trash"></i>
-				                        </span>
-				                        <font><font>Delete</font></font>
-				                     </button> 
-				                     <button class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-				                         <span class="caret" style="height: 13px;"></span> 
-				                     </button> 
-				                     <ul class="dropdown-menu">
-				                        <li> <a href="#"><font><font>Delete All</font></font></a> </li>
-				                     </ul>
-				                  </div>
-				                  <span style="margin-left: 20px;" id="selectedCount"></span>
-				               </div>
-			            	</div>
+						 <div class="dataTables_wrapper form-inline dt-bootstrap no-footer" id="table-unsold"> 
 				            <table 	id="table-sell" 
 				            		class="table table-striped table-bordered table-hover smart-form dataTable no-footer">
 				               <thead>

@@ -41,26 +41,7 @@
 						<div class="row">
 							<h1>Product list: error </h1>
 						</div> 
-						<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-			               <div class="ttoolbar">
-				               <div style="padding:10px;background:#d4d4d4">
-				                  <div class="btn-group">
-				                     <button class="btn btn-danger btn-labeled" onclick="removeSelectedProducts()">
-				                        <span class="btn-label">
-				                           <i class="glyphicon glyphicon-trash"></i>
-				                        </span>
-				                        <font><font>Delete</font></font>
-				                     </button> 
-				                     <button class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-				                         <span class="caret" style="height: 13px;"></span> 
-				                     </button> 
-				                     <ul class="dropdown-menu">
-				                        <li> <a href="#"><font><font>Delete All</font></font></a> </li>
-				                     </ul>
-				                  </div>
-				                  <span style="margin-left: 20px;" id="selectedCount"></span>
-				               </div>
-			            	</div>
+						<div class="dataTables_wrapper form-inline dt-bootstrap no-footer"> 
 				            <table 	id="table-sell" 
 				            		class="table table-striped table-bordered table-hover smart-form dataTable no-footer">
 				               <thead>

@@ -28,20 +28,7 @@
 			<ol class="breadcrumb">
 				<li>Home</li>
 				<li>Research</li>
-			</ol>
-			<!-- end breadcrumb -->
-
-			<!-- You can also add more buttons to the
-				ribbon for further usability
-
-				Example below:
-
-				<span class="ribbon-button-alignment pull-right">
-				<span id="search" class="btn btn-ribbon hidden-xs" data-title="search"><i class="fa-grid"></i> Change Grid</span>
-				<span id="add" class="btn btn-ribbon hidden-xs" data-title="add"><i class="fa-plus"></i> Add</span>
-				<span id="search" class="btn btn-ribbon" data-title="search"><i class="fa-search"></i> <span class="hidden-mobile">Search</span></span>
-				</span> -->
-
+			</ol> 
 		</div>
 		<!-- END RIBBON -->
 
@@ -91,30 +78,46 @@
 					</div>
 					<div class="row"
 						style="background-color: white; padding-right: 40px;">
-						<table
+						<div class="col col-lg-12">
+							<table
 							class="table table-bordered table-striped responsive-utilities"
 							style="margin-left: 25px">
 							<thead>
 								<tr>
-									<th>Image</th>
-									<th>Product Name</th>
-									<th>Price</th>
-									<th>Stock</th>
-									<th>Exhibition</th>
+									<th ng-click="sort('image')">Image
+										<span class="glyphicon sort-icon" ng-show="sortKey=='image'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+									</th>
+									<th ng-click="sort('productName')">Product Name
+										<span class="glyphicon sort-icon" ng-show="sortKey=='productName'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+									</th>
+									<th ng-click="sort('price')">Price
+										<span class="glyphicon sort-icon" ng-show="sortKey=='price'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+									</th>
+									<th ng-click="sort('stock')">Stock
+										<span class="glyphicon sort-icon" ng-show="sortKey=='stock'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+									</th>
+									<th ng-click="sort('exhibition')">Exhibition
+										<span class="glyphicon sort-icon" ng-show="sortKey=='exhibition'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+									</th>
 								</tr>
 							</thead>
 							<tbody>
-								<tr ng-repeat="product in listOfProduct">
+								<tr dir-paginate ="product in listOfProduct |orderBy:sortKey:reverse |itemsPerPage:6">
 									<td class="col col-1"><image width="64" height="64"
 											src="{{product.image}}" /></td>
 									<td class="is-visible"><p>{{product.productName}}</p></td>
 									<td class="is-hidden">{{product.price}}</td>
 									<td class="is-hidden">{{product.stock}}</td>
-									<td class="is-hidden"><a href="{{product.exhibition}}">{{product.exhibition}}</a></td>
+									<td class="is-hidden"><a ng-click="sendToAddProduct($event)" href="{{product.exhibition}}">Go to add ebay item</a></td>
 								</tr>
-							</tbody>
-
+							</tbody> 
 						</table>
+						<dir-pagination-controls
+						       max-size="5"
+						       direction-links="true"
+						       boundary-links="true" >
+						</dir-pagination-controls>
+						</div>
 					</div>
 				</div>
 				<!-- end widget div -->
@@ -240,13 +243,13 @@ input, textarea, button {
 	</script>
 
 	<!-- LOAD ANGULAR JS MODULE -->
-	<script type="text/javascript"
-		src="<c:url value="/resources/js/angularjs/angular.min.js"/>"></script>
+	<script type="text/javascript"src="<c:url value="/resources/js/angularjs/angular.js"/>"></script>
+	<script type="text/javascript"src="<c:url value="/resources/js/angularjs/dirPagination.js"/>"></script>
 
 	<!-- SCRIPT HANDING EVENT SEARCH PRODUCT (Author napt2017)-->
 	<script type="text/javascript">
 		var shoppingSearchModule = angular
-				.module("product_shopping_search", []);
+				.module("product_shopping_search", ['angularUtils.directives.dirPagination']);
 		shoppingSearchModule
 				.controller(
 						"productSearchController",
@@ -280,6 +283,11 @@ input, textarea, button {
 									$scope.listOfProduct = [];
 								}
 							};
+							
+							$scope.sort = function(keyname){
+						        $scope.sortKey = keyname;   //set the sortKey to the param passed
+						        $scope.reverse = !$scope.reverse; //if true make it false and vice versa
+						    }
 
 							/*--------------------------------EBAY SEARCH--------------------------------------*/
 							$scope.ebay = {};
@@ -317,6 +325,12 @@ input, textarea, button {
 									 .error(function(data, status, headers,config) {
 										  console.log(data);
 									});
+							}
+							
+							//Send to add product
+							$scope.sendToAddProduct = function($event){
+								$event.preventDefault(); 
+								window.location.href = "Sell";
 							}
 
 							/*--------------------------------AMAZON SEARCH--------------------------------------*/
