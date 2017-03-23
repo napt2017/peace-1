@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.MessageSource;
 import org.springframework.security.authentication.AuthenticationTrustResolverImpl;
 import org.springframework.security.core.Authentication;
@@ -33,6 +34,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriUtils;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.vn.hungtq.peace.common.AjaxResponseResult;
@@ -43,6 +45,7 @@ import com.vn.hungtq.peace.common.ProductSearch;
 import com.vn.hungtq.peace.common.RakutenServiceInfo;
 import com.vn.hungtq.peace.common.YahooServiceInfo;
 import com.vn.hungtq.peace.dto.AccountSettingDto;
+import com.vn.hungtq.peace.dto.EbayProductToAdd;
 import com.vn.hungtq.peace.dto.UserDto;
 import com.vn.hungtq.peace.entity.AccountSetting;
 import com.vn.hungtq.peace.entity.User;
@@ -263,13 +266,11 @@ public class MainController {
 	@RequestMapping(value ="/AmazoneGetServiceUrl/{keyword}",method=RequestMethod.POST)
 	public @ResponseBody String amazoneGetServiceUrl(@PathVariable(value = "keyword") String keyword){
 		return CommonUtils.buildAmazonServiceUrl(keyword,amazonServiceInfo);
-	}
+	} 
 	
 	@RequestMapping(value ="/EbayProductSearch/{keyword}",method=RequestMethod.GET)
 	public @ResponseBody String ebaySearchProductByKeyword(@PathVariable(value = "keyword") String keyword){
-		String productSearchUrl = CommonUtils.buildEbayServiceUrl(keyword, ebayServiceInfomation);
-		logger.debug("The ebay service search url :" +productSearchUrl);
-		return CommonUtils.getHTMLContent(productSearchUrl);
+		return getEbaySearchProductResult(keyword);
 	}
 	
 	@RequestMapping(value ="/YahooProductSearch/{keyword}",method=RequestMethod.GET)
@@ -277,6 +278,24 @@ public class MainController {
 		String productSearchUrl = CommonUtils.buildYahooServiceUrl(keyword, yahooServiceInfo);
 		logger.debug("yahoo appid:"+yahooServiceInfo.getAppid());
 		logger.debug("The yahoo service search url :" +productSearchUrl);
+		return CommonUtils.getHTMLContent(productSearchUrl);
+	}
+	
+	@RequestMapping("SendToSell/{itemIndex}/{keyWord}")
+	public ModelAndView sendToSell(@PathVariable("itemIndex") String itemId,@PathVariable("keyWord")String keyWord){
+		String data = getEbaySearchProductResult(keyWord);
+		EbayProductToAdd ebayProductAdd = processEbaySearchItem(data,itemId);
+		
+		ModelAndView mdAndView = new ModelAndView();
+		mdAndView.addObject("ebayProductAdd", ebayProductAdd);
+		
+		return mdAndView;
+	}
+	
+	@Cacheable(value="ebayProductSearchCached",key="#keyword")
+	private String getEbaySearchProductResult(String keyword){
+		String productSearchUrl = CommonUtils.buildEbayServiceUrl(keyword, ebayServiceInfomation);
+		logger.debug("The ebay service search url :" +productSearchUrl);
 		return CommonUtils.getHTMLContent(productSearchUrl);
 	}
 	
@@ -341,6 +360,96 @@ public class MainController {
 		responseResult.setExtraData(isCorrect);
 		
 		return responseResult;		 
+	 }
+	 
+	 private EbayProductToAdd processEbaySearchItem(String jsonString,String itemId){
+		 JsonParser jsonParser = new JsonParser();
+		 JsonObject jsonObject = jsonParser.parse(jsonString).getAsJsonObject();
+		 JsonArray jsonArray = jsonObject.getAsJsonArray("findItemsByKeywordsResponse");
+		 
+		 jsonObject = (JsonObject)jsonArray.get(0);
+		 jsonArray  = jsonObject.getAsJsonArray("searchResult");
+		 jsonObject = (JsonObject)jsonArray.get(0);
+		 jsonArray  = jsonObject.getAsJsonArray("item");
+		 
+		 int length = jsonArray.size();
+		 for(int index = 0;index<length;index++){
+			 jsonObject = (JsonObject)jsonArray.get(index);
+			 String tmpItemId = jsonObject.getAsJsonArray("itemId").get(0).getAsString();
+			 if(tmpItemId.equals(itemId)){
+				 break;
+			 }
+		 }
+		 
+		 return convertJsonObjectToEbayProduct(jsonObject);
+	 }
+	 
+	 private EbayProductToAdd convertJsonObjectToEbayProduct(JsonObject jsonObject){
+		 EbayProductToAdd ebayProductAdd = new EbayProductToAdd();
+		 String itemId = jsonObject.getAsJsonArray("itemId").get(0).getAsString();
+		 ebayProductAdd.setItemId(itemId);
+		 
+		 String title = jsonObject.getAsJsonArray("title").get(0).getAsString();
+		 ebayProductAdd.setTitle(title);
+		 
+		 String globalId = jsonObject.getAsJsonArray("globalId").get(0).getAsString();
+		 ebayProductAdd.setGlobalId(globalId); 
+		 JsonObject primaryCategory = jsonObject.getAsJsonArray("primaryCategory").get(0).getAsJsonObject();
+		 String categoryId = primaryCategory.getAsJsonArray("categoryId").get(0).getAsString();
+		 String categoryName= primaryCategory.getAsJsonArray("categoryName").get(0).getAsString();
+		 ebayProductAdd.setCategoryId(categoryId);
+		 ebayProductAdd.setCategoryName(categoryName);
+		 
+		 String imageUrl = jsonObject.getAsJsonArray("galleryURL").get(0).getAsString();
+		 ebayProductAdd.setImageUrl(imageUrl);
+		 
+		 String viewItemUrl = jsonObject.getAsJsonArray("viewItemURL").get(0).getAsString();
+		 ebayProductAdd.setViewItemUrl(viewItemUrl);
+		 
+		 String paymentMethod = jsonObject.getAsJsonArray("paymentMethod").get(0).getAsString();
+		 ebayProductAdd.setPaymentMethod(paymentMethod);
+		 
+		 Boolean isAutoPay = jsonObject.getAsJsonArray("autoPay").get(0).getAsBoolean();
+		 ebayProductAdd.setAutoPay(isAutoPay);
+		 
+		 String postalCode = jsonObject.getAsJsonArray("postalCode").get(0).getAsString();
+		 ebayProductAdd.setPortalCode(postalCode);
+		 
+		 String location = jsonObject.getAsJsonArray("location").get(0).getAsString();
+		 ebayProductAdd.setLocation(location);
+		 
+		 String country = jsonObject.getAsJsonArray("country").get(0).getAsString();
+		 ebayProductAdd.setCountry(country);
+		 
+		 JsonObject shippingInfo = jsonObject.getAsJsonArray("shippingInfo").get(0).getAsJsonObject();
+		 JsonObject shippingServiceCost = shippingInfo.getAsJsonArray("shippingServiceCost").get(0).getAsJsonObject();
+		 
+		 String currencyId =shippingServiceCost.get("@currencyId").getAsString();
+		 ebayProductAdd.setCurrencyId(currencyId);
+		 
+		 String shippingCost = shippingServiceCost.get("__value__").getAsString();
+		 ebayProductAdd.setShippingCost(shippingCost);
+		 
+		 String shippingType = shippingInfo.getAsJsonArray("shippingType").get(0).getAsString();
+		 ebayProductAdd.setShippingType(shippingType);
+		 
+		 String shipToLocation = shippingInfo.getAsJsonArray("shipToLocations").get(0).getAsString();
+		 ebayProductAdd.setShippingToLocation(shipToLocation);
+		 
+		 String expeditedShipping = shippingInfo.getAsJsonArray("expeditedShipping").get(0).getAsString();
+		 ebayProductAdd.setExpeditedShipping(expeditedShipping);
+		 
+		 Boolean oneDayShippingAvaiable =shippingInfo.getAsJsonArray("expeditedShipping").get(0).getAsBoolean();
+		 ebayProductAdd.setOneDayShippingAvailable(oneDayShippingAvaiable);
+		 
+		 String handlingTime = shippingInfo.getAsJsonArray("handlingTime").get(0).getAsString();
+		 ebayProductAdd.setHandingTime(handlingTime);		 
+		 
+		 JsonObject sellingStatus = jsonObject.getAsJsonArray("sellingStatus").getAsJsonObject();
+		 String currentPrice = sellingStatus.getAsJsonArray("currentPrice").get(0).getAsJsonObject().get("__value__").getAsString();
+		 ebayProductAdd.setCurrentPrice(currentPrice);
+		 
+		 return ebayProductAdd;
 	 }
 	
 	

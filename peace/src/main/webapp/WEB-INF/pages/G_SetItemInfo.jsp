@@ -121,49 +121,55 @@
 			<div id="content">
 				<!-- widget grid -->
 				
-				<section id="widget-grid" class="">
+				<section id="widget-grid" class="col-lg-11">
 
 					<!-- widget div-->
 					<div class="row" ng-controller="itemInfomationController">
-						<div class="widget-body ">
-							<header>
-								<h2>Description Information</h2>
+						<div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-3"
+							data-widget-editbutton="false">
+							<header> 
+								<h2><span class="widget-icon"> <i class="fa fa-table"></i></span>Description Information</h2>
 							</header>
-							<form class="smart-form col-lg-6" ng-model="itemInfomationModel">
-								<input type="hidden" id="item_infomation_id" value="{{itemInfomationModel.itemId}}"/>
-								<fieldset>
-									<section>
-										<label class="label">Payment</label>
-										<label class="textarea"> 									
-											<textarea rows="5" id="payment" name="comment" placeholder="">{{itemInfomationModel.payment}}</textarea> 
-										</label>
-									</section>
-									<section>
-										<label class="label">Terms of Sale</label>
-										<label class="textarea"> 									
-											<textarea rows="5" name="comment" id="terms_of_sale" placeholder="">{{itemInfomationModel.termsOfSale}}</textarea> 
-										</label>
-									</section>
-									<section>
-										<label class="label">About Us</label>
-										<label class="textarea"> 										
-											<textarea rows="5" name="comment" id="about_us" placeholder="">{{itemInfomationModel.aboutUs}}</textarea> 
-										</label>
-									</section>
-									<section>
-										<label class="label">International Buyers - Please Note:</label>
-										<label class="textarea">									
-											<textarea rows="5" name="comment" id="international_buyers_note" placeholder="">{{itemInfomationModel.internationalBuyersNote}}</textarea> 
-										</label>
-									</section>
-								</fieldset>
-								<footer>
-									<button type="submit" class="btn btn-primary" id="btnSave" ng-click="saveItemInfomation($event)">
-										Save
-									</button>
-								</footer>
-							</form>
-						</div>
+							<div>
+								<div class="jarviswidget-editbox"></div>
+								<div class="widget-body ">
+									<form class="smart-form" ng-model="itemInfomationModel">
+									<input type="hidden" id="item_infomation_id" value="{{itemInfomationModel.itemId}}"/>
+									<fieldset>
+										<section class="row" style="margin-bottom: 2px;">
+											<label class="label col col-6" style="text-align: right;">Payment</label>
+											<label class="textarea col col-6"> 									
+												<textarea rows="5" id="payment" name="comment" placeholder="">{{itemInfomationModel.payment}}</textarea> 
+											</label>
+										</section>
+										<section class="row" style="margin-bottom: 2px;">
+											<label class="label col col-6" style="text-align: right;">Terms of Sale</label>
+											<label class="textarea col col-6"> 									
+												<textarea rows="5" name="comment" id="terms_of_sale" placeholder="">{{itemInfomationModel.termsOfSale}}</textarea> 
+											</label>
+										</section>
+										<section class="row" style="margin-bottom: 2px;">
+											<label class="label col col-6" style="text-align: right;">About Us</label>
+											<label class="textarea col col-6"> 										
+												<textarea rows="5" name="comment" id="about_us" placeholder="">{{itemInfomationModel.aboutUs}}</textarea> 
+											</label>
+										</section>
+										<section class="row" style="margin-bottom: 2px;">
+											<label class="label col col-6" style="text-align: right;">International Buyers - Please Note:</label>
+											<label class="textarea col col-6">									
+												<textarea rows="5" name="comment" id="international_buyers_note" placeholder="">{{itemInfomationModel.internationalBuyersNote}}</textarea> 
+											</label>
+										</section>
+									</fieldset>
+									<footer class="row">
+										<button type="submit" class="btn btn-primary" id="btnSave" ng-click="saveItemInfomation($event)">
+											Save
+										</button>
+									</footer>
+								</form>
+								</div>
+							</div>
+						</div> 
 					</div>
 					<!-- end widget div -->
 					

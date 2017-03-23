@@ -108,7 +108,10 @@
 									<td class="is-visible"><p>{{product.productName}}</p></td>
 									<td class="is-hidden">{{product.price}}</td>
 									<td class="is-hidden">{{product.stock}}</td>
-									<td class="is-hidden"><a ng-click="sendToAddProduct($event)" href="{{product.exhibition}}">Go to add ebay item</a></td>
+									<td class="is-hidden">
+										<a ng-if="isEbaySearch==true" ng-click="sendToAddProduct($event,product.itemId)" href="{{product.exhibition}}">Go to add ebay item</a>
+										<a ng-if="isEbaySearch==false" href="{{product.exhibition}}">{{product.exhibition}}</a>
+									</td>
 								</tr>
 							</tbody> 
 						</table>
@@ -254,6 +257,8 @@ input, textarea, button {
 				.controller(
 						"productSearchController",
 						function($scope, $http) {
+							$scope.isEbaySearch = false; 
+							
 							/*---------------------GLOBAL SEARCH PRODUCT FUNCTION ----------------------- */
 							$scope.searchProduct = function() {
 								var keyword = $scope.searchModel;
@@ -308,7 +313,8 @@ input, textarea, button {
 										image : pic,
 										price : 0,
 										stock : "",
-										exhibition : viewitem
+										exhibition : viewitem,
+										itemId:item.itemId
 									});
 								}
 								$scope.listOfProduct = listOfProduct;
@@ -320,6 +326,7 @@ input, textarea, button {
 								//Send ajax to server to search product
 								$http.get("EbayProductSearch/"+keyWord)
 									 .success(function(data, status, headers,config) {
+										 $scope.isEbaySearch = true;
 										 $scope.ebay.findItemsByKeywords(data);
 									 })
 									 .error(function(data, status, headers,config) {
@@ -328,9 +335,9 @@ input, textarea, button {
 							}
 							
 							//Send to add product
-							$scope.sendToAddProduct = function($event){
+							$scope.sendToAddProduct = function($event,$index){
 								$event.preventDefault(); 
-								window.location.href = "Sell";
+								window.location.href = "SendToSell/"+ $index+"/"+$scope.searchModel;
 							}
 
 							/*--------------------------------AMAZON SEARCH--------------------------------------*/
@@ -389,7 +396,7 @@ input, textarea, button {
 							$scope.rakuten.searchProductByKeyword = function(keyWord) {
 								//I dont know but rakuten say this! :-p
 								if (keyWord.length > 1) { 
-									
+									$scope.isEbaySearch = false;
 									//Send ajax to server to search product
 									$http.get("RakutenProductSearch/"+ keyWord)
 										 .success(function(data, status,headers, config) {
@@ -492,7 +499,7 @@ input, textarea, button {
 
 							//The yahoo search function
 							$scope.yahoo.searchProductByKeyword = function(keyWord) { 
-
+								$scope.isEbaySearch = false;
 								//Send ajax to server to search product
 								$http.get("YahooProductSearch/"+keyWord)
 									 .success(

@@ -118,170 +118,87 @@
 			<!-- END RIBBON -->
 
 			<!-- MAIN CONTENT -->
-			<div id="content">
+			<div id="content" class="col-lg-12" ng-controller="templateUploadController">
 				<!-- widget grid -->
-				
-				<section id="widget-grid" class="">
-
-					<!-- widget div-->
-					<div class="row" ng-controller="templateUploadController">
-						<div class="widget-body ">
-							<header>
-								<h2>Custom Template</h2>
-							</header>
-							<form class="smart-form">
-							<input type="hidden" value="-1" id="user_template_id" />
-								<fieldset>
-									<section>
-										<div class="note">
-											<a href="#" ng-click="downloadSampleTemplate($event)">
-												<i class="fa fa-hand-o-right" aria-hidden="true"></i>
-												<span>Download sample template</span>
-											</a>
-										</div>
-									</section>
-									
-									<!-- The name of template -->
-									<div class="row"> 
-										<section class="col col-6">
-											<div class="input input-file">
-												<input type="text" size="width=100%" placeholder="Enter the name of template" id="template_name"/>
-											</div>
-										</section>
-									</div>
-									
-									<!-- The ckeditor -->
-									<div class="row"> 
-										<section class="col col-6">
-											<textarea id="userHtmlTemplateCode"></textarea>
-										</section>
-									</div>
-									
-									<!-- The input for user upload file -->
-									<div class="row">  
-										<section class="col col-6">
-											<div class="input input-file">
-												<span class="button">
-													<input id="templateUploadFile" type="file" ng-model="uploadFileModel" name="file2" onchange="angular.element(this).scope().handingEventSelectFileUpload()">Browse
-												</span>
-												<input type="text" placeholder="Upload image for template">
-											</div>
-										</section>
-									</div>
-									
-									<!-- Preview image file -->
-									<div class="row">  
-										<section class="col col-6">
-											<img src="" id="preview_image"/>
-										</section>
-									</div>
-									
-									<!-- Submit button -->
-									<section> 
-											  <div class="btn-group">
-						                        <button type="button" ng-click="ajaxUploadTemplate()" class="btn btn-primary btn-sm">Save</button> 
-						                        <button type="button" class="btn btn-default btn-sm" ng-click="clearUserTemplateForm()">Clear</button>
-						                     </div>
-									</section>
-									
-									<!-- <section>
-										<label class="checkbox ">
-											<input type="checkbox" name="checkbox" checked="checked" >
-											<i></i> Enable custom templates </label>
-									</section>  -->
-									<div class="row" style="background-color:white; padding-right: 40px; display: none">
-										<table class="table table-bordered table-striped responsive-utilities" style="margin-left:15px; width:50%;">
-											<thead>
-											  <tr>
-												<th>
-												  Name
-												</th>
-												<th style="width:20px;">
-												  Choice
-												</th>
-												<th>
-												  Confirmation
-												</th>
-												<th>
-												  Delete
-												</th>
-											  </tr>
-											</thead>
-											<tbody>
-											  <tr>
-												<td class="">Template</td>
-												<td class="is-visible">
-													<section>
-													<div class="inline-group">
-													<label class="">
-														<input type="radio" name="radio-inline" >
-														<i></i></label>
+				<section id="widget-grid"> 
+					<div class="row" >
+							<div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-3"
+								data-widget-editbutton="false">
+								<header> 
+									<h2><span class="widget-icon"> <i class="fa fa-table"></i></span> Custom Template</h2>
+								</header>
+								<div>
+									<div class="jarviswidget-editbox"></div>
+									<div class="widget-body ">
+										<div class="row smart-form">
+											<fieldset>
+												<section class="row"> 
+													<div class="note col col-lg-10">
+														<a href="#" ng-click="downloadSampleTemplate($event)">
+															<i class="fa fa-hand-o-right" aria-hidden="true"></i>
+															<span>Download sample template</span>
+														</a>
 													</div>
-													</section>
-												</td>
-												<td class="is-hidden">
-													<a href="#">Confirmation</a>
-												</td>
-												<td class="is-hidden"><a href="#">Delete</a></td>
-											  </tr>
-											</tbody>
-											
-										</table>
-									</div>
-								</fieldset>
-								<fieldset>
-									<div class="row">
-										<section class="col col-12">
-											<label class="label">Selection of an exhibition template</label>
-											<div class="inline-group" style="padding-top: 30px" ng-repeat="subUserTemplate in listOfUserTemplate"  napt-repeat-directive>
-												<section class="col col-2 col-sm-2" style="" ng-repeat="userTempalate in subUserTemplate">
-													<label class="radio">
-														<input type="radio" class="selected_template" name="radio-inline" value="{{userTempalate.templateId}}">
-														<i></i>{{userTempalate.title}} </label>
-													<img src="{{userTempalate.base64StringImage}}" height="300" width="200"/>
-													<input type="hidden" value="{{userTempalate.htmlCode}} "/>
 												</section> 
-											</div>
-										</section>
-									</div>
-									<!--  
-									<div class="row">
-										<div id="colorpickerstr">
-											<div class="farbtastic">
-												<div class="color" style="background-color: rgb(255, 0, 0);"></div>
-												<div class="wheel"></div>
-												<div class="overlay"></div>
-												<div class="h-marker marker" style="left: 97px; top: 13px;"></div>
-												<div class="sl-marker marker" style="left: 74px; top: 126px;"></div>
-											</div>
+												<section class="row">  
+														<div class="input input-file col col-lg-10">
+															<input type="text" style="margin-bottom: 3px;" placeholder="Enter the name of template" id="template_name"/>
+														</div> 
+												</section> 
+												<section class="row" style="margin-bottom:3px;">  
+														<div class="col col-lg-10">
+															<textarea id="userHtmlTemplateCode" ></textarea>
+														</div>
+												</section>  
+												<section class="row" style="margin-bottom:3px;">  
+														<div class="col col-lg-10">
+															 <div class="input input-file">
+																<span class="button">
+																	<input id="templateUploadFile" type="file" ng-model="uploadFileModel" name="file2" onchange="angular.element(this).scope().handingEventSelectFileUpload()">Browse
+																</span>
+																<input type="text" placeholder="Upload image for template">
+															  </div>
+															  <img id="preview_image" />
+														</div> 
+												</section> 
+												<section class="row">
+													<div class="col col-lg-10">
+														<div class="btn-group">
+									                        <button type="button" ng-click="ajaxUploadTemplate()" class="btn btn-primary btn-sm">Save</button> 
+									                        <button type="button" class="btn btn-default btn-sm" ng-click="clearUserTemplateForm()">Clear</button>
+									                     </div>
+								                     </div>
+												</section> 
+											</fieldset>
 										</div>
-										<input type="text" id="colorstr" name="colorstr" value="#FFFFFF" style="">
-										<div id="colorpickerstr">
-											<div class="farbtastic">
-												<div class="color" style="background-color: rgb(255, 0, 0);"></div>
-												<div class="wheel"></div>
-												<div class="overlay"></div>
-												<div class="h-marker marker" style="left: 97px; top: 13px;"></div>
-												<div class="sl-marker marker" style="left: 74px; top: 126px;"></div>
-											</div>
-										</div>
-										<input type="text" id="colorstr" name="colorstr" value="#FFFFFF" style="">
 									</div>
-									-->
-								</fieldset> 
-							</form>
+							</div>
 						</div>
-					</div>
-					<!-- end widget div -->
-					
-					
-
-				</section>
-				<!-- end widget grid -->
-				
-			</div>
-			<!-- END MAIN CONTENT -->
-
+					</div> 
+					<!-- Row for list exist template -->
+					<div class="row">
+						<div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-3"
+							data-widget-editbutton="false">
+							<header> 
+								<h2><span class="widget-icon"> <i class="fa fa-table"></i></span> Selection of an exhibition template</h2>
+							</header>
+							<div>
+								<div class="jarviswidget-editbox"></div>
+								<div class="widget-body ">
+									<div class="inline-group" style="padding-top: 30px" ng-repeat="subUserTemplate in listOfUserTemplate"  napt-repeat-directive>
+									<section class="col col-2 col-sm-2" style="" ng-repeat="userTempalate in subUserTemplate">
+										<label class="radio">
+											<input type="radio" class="selected_template" name="radio-inline" value="{{userTempalate.templateId}}">
+											<i></i>{{userTempalate.title}} </label>
+										<img src="{{userTempalate.base64StringImage}}" height="300" width="200"/>
+										<input type="hidden" value="{{userTempalate.htmlCode}} "/>
+									</section> 
+								</div>
+								</div> 
+					  </div> 
+				   <!-- End of list exist template -->
+				</div>
+			</div> 
 		</div>
 		<jsp:include page="../pages/common/footer.jsp"/>
 		<!--================================================== -->	

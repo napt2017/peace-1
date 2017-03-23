@@ -100,25 +100,12 @@
 				<!-- breadcrumb -->
 				<ol class="breadcrumb">
 					<li>Home</li><li>Dashboard</li>
-				</ol>
-				<!-- end breadcrumb -->
-
-				<!-- You can also add more buttons to the
-				ribbon for further usability
-
-				Example below:
-
-				<span class="ribbon-button-alignment pull-right">
-				<span id="search" class="btn btn-ribbon hidden-xs" data-title="search"><i class="fa-grid"></i> Change Grid</span>
-				<span id="add" class="btn btn-ribbon hidden-xs" data-title="add"><i class="fa-plus"></i> Add</span>
-				<span id="search" class="btn btn-ribbon" data-title="search"><i class="fa-search"></i> <span class="hidden-mobile">Search</span></span>
-				</span> -->
-
+				</ol> 
 			</div>
 			<!-- END RIBBON -->
 
 			<!-- MAIN CONTENT -->
-			<div id="content">
+			<div id="content" ng-controller="shippingSettingController"s>
 
 				<div class="row">
 					<div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
@@ -131,196 +118,268 @@
 				<!-- widget grid -->
 				
 				<section id="widget-grid" class="">
-
-					<!-- widget div-->
-					<div class="row" ng-controller="shippingSettingController">
-						<div class="widget-body ">
-							<form class="smart-form col-lg-12">
-								<fieldset>
-									<h2 style="font-weight: bold; margin-bottom:10px">Shipping Free</h2>
-									<div class="inline-group" style="margin-top:5px; margin-bottom:20px">
-										<label class="col col-2">
-										<input type="radio" name="radio-inline" checked="checked">
-										<i></i>EMS </label>
-										<label class="col col-2">
-										<input type="radio" name="radio-inline" >
-										<i></i>International parcel SAL </label>
-										<label class="col col-4">
-										<input type="radio" name="radio-inline" >
-										<i></i>Registered mail with small packages airmail </label>
-										<label class="col col-4">
-										<input type="radio" name="radio-inline" >
-										<i></i>With registered small packages aviation SAL flights  </label>
-										
-									</div>
-									<div class="inline-group" style="margin-top:5px; margin-bottom:20px">
-										<label class="col col-2">
-										<input type="radio" name="radio-inline" >
-										<i></i>FedEX </label>
-										<label class="col col-2">
-										<input type="radio" name="radio-inline" >
-										<i></i>international e packet  </label>
-										<label class="col col-4">
-										<input type="radio" name="radio-inline" >
-										<i></i>Registered non-small packages airmail </label>
-										<label class="col col-4">
-										<input type="radio" name="radio-inline" >
-										<i></i>Registered non-small packages aviation SAL flights  </label>
-										
-									</div>
-									<div class="row" style="background-color:white; padding-right: 40px;">
-									<!-- START SHIPPING FREE TABLE  -->
-										<table class="table table-bordered table-striped responsive-utilities" style="margin-left:15px;">
-											<thead>
-											  <tr>
-												<th ng-repeat="sfColumnHeader in shippingFreeColumnHeaders">
-												  {{sfColumnHeader}}
-												</th> 
-											</thead>
-											<tbody>
-											  <tr ng-repeat ="sfModel in shippingFreeTableModelData">
-												<td class="">{{sfModel.shippingMethodName}}</td>
-												<td class="" ng-repeat ="areaTimeUnitMapping in sfModel.listOfAreaTimeUnitMapping">
-													<section>
-														<input type="number" class="input" value="areaTimeUnitMapping.timeShipping" ng-model="areaTimeUnitMapping.timeShipping" placeholder="{{areaTimeUnitMapping.placeHolder}}"> {{areaTimeUnitMapping.moneyName}}
-													</section>
-												</td>
-											  </tr> 
-											</tbody> 
-										</table>
-										<!-- END OF SHIPPING FREE TABLE -->
-									</div>
-								</fieldset>
-								<fieldset>
-									<h2 style="font-weight: bold; margin-bottom:10px">Shipping setting</h2>
-									<div class="row" style="background-color:white; padding-right: 40px;">
-										<table class="table table-bordered table-striped responsive-utilities" style="margin-left:15px;"> 
-											<thead>
-											  <tr >
-											    <th ng-repeat="cHeader in columnHeaders">
-											    	{{cHeader}}
-											    </th> 
-											  </tr>
-											</thead>
-											<!-- START TBODY -->
-											<tbody>
-											  <tr ng-repeat="userAreaModel in areaTableModelData">
-												<td class="">{{userAreaModel.shippingMethodName}}</td>
-												<td class="" ng-repeat="areaTimeUnitMapping in userAreaModel.listOfAreaTimeUnitMapping">
-													<section id="area-time-unit-mapping-{{areaTimeUnitMapping.recordId}}">
-														<input type="number" class="input" value="areaTimeUnitMapping.timeShipping" ng-model="areaTimeUnitMapping.timeShipping" placeholder="{{areaTimeUnitMapping.placeHolder}}">
-														<div class="inline-group" style="margin-top:5px">
-															<label class="">
-															<input type="radio" name="radio-inline-{{areaTimeUnitMapping.recordId}}" ng-model="areaTimeUnitMapping.valueOfAskFreeAndNoShipping" ng-value="0"  >
-															<i></i>Free</label>
-															<label class="">
-															<input type="radio" name="radio-inline-{{areaTimeUnitMapping.recordId}}" ng-model="areaTimeUnitMapping.valueOfAskFreeAndNoShipping" ng-value="2"  >
-															<i></i>No shipping</label>
-															<label class="">
-															<input type="radio" name="radio-inline-{{areaTimeUnitMapping.recordId}}" ng-model="areaTimeUnitMapping.valueOfAskFreeAndNoShipping" ng-value="1" >
-															<i></i>Ask</label>
-														</div>
-													</section>
-												</td> 
-												<td>
-													<section>
-														<label class="checkbox ">
-															<input type="checkbox" name="checkbox" ng-model="userAreaModel.isChoice" ng-checked="userAreaModel.isChoice" ng-true-value="true" ng-false-value="false" >
-															<i></i></label>
-													</section>
-												</td>
-											  </tr>
-											</tbody>
-											<!-- END TBODY -->
-										</table>
-									</div>
-									<div class="row" style="margin-left:10px;margin-top:15px;">
-										<div class="col col-5">
-											<h3 style="margin-bottom: 10px">EBay Delivery Method</h3> 
-											<section class="col" ng-repeat="areaAndMethod in ebayDeliveryMethod_ShippingAreaWithMethod">
-												<label class="col col-3">{{areaAndMethod.areaName}}</label>
+					<!-- Shipping Fee -->
+					<div class="row">
+						<div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-3"
+							data-widget-editbutton="false">
+							<header> 
+								<h2><span class="widget-icon"> <i class="fa fa-table"></i></span>  Shipping Free</h2>
+							</header>
+							<div>
+								<div class="jarviswidget-editbox"></div>
+								<div class="widget-body ">
+									<div class="row smart-form">
+										<fieldset> 
+											<div class="inline-group" style="margin-top:5px; margin-bottom:20px">
+												<label class="col col-2">
+												<input type="radio" name="radio-inline" checked="checked">
+												<i></i>EMS </label>
+												<label class="col col-2">
+												<input type="radio" name="radio-inline" >
+												<i></i>International parcel SAL </label>
 												<label class="col col-4">
-													<select class="" id="select-{{areaAndMethod.areaId}}">
-															<option ng-repeat="shippingMethod in areaAndMethod.lstEbayShippingMethods" value="{{shippingMethod.id}}">{{shippingMethod.name}}</option> 
-													</select>
-												</label>
-											</section> 
-										</div>
-										<div class="col col6">
-											<h3>EBay Shipping Fee</h3>
-											<div class="row">
-												<section class="col" ng-repeat="ebayShippingFeeArea in ebayShippingFee_ShippingAreaWithMethod |orderBy :'orderBy'" napt-repeat-directive>
-													<div class="row" style="margin-top:10px; margin-bottom: 20px" ng-repeat="subArea in ebayShippingFeeArea">
-														<label class="col col-6">{{subArea.areaName}}</label>
-														<label class="col col-6">
-															<select class="" id="select-shipping-fee-area-{{subArea.areaId}}" data-area-id="{{subArea.areaId}}">
-																	<option ng-repeat="shippingMethod in subArea.lstEbayShippingMethods" value ="{{shippingMethod.id}}">{{shippingMethod.name}}</option> 
+												<input type="radio" name="radio-inline" >
+												<i></i>Registered mail with small packages airmail </label>
+												<label class="col col-4">
+												<input type="radio" name="radio-inline" >
+												<i></i>With registered small packages aviation SAL flights  </label>
+												
+											</div>
+											<div class="inline-group" style="margin-top:5px; margin-bottom:20px">
+												<label class="col col-2">
+												<input type="radio" name="radio-inline" >
+												<i></i>FedEX </label>
+												<label class="col col-2">
+												<input type="radio" name="radio-inline" >
+												<i></i>international e packet  </label>
+												<label class="col col-4">
+												<input type="radio" name="radio-inline" >
+												<i></i>Registered non-small packages airmail </label>
+												<label class="col col-4">
+												<input type="radio" name="radio-inline" >
+												<i></i>Registered non-small packages aviation SAL flights  </label>
+												
+											</div>
+											<div class="row" style="background-color:white; padding-right: 40px;">
+											<!-- START SHIPPING FREE TABLE  -->
+												<table class="table table-bordered table-striped responsive-utilities" style="margin-left:15px;">
+													<thead>
+													  <tr>
+														<th ng-repeat="sfColumnHeader in shippingFreeColumnHeaders">
+														  {{sfColumnHeader}}
+														</th> 
+													</thead>
+													<tbody>
+													  <tr ng-repeat ="sfModel in shippingFreeTableModelData">
+														<td class="">{{sfModel.shippingMethodName}}</td>
+														<td class="" ng-repeat ="areaTimeUnitMapping in sfModel.listOfAreaTimeUnitMapping">
+															<section>
+																<input type="number" class="input" value="areaTimeUnitMapping.timeShipping" ng-model="areaTimeUnitMapping.timeShipping" placeholder="{{areaTimeUnitMapping.placeHolder}}"> {{areaTimeUnitMapping.moneyName}}
+															</section>
+														</td>
+													  </tr> 
+													</tbody> 
+												</table>
+												<!-- END OF SHIPPING FREE TABLE -->
+											</div>
+										</fieldset>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Shipping Setting Area-->
+					<div class="row">
+						<div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-3"
+							data-widget-editbutton="false">
+							<header> 
+								<h2><span class="widget-icon"> <i class="fa fa-table"></i></span>  Shipping setting</h2>
+							</header>
+							<div>
+								<div class="jarviswidget-editbox"></div>
+								<div class="widget-body ">
+									<div class="row smart-form">
+										<fieldset> 
+											<div class="row" style="background-color:white; padding-right: 40px;">
+												<table class="table table-bordered table-striped responsive-utilities" style="margin-left:15px;"> 
+													<thead>
+													  <tr >
+													    <th ng-repeat="cHeader in columnHeaders">
+													    	{{cHeader}}
+													    </th> 
+													  </tr>
+													</thead>
+													<!-- START TBODY -->
+													<tbody>
+													  <tr ng-repeat="userAreaModel in areaTableModelData">
+														<td class="">{{userAreaModel.shippingMethodName}}</td>
+														<td class="" ng-repeat="areaTimeUnitMapping in userAreaModel.listOfAreaTimeUnitMapping">
+															<section id="area-time-unit-mapping-{{areaTimeUnitMapping.recordId}}">
+																<input type="number" class="input" value="areaTimeUnitMapping.timeShipping" ng-model="areaTimeUnitMapping.timeShipping" placeholder="{{areaTimeUnitMapping.placeHolder}}">
+																<div class="inline-group" style="margin-top:5px">
+																	<label class="">
+																	<input type="radio" name="radio-inline-{{areaTimeUnitMapping.recordId}}" ng-model="areaTimeUnitMapping.valueOfAskFreeAndNoShipping" ng-value="0"  >
+																	<i></i>Free</label>
+																	<label class="">
+																	<input type="radio" name="radio-inline-{{areaTimeUnitMapping.recordId}}" ng-model="areaTimeUnitMapping.valueOfAskFreeAndNoShipping" ng-value="2"  >
+																	<i></i>No shipping</label>
+																	<label class="">
+																	<input type="radio" name="radio-inline-{{areaTimeUnitMapping.recordId}}" ng-model="areaTimeUnitMapping.valueOfAskFreeAndNoShipping" ng-value="1" >
+																	<i></i>Ask</label>
+																</div>
+															</section>
+														</td> 
+														<td>
+															<section>
+																<label class="checkbox ">
+																	<input type="checkbox" name="checkbox" ng-model="userAreaModel.isChoice" ng-checked="userAreaModel.isChoice" ng-true-value="true" ng-false-value="false" >
+																	<i></i></label>
+															</section>
+														</td>
+													  </tr>
+													</tbody>
+													<!-- END TBODY -->
+												</table>
+												</div>
+										</fieldset>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!--Ebay deliver Method-->
+					<div class="row">
+						<div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-3"
+							data-widget-editbutton="false">
+							<header> 
+								<h2><span class="widget-icon"> <i class="fa fa-table"></i></span>  EBay Delivery Method</h2>
+							</header>
+							<div>
+								<div class="jarviswidget-editbox"></div>
+								<div class="widget-body ">
+									<div class="row smart-form">
+										 <fieldset> 
+											<div class="row" style="margin-left:10px;margin-top:15px;">
+												<div class="col col-5"> 
+													<section class="col" ng-repeat="areaAndMethod in ebayDeliveryMethod_ShippingAreaWithMethod">
+														<label class="col col-3">{{areaAndMethod.areaName}}</label>
+														<label class="col col-4">
+															<select class="" id="select-{{areaAndMethod.areaId}}">
+																	<option ng-repeat="shippingMethod in areaAndMethod.lstEbayShippingMethods" value="{{shippingMethod.id}}">{{shippingMethod.name}}</option> 
 															</select>
 														</label>
-													</div> 
-												</section> 
+													</section> 
+												</div> 
 											</div>
-										</div>
+										</fieldset>
 									</div>
-									<div class="row" style="margin-left:10px;margin-top:15px;">
-										<section class="col col-5" >
-											<h3 style="margin-bottom: 10px">Shipping Details</h3>									
-												<textarea rows="3" id="shipping-details" name="comment" style="width:80%;    margin-left: 25px;" placeholder=""></textarea> 
-											
-										</section>
-										<section class="col col-6" >
-											<h3 style="margin-bottom: 10px">Number of days to ship</h3>
-											<label class="">
-												<input type="number" id="number-day-ofship" class="input only-number" placeholder="day"> 
-											</label>
-										</section>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Ebay Shipping Fee -->
+					<div class="row">
+						<div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-3"
+							data-widget-editbutton="false">
+							<header> 
+								<h2><span class="widget-icon"> <i class="fa fa-table"></i></span>  EBay Shipping Fee</h2>
+							</header>
+							<div>
+								<div class="jarviswidget-editbox"></div>
+								<div class="widget-body ">
+									<div class="row smart-form">
+										<section class="col" ng-repeat="ebayShippingFeeArea in ebayShippingFee_ShippingAreaWithMethod |orderBy :'orderBy'" napt-repeat-directive>
+											<div class="row" style="margin-top:10px; margin-bottom: 20px" ng-repeat="subArea in ebayShippingFeeArea">
+												<label class="col col-6">{{subArea.areaName}}</label>
+												<label class="col col-6">
+													<select class="" id="select-shipping-fee-area-{{subArea.areaId}}" data-area-id="{{subArea.areaId}}">
+															<option ng-repeat="shippingMethod in subArea.lstEbayShippingMethods" value ="{{shippingMethod.id}}">{{shippingMethod.name}}</option> 
+													</select>
+												</label>
+											</div> 
+										</section> 
 									</div>
-									<div class="row" style="margin-left:10px;margin-top:15px;">
-										<section class="col col-5" >
-											<h3 style="margin-bottom: 10px">Return warranty period</h3>									
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Shipping detail -->
+					<div class="row">
+						<div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-3"
+							data-widget-editbutton="false">
+							<header> 
+								<h2><span class="widget-icon"> <i class="fa fa-table"></i></span> Shipping Detail</h2>
+							</header>
+							<div>
+								<div class="jarviswidget-editbox"></div>
+								<div class="widget-body ">
+									<div class="row smart-form">
+										<section class="row " style="margin-bottom:4px;"> <label
+											class="label col col-3">Note</label> <label
+											class="col col-6"> 
+											<textarea rows="3" id="shipping-details" name="comment" style="width:80%;" placeholder=""></textarea>
+										</label> </section>
+										<section class="row "> <label
+											class="label col col-3">Number of days to ship</label> <label
+											class="col col-6"> 
+											<input type="number" id="number-day-ofship" class="input only-number" placeholder="day"> 
+										</label> </section>
+										<section class="row "> <label
+											class="label col col-3">Return warranty period</label> <label
+											class="col col-9"> 
 											<select class="" id="select-ret-warranty-method">
 												<option ng-repeat="retWarrantyMethod in lstWarrantyMethod" value="{{retWarrantyMethod.id}}">{{retWarrantyMethod.name}}</option> 
 											</select>	
-											
-										</section>
+										</label> </section>
 									</div>
-								</fieldset>
-								<fieldset>
-									<h2 style="font-weight: bold; margin-bottom:10px">Not shipping country</h2>
-									<label>Please select the setting of the country not shipping</label>
-									<div class="row" ng-model="listOfGroupCountry" >
-										<div class="col-sm-4 region" ng-repeat="countryGroup in listOfGroupCountry" > 
-											 <span class="checkbox" style="display:inline-block">
-												<label>
-													<input type="checkbox" class="checkbox style-0" data-region="{{countryGroup.name}}" class="toggleAll" name="checkbox">
-													<span>{{countryGroup.name}}</span>
-												</label>
-											</span>
-											[<a href="{{countryGroup.href}}" data-toggle="collapse">Hide all countries</a>]
-											  <ul id="{{countryGroup.name}}" class="collapse" style="padding-left:40px" >
-												 <div class="checkbox" ng-repeat="country in countryGroup.lstCountries" napt-repeat-directive>
-													  <label>
-														<input type="checkbox" class="checkbox style-0" ng-model="country.isSelected" ng-checked="country.isSelected" ng-true-value="true" ng-false-value="false" data-country-id="{{country.id}}" name="country">
-														<span>{{country.name}}</span>
-													</label>
-												</div>  
-											  </ul>
-										</div> 
-									</div>									
-								</fieldset>
-								
-								<footer>
-									<button type="submit" class="btn btn-primary" ng-click="saveAllShippingSetting($event)">
-										Save
-									</button>
-								</footer>
-							</form>
+								</div>
+							</div>
 						</div>
 					</div>
-					<!-- end widget div -->
-					
-					
-
+					<!-- Not Shipping Country -->
+					<div class="row">
+						<div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-3"
+							data-widget-editbutton="false">
+							<header> 
+								<h2><span class="widget-icon"> <i class="fa fa-table"></i></span>  Not shipping country</h2>
+							</header>
+							<div>
+								<div class="jarviswidget-editbox"></div>
+								<div class="widget-body ">
+									<div class="row smart-form">
+										 <fieldset> 
+											<label>Please select the setting of the country not shipping</label>
+											<div class="row" ng-model="listOfGroupCountry" >
+												<div class="col-sm-4 region" ng-repeat="countryGroup in listOfGroupCountry" > 
+													 <span class="checkbox" style="display:inline-block">
+														<label>
+															<input type="checkbox" class="checkbox style-0" data-region="{{countryGroup.name}}" class="toggleAll" name="checkbox">
+															<span>{{countryGroup.name}}</span>
+														</label>
+													</span>
+													[<a href="{{countryGroup.href}}" data-toggle="collapse">Hide all countries</a>]
+													  <ul id="{{countryGroup.name}}" class="collapse" style="padding-left:40px" >
+														 <div class="checkbox" ng-repeat="country in countryGroup.lstCountries" napt-repeat-directive>
+															  <label>
+																<input type="checkbox" class="checkbox style-0" ng-model="country.isSelected" ng-checked="country.isSelected" ng-true-value="true" ng-false-value="false" data-country-id="{{country.id}}" name="country">
+																<span>{{country.name}}</span>
+															</label>
+														</div>  
+													  </ul>
+												</div> 
+											</div>									
+										</fieldset>
+										
+										<footer>
+											<button type="submit" class="btn btn-primary" ng-click="saveAllShippingSetting($event)">
+												Save
+											</button>
+										</footer>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div> 
 				</section>
 				<!-- end widget grid -->
 				

@@ -168,7 +168,7 @@ input, textarea, button {
 								<section> 
 									<label class="label">Product title</label> 
 									<label class="input "> 
-										<input type="text" class="input"id="product_title" maxlength="80">
+										<input type="text" class="input"id="product_title"  maxlength="80">
 									</label>
 									<div class="note">
 										<p>0 characters (max. 80 letters)</p>
