@@ -22,6 +22,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,6 +32,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 import org.springframework.web.util.UriUtils;
 
 import com.google.gson.JsonArray;
@@ -263,7 +265,7 @@ public class MainController {
 		return responseResult;
 	}
 	
-	@RequestMapping(value ="/AmazoneGetServiceUrl/{keyword}",method=RequestMethod.POST)
+	@RequestMapping(value ="/AmazoneGetServiceUrl/{keyword}",method=RequestMethod.GET)
 	public @ResponseBody String amazoneGetServiceUrl(@PathVariable(value = "keyword") String keyword){
 		return CommonUtils.buildAmazonServiceUrl(keyword,amazonServiceInfo);
 	} 
@@ -282,14 +284,11 @@ public class MainController {
 	}
 	
 	@RequestMapping("SendToSell/{itemIndex}/{keyWord}")
-	public ModelAndView sendToSell(@PathVariable("itemIndex") String itemId,@PathVariable("keyWord")String keyWord){
+	public ModelAndView sendToSell(@PathVariable("itemIndex") String itemId,@PathVariable("keyWord")String keyWord,ModelMap model){
 		String data = getEbaySearchProductResult(keyWord);
-		EbayProductToAdd ebayProductAdd = processEbaySearchItem(data,itemId);
-		
-		ModelAndView mdAndView = new ModelAndView();
-		mdAndView.addObject("ebayProductAdd", ebayProductAdd);
-		
-		return mdAndView;
+		EbayProductToAdd ebayProductAdd = processEbaySearchItem(data,itemId); 
+		model.addAttribute("ebayProductAdd", ebayProductAdd); 
+		return  new ModelAndView("forward:/Sell",model);
 	}
 	
 	@Cacheable(value="ebayProductSearchCached",key="#keyword")
@@ -445,7 +444,7 @@ public class MainController {
 		 String handlingTime = shippingInfo.getAsJsonArray("handlingTime").get(0).getAsString();
 		 ebayProductAdd.setHandingTime(handlingTime);		 
 		 
-		 JsonObject sellingStatus = jsonObject.getAsJsonArray("sellingStatus").getAsJsonObject();
+		 JsonObject sellingStatus = jsonObject.getAsJsonArray("sellingStatus").get(0).getAsJsonObject();
 		 String currentPrice = sellingStatus.getAsJsonArray("currentPrice").get(0).getAsJsonObject().get("__value__").getAsString();
 		 ebayProductAdd.setCurrentPrice(currentPrice);
 		 

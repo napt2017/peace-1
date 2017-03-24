@@ -342,43 +342,24 @@ input, textarea, button {
 
 							/*--------------------------------AMAZON SEARCH--------------------------------------*/
 							$scope.amazon = {};
-							$scope.amazon.searchProductByKeyword = function(
-									keyWord) {
-								$scope.amazon
-										.buildRequestUrl(
-												keyWord,
-												function(finalRequestUrl) {
-													$http
-															.post(
-																	finalRequestUrl)
-															.success(
-																	function(
-																			data,
-																			status,
-																			headers,
-																			config) {
-																		$scope.amazon
-																				.processServiceResponse(data);
-																	})
-															.error(
-																	function(
-																			data,
-																			status,
-																			headers,
-																			config) {
-																		console
-																				.log(data);
-																	});
-												});
+							$scope.amazon.searchProductByKeyword = function(keyWord) {
+								$scope.amazon.buildRequestUrl(keyWord,function(finalRequestUrl) {
+													$http.post(finalRequestUrl)
+														 .success(function(data,status,headers,config) {
+																		$scope.amazon.processServiceResponse(data);
+														  })
+														  .error(function(data,status,headers,config) {
+																		console .log(data);
+														  });
+								});
 							}
 
-							$scope.amazon.processServiceResponse = function(
-									respData) {
+							$scope.amazon.processServiceResponse = function(respData) {
 								console.log(respData)
 							}
 
 							$scope.amazon.buildRequestUrl = function(keyWord,funcCallBack) {
-							$http.post("AmazoneGetServiceUrl/" + keyWord)
+							$http.get("AmazoneGetServiceUrl/" + keyWord)
 									.success(
 											function(data, status, headers,
 													config) {

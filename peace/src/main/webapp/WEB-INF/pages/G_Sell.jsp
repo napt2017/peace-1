@@ -163,12 +163,41 @@ input, textarea, button {
 					<!-- end widget content -->
 					<!-- row -->
 					<form class="smart-form" style="">
+						<c:if test ="${ebayProductAdd ==null}">
+							<h3> null heheh</h3>
+						</c:if> 
+						<c:if test ="${ebayProductAdd !=null}"> 
+						<div class="row" style="display:none;">
+							<ul>
+								<li>${ebayProductAdd.itemId}</li>
+								<li>${ebayProductAdd.title}</li>
+								<li>${ebayProductAdd.globalId}</li>
+								<li>${ebayProductAdd.categoryId}</li>
+								<li>${ebayProductAdd.categoryName}</li>
+								<li>${ebayProductAdd.imageUrl}</li>
+								<li>${ebayProductAdd.paymentMethod}</li>
+								<li>${ebayProductAdd.viewItemUrl}</li>
+								<li>${ebayProductAdd.autoPay}</li>
+								<li>${ebayProductAdd.portalCode}</li>
+								<li>${ebayProductAdd.location}</li>
+								<li>${ebayProductAdd.country}</li>
+								<li>${ebayProductAdd.currencyId}</li>
+								<li>${ebayProductAdd.shippingCost}</li>
+								<li>${ebayProductAdd.shippingType}</li>
+								<li>${ebayProductAdd.shippingToLocation}</li>
+								<li>${ebayProductAdd.expeditedShipping}</li>
+								<li>${ebayProductAdd.oneDayShippingAvailable}</li>
+								<li>${ebayProductAdd.handingTime}</li>
+								<li>${ebayProductAdd.currentPrice }</li>
+							</ul>
+						</div>
+						</c:if>
 						<div class="row"> 
 								<!-- The product title part -->
 								<section> 
 									<label class="label">Product title</label> 
-									<label class="input "> 
-										<input type="text" class="input"id="product_title"  maxlength="80">
+									<label class="input ">  
+										<input type="text" class="input"id="product_title" value="<c:if test ="${ebayProductAdd !=null}"> ${ebayProductAdd.title}</c:if>"  maxlength="80">
 									</label>
 									<div class="note">
 										<p>0 characters (max. 80 letters)</p>
@@ -199,7 +228,11 @@ input, textarea, button {
 									<label class="input "> 
 										<select id="itemCondition" name="itemCondition">
 											<option value="-1">-</option>
-											<option value="1000">New</option>
+											<option value="1000"
+												 <c:if test ="${ebayProductAdd !=null}">
+												 	selected 
+												 </c:if>
+											>New</option>
 											<option value="1500">New other (see details)</option>
 											<option value="2000">Manufacturer refurbished</option>
 											<option value="2500">Seller refurbished</option>
@@ -226,13 +259,11 @@ input, textarea, button {
 						<!-- The detail part -->
 						<section> 
 								<label class="label">Description</label>   
-								<textarea id="ckEditorForDescription"></textarea>
-								<!--  
-								<ul class="detail-action">
-									<li> <a href="#">Preview</a></li>
-									<li> <a href="#">Save Draft</a></li>
-								</ul>
-								 -->
+								<textarea id="ckEditorForDescription">
+									<c:if test ="${ebayProductAdd !=null}"> 
+										${ebayProductAdd.viewItemUrl}
+									</c:if>
+								</textarea> 
 						</section>
 						<!-- The quantity part -->
 						<section> 
@@ -264,7 +295,7 @@ input, textarea, button {
 				                 				<td></td>
 				                 			</tr>
 				                 			<tr>
-				                 				<td>$ <input type="number" id="startingPrice" /> </td>
+				                 				<td>$ <input type="number" id="startingPrice" value="<c:if test ="${ebayProductAdd !=null}">${ebayProductAdd.currentPrice}</c:if>"/> </td>
 				                 				<td></td>
 				                 			</tr>
 				                 			<tr>
