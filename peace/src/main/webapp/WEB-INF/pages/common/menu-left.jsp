@@ -70,6 +70,9 @@
 					<li class="" >
 						<a href="ListResearchAll"> <span class="menu-item-parent">Research</span></a>
 					</li>
+					<li class="" >
+						<a href="AmazonSearch"> <span class="menu-item-parent">Amazon Product Search</span></a>
+					</li>
 					<li>
 						<a href="#"> <span class="menu-item-parent">EBay settings</span></a>
 						<ul>

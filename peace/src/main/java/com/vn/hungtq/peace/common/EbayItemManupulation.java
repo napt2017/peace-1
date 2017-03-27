@@ -25,8 +25,8 @@ import com.vn.hungtq.peace.dto.ShippingServiceOptionDto;
 
 public class EbayItemManupulation {
   public Tuple<Boolean,String> addEbayItem(ApiContext ctx ,EbayItemDto itemDto ){ 
-	  //itemDto = buildEbayItemDto();
-	  /*ShippingDetailDto shippingDetailDto = new ShippingDetailDto();
+	  /*//itemDto = buildEbayItemDto(); */
+	  ShippingDetailDto shippingDetailDto = new ShippingDetailDto();
 	  shippingDetailDto.setIsuranceFee(2.8d);
 	  shippingDetailDto.setIsuranceOption("Optional");
 	  shippingDetailDto.setPaymentInstruction("eBay DotNet SDK test instruction.");
@@ -35,7 +35,7 @@ public class EbayItemManupulation {
 	    		new ShippingServiceOptionDto("ShippingMethodStandard", 2d, 1d, 1d),
 	    		new ShippingServiceOptionDto("ShippingMethodExpress", 2d, 1d, 1d));
 	  shippingDetailDto.setListOfShippingServiceOption(lstShippingServiceOption);
-	  itemDto.setShippingDetailDto(shippingDetailDto);*/
+	  itemDto.setShippingDetailDto(shippingDetailDto);
 	  
 	  ItemType item = buildItemFromDto(itemDto);  
 	  AddItemCall addItemCall = new AddItemCall(ctx);

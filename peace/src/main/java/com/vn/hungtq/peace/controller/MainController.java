@@ -40,7 +40,10 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.vn.hungtq.peace.common.AjaxResponseResult;
+import com.vn.hungtq.peace.common.AmazonSearchEngine;
+import com.vn.hungtq.peace.common.AmazonSearchResult;
 import com.vn.hungtq.peace.common.AmazonServiceInfo;
+import com.vn.hungtq.peace.common.ClientAmazonSearchDto;
 import com.vn.hungtq.peace.common.CommonUtils;
 import com.vn.hungtq.peace.common.EbayServiceInfo;
 import com.vn.hungtq.peace.common.ProductSearch;
@@ -263,6 +266,40 @@ public class MainController {
 		} 
 		
 		return responseResult;
+	}
+	
+	@RequestMapping("AmazonSearch")
+	public ModelAndView amazonSearchProduct(){
+		return new ModelAndView("pages/G_AmazonSearch");
+	}
+	
+	@RequestMapping(value ="SearchAmazonProduct",method = RequestMethod.POST)
+	public @ResponseBody AjaxResponseResult<AmazonSearchResult> searchAmazonProduct(@RequestBody ClientAmazonSearchDto clientAmazonSearchModel){
+		AjaxResponseResult<AmazonSearchResult> result = new AjaxResponseResult<AmazonSearchResult>();
+		
+		AmazonSearchEngine asEngine = new AmazonSearchEngine("pagn");
+		Optional<AmazonSearchResult> optionSearchResult;
+		if(clientAmazonSearchModel.isAsinSearch()){
+			optionSearchResult = asEngine.searchByASIN(clientAmazonSearchModel.getSearchData());
+		}else{
+			if(clientAmazonSearchModel.getPage()!=1){
+				asEngine.setKeyWord(clientAmazonSearchModel.getSearchData());
+				asEngine.setTotalPage(clientAmazonSearchModel.getTotalPage());
+				optionSearchResult = asEngine.goToPage(clientAmazonSearchModel.getPage());
+			}else{
+				optionSearchResult = asEngine.searchByKeyWord(clientAmazonSearchModel.getSearchData());
+			}
+		}
+		
+		if(optionSearchResult.isPresent()){
+			AmazonSearchResult amzSearchResult = optionSearchResult.get();
+			amzSearchResult.setCurrentPage(clientAmazonSearchModel.getPage()); 
+			result.setExtraData(amzSearchResult);
+			result.setStatus("OK");
+		}else{
+			result.setStatus("FAILED");
+		}
+		return result;
 	}
 	
 	@RequestMapping(value ="/AmazoneGetServiceUrl/{keyword}",method=RequestMethod.GET)
