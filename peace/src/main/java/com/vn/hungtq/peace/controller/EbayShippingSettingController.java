@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody; 
+import org.springframework.web.servlet.ModelAndView;
 
 import com.vn.hungtq.peace.common.AjaxResponseResult;
 import com.vn.hungtq.peace.common.CommonUtils;
@@ -114,6 +115,11 @@ public class EbayShippingSettingController {
 		responseResult.setStatus("OK"); 
 		return responseResult;
 	} 
+	
+	@RequestMapping("/TransportSetting")
+	public ModelAndView transportSetting(){
+		return new ModelAndView("pages/G_TransportSetting");
+	}
 	
 	@RequestMapping(value ="/SaveEbayDeliveryMethod" ,method=RequestMethod.POST)
 	public @ResponseBody AjaxResponseResult<String> saveEbayDeliveryMethod(@RequestBody EbayDeliveryMethodDto ebayDeliveryMethodDto ,HttpServletRequest request){

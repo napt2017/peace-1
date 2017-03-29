@@ -91,6 +91,9 @@
 								<a href="SetShip">Shipping Setting</a>
 							</li>
 							<li>
+								<a href="TransportSetting">Transport Settings</a>
+							</li>
+							<li>
 								<a href="SetBuyer">Buyer Requirement</a>
 							</li>
 							<li>

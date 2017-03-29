@@ -12,7 +12,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
+import java.net.Proxy;
+import java.net.Proxy.Type;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.MessageFormat;
@@ -175,7 +178,12 @@ public class AmazonSearchEngine {
 
             //Get the paging tag
             if(totalPage==-1){
-                Element pagingTag = htmlDocument.getElementById(pagingTagWebId).select("span[class=pagnDisabled]").first();
+                Elements pagingTags = htmlDocument.getElementById("pagn").select("span[class=pagnDisabled]");
+                if(pagingTags==null){
+                	pagingTags = htmlDocument.getElementById("pagn").select("span[class=pagnLink]");
+                }
+                
+                Element pagingTag = pagingTags.last();
                 totalPage = Integer.valueOf(pagingTag.text().trim());
             } 
             
@@ -322,11 +330,14 @@ public class AmazonSearchEngine {
         if (!"".equals(url) && url != null) {
             try {
                 URL _url = new URL(url);
+                //Proxy proxy = new Proxy(Type.HTTP, new InetSocketAddress("58.176.232.16", 80));
+                //URLConnection cnn = _url.openConnection(proxy);
                 URLConnection cnn = _url.openConnection();
                 HttpURLConnection httpUrlConnection = (HttpURLConnection) cnn;
                 cnn.addRequestProperty(
                         "User-Agent",
                         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36");
+                
                 httpUrlConnection.setRequestMethod("GET");
                 httpUrlConnection.setDoInput(true);
                 httpUrlConnection.setDoOutput(true);
