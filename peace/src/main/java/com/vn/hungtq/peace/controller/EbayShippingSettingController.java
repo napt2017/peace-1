@@ -535,6 +535,11 @@ public class EbayShippingSettingController {
 		return responseResult;
 	}
 	
+	@RequestMapping("/NotShippingCountrySetting")
+	public ModelAndView notShippingCountrySetting(){
+		return new ModelAndView("pages/G_NotShippingCountry");
+	}
+	
 	@RequestMapping(value ="/SaveUserAreaSetting" ,method=RequestMethod.POST)
 	public @ResponseBody AjaxResponseResult<String> saveUserAreaSettting(@RequestBody List<AreaSettingInfoDto> lstAreaSettingDto,HttpServletRequest request){
 		authentication = SecurityContextHolder.getContext().getAuthentication();

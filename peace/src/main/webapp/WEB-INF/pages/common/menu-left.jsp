@@ -94,6 +94,9 @@
 								<a href="TransportSetting">Transport Settings</a>
 							</li>
 							<li>
+								<a href="NotShippingCountrySetting">Not Shipping Settings</a>
+							</li>
+							<li>
 								<a href="SetBuyer">Buyer Requirement</a>
 							</li>
 							<li>
