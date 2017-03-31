@@ -243,6 +243,7 @@ public class CommonUtils {
 		apiCred.seteBayToken(authToken);
 		apiContext.setApiServerUrl(soapUrl);
 		apiContext.setSite(SiteCodeType.US);
+		apiContext.setApiCredential(apiCred);
 		return apiContext;		
 	}
 	

@@ -2,20 +2,47 @@ package com.vn.hungtq.peace.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.NumberUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ebay.sdk.ApiContext;
+import com.ebay.sdk.call.AddItemCall;
+import com.ebay.sdk.call.GetCategorySpecificsCall;
+import com.ebay.sdk.util.eBayUtil;
+import com.ebay.soap.eBLBaseComponents.AmountType;
+import com.ebay.soap.eBLBaseComponents.BuyerPaymentMethodCodeType;
+import com.ebay.soap.eBLBaseComponents.CategoryItemSpecificsType;
+import com.ebay.soap.eBLBaseComponents.CategoryType;
+import com.ebay.soap.eBLBaseComponents.CountryCodeType;
+import com.ebay.soap.eBLBaseComponents.CurrencyCodeType;
+import com.ebay.soap.eBLBaseComponents.FeesType;
+import com.ebay.soap.eBLBaseComponents.ItemSpecificSourceCodeType;
+import com.ebay.soap.eBLBaseComponents.ItemType;
+import com.ebay.soap.eBLBaseComponents.ListingTypeCodeType;
+import com.ebay.soap.eBLBaseComponents.NameValueListArrayType;
+import com.ebay.soap.eBLBaseComponents.NameValueListType;
+import com.ebay.soap.eBLBaseComponents.PaymentDetailsType;
+import com.ebay.soap.eBLBaseComponents.PictureDetailsType;
+import com.ebay.soap.eBLBaseComponents.RecommendationsType;
+import com.ebay.soap.eBLBaseComponents.ReturnPolicyDetailsType;
+import com.ebay.soap.eBLBaseComponents.ReturnPolicyType;
+import com.ebay.soap.eBLBaseComponents.ShippingDetailsType;
+import com.ebay.soap.eBLBaseComponents.ShippingServiceOptionsType;
+import com.ebay.soap.eBLBaseComponents.ShippingTypeCodeType;
 import com.vn.hungtq.peace.common.AjaxResponseResult;
 import com.vn.hungtq.peace.common.CommonUtils;
-import com.vn.hungtq.peace.common.EbayItemManupulation;
 import com.vn.hungtq.peace.common.EbayServiceInfo;
 import com.vn.hungtq.peace.common.Tuple;
 import com.vn.hungtq.peace.dto.EbayCategory;
@@ -37,16 +64,23 @@ public class EbayListingController {
 	@RequestMapping(value="/AddItem",method= RequestMethod.POST)
 	public @ResponseBody AjaxResponseResult<String> addItem(@RequestBody EbayItemDto ebayItemDto ,@CookieValue(value=COOKIE_EBAY_TOKEN ,defaultValue="") String ebayToken){
 		AjaxResponseResult<String> responseResult = new AjaxResponseResult<String>();
-		responseResult.setStatus("OK");
-		EbayItemManupulation eim = new EbayItemManupulation();
-		ApiContext ctx = CommonUtils.getApiContext(ebayToken, ebayServiceInfo);
-		Tuple<Boolean,String> result = eim.addEbayItem(ctx,ebayItemDto); 
-		if(result.getFirst()){
-			responseResult.setMsg("Add item success with id:"+result.getSecond());
-		}else{
+		if (ebayToken == null) {
 			responseResult.setStatus("FAILED");
-			responseResult.setCause(result.getSecond());
+			responseResult.setCause("Login Ebay First!");
 		}
+		try {
+			ApiContext ctx = CommonUtils.getApiContext(ebayToken, ebayServiceInfo);
+			AddItemCall api = new AddItemCall(ctx);
+			ItemType item = buildItemFromDto(ebayItemDto);
+			api.setItem(item);
+			FeesType fees = api.addItem();
+			double listingFee = eBayUtil.findFeeByName(fees.getFee(), "ListingFee").getFee().getValue();
+			responseResult.setMsg("Add item success with id:"+item.getItemID());
+		} catch (Exception e) {
+			responseResult.setStatus("FAILED");
+			responseResult.setCause(e.getMessage());
+		}
+		
 		return responseResult;
 	} 
 	
@@ -84,5 +118,130 @@ public class EbayListingController {
 		}
 		
 		return responseResult;
+	}
+	
+	
+	/**
+	 * Get Category Ebay
+	 * @param ebayToken
+	 * @return
+	 */
+	@RequestMapping(value="/GetCategorySpecifics",method= RequestMethod.GET)
+	public @ResponseBody AjaxResponseResult<RecommendationsType[]> getCategorySpecifics(HttpServletRequest request, @CookieValue(value=COOKIE_EBAY_TOKEN ,defaultValue="") String ebayToken){
+		AjaxResponseResult<RecommendationsType[]> responseResult = new AjaxResponseResult<RecommendationsType[]>();
+		String categoryId = request.getParameter("categoryId");
+		if(StringUtils.isEmpty(ebayToken)){
+			responseResult.setStatus("FAILED");
+			responseResult.setCause("You must login to ebay site to init the ebay token");
+		}else{    
+			//Get api context
+			ApiContext apiContext = CommonUtils.getApiContext(ebayToken, ebayServiceInfo);
+			try {
+				GetCategorySpecificsCall getCategorySpecificsCall = new GetCategorySpecificsCall(apiContext);
+				String[] categoryIds = {categoryId};
+				getCategorySpecificsCall.setCategoryID(categoryIds);
+				
+				RecommendationsType[] recommendationsType = getCategorySpecificsCall.getCategorySpecifics();
+				responseResult.setStatus("OK");
+				responseResult.setExtraData(recommendationsType);
+			} catch (Exception e) { 
+				responseResult.setStatus("FAILED");
+				responseResult.setCause(e.getMessage());
+			} 
+		}
+		
+		return responseResult;
+	}
+	
+	/**
+	 * Fill data to model Item
+	 * @param itemDto
+	 * @return
+	 */
+	private ItemType buildItemFromDto(EbayItemDto itemDto){
+		ItemType itemType = new ItemType();
+		if (itemDto != null) {
+			BeanUtils.copyProperties(itemDto, itemType);
+			
+			// Category Id
+			CategoryType categoryType = new CategoryType();
+			categoryType.setCategoryID(itemDto.getCategoryId());
+			itemType.setPrimaryCategory(categoryType);
+			
+			// Location
+			itemType.setPostalCode("95125");
+			
+			// Condition
+			itemType.setConditionID(Integer.valueOf(itemDto.getConditionID()));
+			
+			// Picture
+			PictureDetailsType pictureDetailsType = new PictureDetailsType();
+			pictureDetailsType.setPictureURL(new String[] {itemDto.getImageUrl()});
+			itemType.setPictureDetails(pictureDetailsType);
+			
+			if (itemDto.getNameValueListTypes() != null) {
+				NameValueListArrayType paramNameValueListArrayType = new NameValueListArrayType();
+				paramNameValueListArrayType.setNameValueList (itemDto.getNameValueListTypes().toArray(new NameValueListType[itemDto.getNameValueListTypes().size()]));
+				
+				itemType.setItemSpecifics(paramNameValueListArrayType);
+			}
+			
+			itemType.setCountry(CountryCodeType.valueOf(itemDto.getCountry()));
+			itemType.setListingType(ListingTypeCodeType.valueOf(itemDto.getRadListingType()));
+			
+			
+			
+			if(itemDto.getStartPrice() != null) {
+				AmountType amount = new AmountType();
+				amount.setValue(Double.valueOf(itemDto.getStartPrice()));
+				itemType.setStartPrice(amount);
+			}
+			
+			if(itemDto.getBuyItNow() != null) {
+				AmountType amount = new AmountType();
+				amount.setValue(Double.valueOf(itemDto.getBuyItNow()));
+				itemType.setBuyItNowPrice(amount);
+			}
+			
+			itemType.setListingDuration(itemDto.getDuration());
+			
+			itemType.setCurrency(CurrencyCodeType.USD);
+			
+			itemType.setDispatchTimeMax(3);
+			
+			// Payment
+			itemType.setPaymentMethods(new BuyerPaymentMethodCodeType[]{BuyerPaymentMethodCodeType.PAY_PAL});
+			itemType.setPayPalEmailAddress("quanghung.aptech.89@gmail.com");
+			
+			// Return Policy
+			ReturnPolicyType returnPolicyType = new ReturnPolicyType();
+			returnPolicyType.setReturnsAcceptedOption("ReturnsAccepted");
+			returnPolicyType.setRefundOption("MoneyBack");
+			returnPolicyType.setReturnsWithinOption("Days_30");
+			returnPolicyType.setDescription("If you are not satisfied, return the book for refund.");
+			returnPolicyType.setShippingCostPaidByOption("Buyer");
+			itemType.setReturnPolicy(returnPolicyType);
+			 
+			// Set shipping
+			ShippingDetailsType shippingDetailsType = new ShippingDetailsType();
+			shippingDetailsType.setShippingType(ShippingTypeCodeType.FLAT);
+			  
+			ShippingServiceOptionsType shippingServiceOptionsType = new ShippingServiceOptionsType();
+			shippingServiceOptionsType.setShippingServicePriority(1);
+			shippingServiceOptionsType.setShippingService("USPSMedia");
+			AmountType amount = new AmountType();
+			amount.setValue(Double.valueOf("2.5"));
+			shippingServiceOptionsType.setShippingServiceCost(amount);
+			
+			ShippingServiceOptionsType[] shippingServiceOptionsTypes = {shippingServiceOptionsType};
+			shippingDetailsType.setShippingServiceOptions(shippingServiceOptionsTypes);
+			itemType.setShippingDetails(shippingDetailsType);
+			
+			
+			
+		}
+		
+		
+		return itemType;
 	}
 }

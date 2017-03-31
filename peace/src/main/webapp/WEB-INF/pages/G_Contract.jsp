@@ -122,52 +122,51 @@
 
 					<!-- widget div-->
 					<div class="row">
-						<div class="widget-body ">
-							<form class="smart-form col-lg-6">
-								<fieldset>
-									<h3>PEACE問い合わせフォーム</h3>
-									<section class="row ">
-										<label class="label col col-4">
-お名前</label>
-										<label class="col col-6">									
-											<input type="text" id="contact_name" class="col col-6">
-										</label>
-									</section>
-									<section class="row ">
-										<label class="label col col-4">メールアドレス</label>
-										<label class="col col-6">									
-											<input type="text" id="contact_email" class="col col-6">
-										</label>
-									</section>
-									<section class="row ">
-										<label class="label col col-4">Tel</label>
-										<label class="col col-6">									
-											<input type="text" id="contact_tel" class="col col-6">
-										</label>
-									</section>
-									<section class="row ">
-										<label class="label col col-4">出品時のエラーの場合、出品カテゴリー、商品URL、発送方法、送料設定、4点を必ず合わせてご記載ください。
-										</label>
-										<label class="textarea col col-6"> 									
-											<textarea rows="5" name="comment" id="contact_list_url" placeholder=""></textarea> 
-										</label>
-									</section>
-									<section class="row ">
-										<label class="label col col-4">お問い合わせ内容をできるだけ、詳しくご記載ください。（48時間以内に上記ご記載頂いているメールアドレスにご返事させて頂きます）
-										</label>
-										<label class="textarea col col-6"> 									
-											<textarea rows="5" name="comment" id="contact_describle" placeholder=""></textarea> 
-										</label>
-									</section>
-								</fieldset>
-								
-								<footer>
-									<button type="submit" id="save_contact" class="btn btn-primary">
-										確定
-									</button>
-								</footer>
-							</form>
-						</div>
+						<div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-3" style="width:60%; margin-left: 10px"
+							data-widget-editbutton="false">
+							<header> 
+								<h2><span class="widget-icon"> <i class="fa fa-table"></i></span>  お名前</h2>
+							</header>
+							<div>
+								<div class="jarviswidget-editbox"></div>
+								<div class="widget-body ">
+									<form class="smart-form col col-10" ng-model="itemInfomationModel">
+									<input type="hidden" id="item_infomation_id" value="{{itemInfomationModel.itemId}}"/>
+									<fieldset>
+										<section class="row" style="margin-bottom: 10px;">
+											<label style="font-size: x-large;" class="label col col-4">メールアドレス</label>
+											<label class="col col-8" style="padding-top: 7px;">									
+												<input type="text" id="contact_name" class="col col-12 input-lg" style="width:100%">
+											</label>
+										</section>
+										<section class="row" style="margin-bottom: 10px;">
+											<label style="font-size: x-large;" class="label col col-4">Tel</label>
+											<label class="col col-8" style="padding-top: 7px;">									
+												<input type="text" id="contact_tel" class="col col-12 input-lg" style="width:100%">
+											</label>
+										</section>
+										<section class="row" style="margin-bottom: 10px;">
+												<p style="font-size:medium;"  class="label col col-4">出品時のエラーの場合、出品カテゴリー、商品URL、発送方法、送料設定、4点を必ず合わせてご記載ください。</p>
+											<label class="textarea col col-8" style="padding-top: 7px;"> 									
+												<textarea rows="5" name="comment" id="contact_list_url" placeholder=""></textarea> 
+											</label>
+										</section>
+										<section class="row" style="margin-bottom: 2px;">
+											<label style="font-size:medium;" class="label col col-4" style="text-align: -webkit-auto">お問い合わせ内容をできるだけ、詳しくご記載ください。（48時間以内に上記ご記載頂いているメールアドレスにご返事させて頂きます）</label>
+											<label class="textarea col col-8" style="padding-top: 7px;"> 									
+												<textarea rows="5" name="comment" id="contact_describle" placeholder="" ></textarea> 
+											</label>
+										</section>
+									</fieldset>
+									<footer class="">
+										<button type="submit" id="save_contact" class="btn btn-primary">
+											確定
+										</button>
+									</footer>
+									</form>
+								</div>
+							</div>
+						</div> 
 					</div>
 					<!-- end widget div --> 
 
