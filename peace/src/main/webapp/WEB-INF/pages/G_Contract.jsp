@@ -125,15 +125,16 @@
 						<div class="widget-body ">
 							<form class="smart-form col-lg-6">
 								<fieldset>
-									<h3>Contract Us</h3>
+									<h3>PEACE問い合わせフォーム</h3>
 									<section class="row ">
-										<label class="label col col-4">Your name</label>
+										<label class="label col col-4">
+お名前</label>
 										<label class="col col-6">									
 											<input type="text" id="contact_name" class="col col-6">
 										</label>
 									</section>
 									<section class="row ">
-										<label class="label col col-4">Mail address</label>
+										<label class="label col col-4">メールアドレス</label>
 										<label class="col col-6">									
 											<input type="text" id="contact_email" class="col col-6">
 										</label>
@@ -145,17 +146,14 @@
 										</label>
 									</section>
 									<section class="row ">
-										<label class="label col col-4">In case of error at the time of exhibition, 
-											please list the exhibition category, product URL
-											delivery method, shipping cost setting, 4 points
+										<label class="label col col-4">出品時のエラーの場合、出品カテゴリー、商品URL、発送方法、送料設定、4点を必ず合わせてご記載ください。
 										</label>
 										<label class="textarea col col-6"> 									
 											<textarea rows="5" name="comment" id="contact_list_url" placeholder=""></textarea> 
 										</label>
 									</section>
 									<section class="row ">
-										<label class="label col col-4">Please describe inquiry contents as much as possible.
-											(We will reply to the above mentioned e-mail address within 48 hours) 
+										<label class="label col col-4">お問い合わせ内容をできるだけ、詳しくご記載ください。（48時間以内に上記ご記載頂いているメールアドレスにご返事させて頂きます）
 										</label>
 										<label class="textarea col col-6"> 									
 											<textarea rows="5" name="comment" id="contact_describle" placeholder=""></textarea> 
@@ -165,7 +163,7 @@
 								
 								<footer>
 									<button type="submit" id="save_contact" class="btn btn-primary">
-										Save
+										確定
 									</button>
 								</footer>
 							</form>

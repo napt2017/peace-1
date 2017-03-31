@@ -99,7 +99,7 @@
 
 				<!-- breadcrumb -->
 				<ol class="breadcrumb">
-					<li>Home</li><li>Item Information</li>
+					<li>Home</li><li>eBay 設定 : 商品説明情報</li>
 				</ol>
 				<!-- end breadcrumb -->
 
@@ -128,7 +128,7 @@
 						<div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-3"
 							data-widget-editbutton="false">
 							<header> 
-								<h2><span class="widget-icon"> <i class="fa fa-table"></i></span>Description Information</h2>
+								<h2><span class="widget-icon"> <i class="fa fa-table"></i></span> eBay 設定 : 商品説明情報</h2>
 							</header>
 							<div>
 								<div class="jarviswidget-editbox"></div>
@@ -163,7 +163,7 @@
 									</fieldset>
 									<footer class="row">
 										<button type="submit" class="btn btn-primary" id="btnSave" ng-click="saveItemInfomation($event)">
-											Save
+											登録
 										</button>
 									</footer>
 								</form>

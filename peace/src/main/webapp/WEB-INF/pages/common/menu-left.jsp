@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <aside id="left-panel">
 
 			<!-- User info -->
@@ -17,7 +19,7 @@
 						</li>
 						<li class="divider"></li>
 						<li>
-							<a href="login.html" title="Logout" data-action="userLogout" data-logout-msg="Test"><i class="fa fa-fw fa-sign-out"></i> Logout</a>
+							<a href="login.html" title="Logout" data-action="userLogout" data-logout-msg="Test"><i class="fa fa-fw fa-sign-out"></i>ログアウト</a>
 						</li>
 					</ul>
 				</span>
@@ -34,47 +36,47 @@
 
 				<ul>
 					<li class="active">
-						<a href="#" title="Dashboard"><i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">Home</span></a>
+						<a href="#" title="Dashboard"><i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">ホーム</span></a>
 					</li>
 					<li class="top-menu-invisible">
-						<a href="#"> <span class="menu-item-parent">EBay Listing</span></a>
+						<a href="#"> <span class="menu-item-parent">eBay出品</span></a>
 						<ul>
 							<li class="">
-								<a href="Sell" title=""><i class=""></i> <span class="menu-item-parent">Item Listing</span></a>
+								<a href="Sell" title=""><i class=""></i> <span class="menu-item-parent">商品出品</span></a>
 							</li>
 							<li class="">
-								<a href="G_SellDetail.html" title=""><i class=""></i> <span class="menu-item-parent">For Ebay Listing</span></a>
+								<a href="G_SellDetail.html" title=""><i class=""></i> <span class="menu-item-parent">eBay出品用</span></a>
 							</li>
 							<li >
-								<a href="#"><i class=""></i> Category</a>
+								<a href="#"><i class=""></i>カテゴリー検索</a>
 							</li>
 						</ul>
 					</li>
 					<li>
-						<a href="#"> <span class="menu-item-parent">Ebay Product List</span></a>
+						<a href="#"> <span class="menu-item-parent">eBay商品一覧</span></a>
 						<ul>
 							<li class="">
-								<a href="ListSell" title=""> <span class="menu-item-parent">Sending</span></a>
+								<a href="ListSell" title=""> <span class="menu-item-parent">出品中</span></a>
 							</li>
 							<li class="">
-								<a href="ListUnsold" title=""><span class="menu-item-parent">Listing End</span></a>
+								<a href="ListUnsold" title=""><span class="menu-item-parent">出品終了</span></a>
 							</li>
 							<li>
-								<a href="ListSold">Sold</a>
+								<a href="ListSold">販売済み</a>
 							</li>
 							<li>
-								<a href="ListError">Error</a>
+								<a href="ListError">エラー</a>
 							</li>
 						</ul>
 					</li>
 					<li class="" >
-						<a href="ListResearchAll"> <span class="menu-item-parent">Research</span></a>
+						<a href="ListResearchAll"> <span class="menu-item-parent">リサーチ</span></a>
 					</li>
 					<li class="" >
-						<a href="AmazonSearch"> <span class="menu-item-parent">Amazon Product Search</span></a>
+						<a href="AmazonSearch"> <span class="menu-item-parent">amazon.co.jp</span></a>
 					</li>
 					<li>
-						<a href="#"> <span class="menu-item-parent">EBay settings</span></a>
+						<a href="#"> <span class="menu-item-parent">eBay設定</span></a>
 						<ul>
 							<!--  
 								<li >
@@ -82,47 +84,47 @@
 								</li>
 							-->
 							<li >
-								<a href="CustomTemplate">Custom listing template</a>
+								<a href="CustomTemplate">カスタム出品テンプレート</a>
 							</li>
 							<li>
-								<a href="SetItemInfo">Product explanation information</a>
+								<a href="SetItemInfo">商品説明情報</a>
 							</li>
 							<li>
-								<a href="SetShip">Shipping Setting</a>
+								<a href="SetShip">発送方法</a>
 							</li>
 							<li>
-								<a href="TransportSetting">Transport Settings</a>
+								<a href="TransportSetting">送料編集</a>
 							</li>
 							<li>
-								<a href="NotShippingCountrySetting">Not Shipping Settings</a>
+								<a href="NotShippingCountrySetting">発送しない国</a>
 							</li>
 							<li>
 								<a href="SetBuyer">Buyer Requirement</a>
 							</li>
 							<li>
-								<a href="SetEbayLogin">EBay Login</a>
+								<a href="SetEbayLogin">eBayログイン</a>
 							</li>
 						</ul>
 					</li>
 					<li>
-						<a href="#"> <span class="menu-item-parent">Stock Check</span></a>
+						<a href="#"> <span class="menu-item-parent">在庫チェック</span></a>
 						<ul>
 							<li>
-								<a href="G_StockRegistor.html">Stock Registor</a>
+								<a href="G_StockRegistor.html">新規登録</a>
 							</li>
 							<li>
-								<a href="G_StockList.html">Inventory list</a>
+								<a href="G_StockList.html">在庫一覧</a>
 							</li>
 						</ul>
 					</li>
 					<li>
-						<a href="SetAccount"> <span class="menu-item-parent">Account</span></a>						
+						<a href="SetAccount"> <span class="menu-item-parent">アカウント</span></a>						
 					</li>	
 					<li>
-						<a href="#"><span class="menu-item-parent">Manual</span></a>
+						<a href="http://peace-ex.com/manual/manual.pdf"><span class="menu-item-parent">マニュアル</span></a>
 					</li>
 					<li>
-						<a href="ContactUs"> <span class="menu-item-parent">Contact Us</span></a>
+						<a href="ContactUs"> <span class="menu-item-parent">お問い合わせ</span></a>
 					</li>
 				</ul>
 			</nav>

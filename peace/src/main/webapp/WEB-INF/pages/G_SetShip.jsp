@@ -123,7 +123,7 @@
 						<div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-3"
 							data-widget-editbutton="false">
 							<header> 
-								<h2><span class="widget-icon"> <i class="fa fa-table"></i></span>  Shipping Free</h2>
+								<h2><span class="widget-icon"> <i class="fa fa-table"></i></span>  発送方法</h2>
 							</header>
 							<div>
 								<div class="jarviswidget-editbox"></div>
@@ -136,13 +136,13 @@
 												<i></i>EMS </label>
 												<label class="col col-2">
 												<input type="radio" name="radio-inline" >
-												<i></i>International parcel SAL </label>
+												<i></i>国際小包SAL</label>
 												<label class="col col-4">
 												<input type="radio" name="radio-inline" >
-												<i></i>Registered mail with small packages airmail </label>
+												<i></i>書留付小型包装物航空便 </label>
 												<label class="col col-4">
 												<input type="radio" name="radio-inline" >
-												<i></i>With registered small packages aviation SAL flights  </label>
+												<i></i>  書留付小型包装物航空SAL便  </label>
 												
 											</div>
 											<div class="inline-group" style="margin-top:5px; margin-bottom:20px">
@@ -151,13 +151,13 @@
 												<i></i>FedEX </label>
 												<label class="col col-2">
 												<input type="radio" name="radio-inline" >
-												<i></i>international e packet  </label>
+												<i></i>国際eパケット</label>
 												<label class="col col-4">
 												<input type="radio" name="radio-inline" >
-												<i></i>Registered non-small packages airmail </label>
+												<i></i>書留無小形包装物航空便 </label>
 												<label class="col col-4">
 												<input type="radio" name="radio-inline" >
-												<i></i>Registered non-small packages aviation SAL flights  </label>
+												<i></i>  書留無小形包装物航空SAL便  </label>
 												
 											</div>
 											<div class="row" style="background-color:white; padding-right: 40px;">
@@ -252,7 +252,7 @@
 						<div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-3"
 							data-widget-editbutton="false">
 							<header> 
-								<h2><span class="widget-icon"> <i class="fa fa-table"></i></span>  EBay Delivery Method</h2>
+								<h2><span class="widget-icon"> <i class="fa fa-table"></i></span>  eBay発送方法</h2>
 							</header>
 							<div>
 								<div class="jarviswidget-editbox"></div>
@@ -315,17 +315,17 @@
 								<div class="widget-body ">
 									<div class="row smart-form">
 										<section class="row " style="margin-bottom:4px;"> <label
-											class="label col col-3">Note</label> <label
+											class="label col col-3">発送詳細</label> <label
 											class="col col-6"> 
 											<textarea rows="3" id="shipping-details" name="comment" style="width:80%;" placeholder=""></textarea>
 										</label> </section>
 										<section class="row "> <label
-											class="label col col-3">Number of days to ship</label> <label
+											class="label col col-3">発送までの日数</label> <label
 											class="col col-6"> 
 											<input type="number" id="number-day-ofship" class="input only-number" placeholder="day"> 
 										</label> </section>
 										<section class="row "> <label
-											class="label col col-3">Return warranty period</label> <label
+											class="label col col-3">返品保証期間</label> <label
 											class="col col-9"> 
 											<select class="" id="select-ret-warranty-method">
 												<option ng-repeat="retWarrantyMethod in lstWarrantyMethod" value="{{retWarrantyMethod.id}}">{{retWarrantyMethod.name}}</option> 

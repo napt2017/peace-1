@@ -21,7 +21,7 @@
 
 				<!-- breadcrumb -->
 				<ol class="breadcrumb">
-					<li>Home</li><li>Ebay Login</li>
+					<li>Home</li><li>eBay 設定 : eBayログイン</li>
 				</ol>
 				<!-- end breadcrumb -->
 			</div>
@@ -31,12 +31,14 @@
 			<div id="content">
 				<!-- widget grid -->
 				<section id="widget-grid" class="">
-					<h1><b>eBay Login</b></h1>
+					<h1><b>eBay 設定 : eBayログイン</b></h1>
 					<hr/>
 					
-					<h2><b>STEP 1.</b> <a class="btn btn-success" href="${urlEbayLogin}" target="_blank">Ebay Authentication</a></h2>
-					<p>* Since a separate screen opens, proceed with [Sign in]> [I agree] and complete eBay authentication. If you go to "Thank You" screen, close the screen and push the "Finish" button below.</p>
-					<h2><b>STEP 2.</b> <button id="ebayLoginComplete" class="btn btn-success">Complete!</button></h2>
+					<h2><b>STEP 1.</b> <a class="btn btn-success" href="${urlEbayLogin}" target="_blank">eBay認証</a></h2>
+					<p>※別画面が開きますので、[Sign in] ＞ [I agree] と進み、eBay認証を完了させて下さい。 
+　　「Thank You」の画面まで行ったらその画面を閉じ、下の「完了」ボタンを押して下さい。
+					</p>
+					<h2><b>STEP 2.</b> <button id="ebayLoginComplete" class="btn btn-success">完了！</button></h2>
 					
 						
 				</section>

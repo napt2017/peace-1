@@ -125,7 +125,7 @@
 							<div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-3"
 								data-widget-editbutton="false">
 								<header> 
-									<h2><span class="widget-icon"> <i class="fa fa-table"></i></span> Custom Template</h2>
+									<h2><span class="widget-icon"> <i class="fa fa-table"></i></span> eBay 設定：カスタムテンプレート</h2>
 								</header>
 								<div>
 									<div class="jarviswidget-editbox"></div>
@@ -136,13 +136,13 @@
 													<div class="note col col-lg-10">
 														<a href="#" ng-click="downloadSampleTemplate($event)">
 															<i class="fa fa-hand-o-right" aria-hidden="true"></i>
-															<span>Download sample template</span>
+															<span>サンプルテンプレートダウンロード</span>
 														</a>
 													</div>
 												</section> 
 												<section class="row">  
 														<div class="input input-file col col-lg-10">
-															<input type="text" style="margin-bottom: 3px;" placeholder="Enter the name of template" id="template_name"/>
+															<input type="text" style="margin-bottom: 3px;" placeholder="ファイル名" id="template_name"/>
 														</div> 
 												</section> 
 												<section class="row" style="margin-bottom:3px;">  
@@ -156,7 +156,7 @@
 																<span class="button">
 																	<input id="templateUploadFile" type="file" ng-model="uploadFileModel" name="file2" onchange="angular.element(this).scope().handingEventSelectFileUpload()">Browse
 																</span>
-																<input type="text" placeholder="Upload image for template">
+																<input type="text" placeholder="カスタムテンプレートのアップロード">
 															  </div>
 															  <img id="preview_image" />
 														</div> 
@@ -164,7 +164,7 @@
 												<section class="row">
 													<div class="col col-lg-10">
 														<div class="btn-group">
-									                        <button type="button" ng-click="ajaxUploadTemplate()" class="btn btn-primary btn-sm">Save</button> 
+									                        <button type="button" ng-click="ajaxUploadTemplate()" class="btn btn-primary btn-sm">アップロード</button> 
 									                        <button type="button" class="btn btn-default btn-sm" ng-click="clearUserTemplateForm()">Clear</button>
 									                     </div>
 								                     </div>
@@ -180,7 +180,7 @@
 						<div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-3"
 							data-widget-editbutton="false">
 							<header> 
-								<h2><span class="widget-icon"> <i class="fa fa-table"></i></span> Selection of an exhibition template</h2>
+								<h2><span class="widget-icon"> <i class="fa fa-table"></i></span> 出品テンプレートの選択</h2>
 							</header>
 							<div>
 								<div class="jarviswidget-editbox"></div>

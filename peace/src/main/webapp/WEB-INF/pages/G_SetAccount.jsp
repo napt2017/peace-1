@@ -123,18 +123,18 @@ input, textarea, button {
 							<div class="row smart-form">
 									<fieldset ng-model="accountSettingModel">
 										<section class="row "> <label
-											class="label col col-6">Old Password</label> <label
+											class="label col col-6">パスワード変更前</label> <label
 											class="col col-6"> 
 											<input type="password" style="width: 100%" id="old-pass">
 										</label> </section>
 										<section class="row "> <label
-											class="label col col-6">New password</label> <label
+											class="label col col-6">パスワード変更後（半角英数字6文字以上12文字以下）</label> <label
 											class="col col-6"> 
 											<input type="password"
 											style="width: 100%" id="new-pass">
 										</label> </section>
 										<section class="row "> <label
-											class="label col col-6">Retype Password</label> <label
+											class="label col col-6">パスワード変更後（確認用）</label> <label
 											class="col col-6"> <input type="password"
 											style="width: 100%" id="re-new-pass">
 										</label> </section>
@@ -144,16 +144,14 @@ input, textarea, button {
 										<div class="col col-6">
 											<label class=""> <input type="radio"
 												name="radio-inline" ng-value="true"
-												ng-model="accountSettingModel.isDeliver"> <i></i>To
-												deliver
+												ng-model="accountSettingModel.isDeliver"> <i></i>配信する
 											</label> <label class=""> <input type="radio"
 												name="radio-inline" ng-value="false"
-												ng-model="accountSettingModel.isDeliver"> <i></i>Do
-												not deliver<label>
+												ng-model="accountSettingModel.isDeliver"> <i></i>配信しない<label>
 										</div>
 										</section>
 										<section class="row "> <label
-											class="label col col-6">E-mail address</label> <label
+											class="label col col-6">メールアドレス（255文字以内）</label> <label
 											class="col col-6"> <input type="text"
 											style="width: 100%" id="email"
 											ng-model="accountSettingModel.email"

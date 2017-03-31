@@ -44,12 +44,12 @@
 				<div class="row" ng-controller="productSearchController">
 					<div class="widget-body ">
 						<header>
-							<h2 class="amazon-search-title">Amazon Product Search</h2> 
+							<h2 class="amazon-search-title">リサーチ：amazon.co.jp</h2> 
 						</header> 
 						<form class="smart-form">
 							<div class="row">
 								<div class="col col-lg-2" style="text-align:right">
-									Search by keyword:
+									キーワード / ASIN:
 								</div>
 								<div class="col col-lg-9">
 									<label class="input">
@@ -59,7 +59,7 @@
 							</div>
 							<div class="row" style="margin-top:5px;margin-bottom:5px;">
 								<div class="col col-lg-2" style="text-align:right">
-									Search by ASIN:
+								ASINから関連商品
 								</div>
 								<div class="col col-lg-9">
 									<label class="input">
@@ -77,19 +77,19 @@
 							style="margin-left: 25px">
 							<thead>
 								<tr>
-									<th ng-click="sort('image')">Image
+									<th ng-click="sort('image')">画像
 										<span class="glyphicon sort-icon" ng-show="sortKey=='image'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
 									</th>
-									<th ng-click="sort('productName')">Product Name
+									<th ng-click="sort('productName')">	商品名
 										<span class="glyphicon sort-icon" ng-show="sortKey=='productName'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
 									</th>
-									<th ng-click="sort('price')">Price
+									<th ng-click="sort('price')">価格（円）
 										<span class="glyphicon sort-icon" ng-show="sortKey=='price'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
 									</th>
-									<th ng-click="sort('stock')">Stock
+									<th ng-click="sort('stock')">	関連
 										<span class="glyphicon sort-icon" ng-show="sortKey=='stock'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
 									</th>
-									<th ng-click="sort('exhibition')">Exhibition
+									<th ng-click="sort('exhibition')">出品
 										<span class="glyphicon sort-icon" ng-show="sortKey=='exhibition'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
 									</th>
 								</tr>
