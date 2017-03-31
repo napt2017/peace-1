@@ -99,7 +99,7 @@
 
 				<!-- breadcrumb -->
 				<ol class="breadcrumb">
-					<li>Home</li><li>eBay 設定 : 商品説明情報</li>
+					<li>Home</li><li>Item Information</li>
 				</ol>
 				<!-- end breadcrumb -->
 
@@ -128,34 +128,34 @@
 						<div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-3"
 							data-widget-editbutton="false">
 							<header> 
-								<h2><span class="widget-icon"> <i class="fa fa-table"></i></span> eBay 設定 : 商品説明情報</h2>
+								<h2><span class="widget-icon"> <i class="fa fa-table"></i></span>商品説明情報</h2>
 							</header>
 							<div>
 								<div class="jarviswidget-editbox"></div>
 								<div class="widget-body ">
-									<form class="smart-form" ng-model="itemInfomationModel">
+									<form class="smart-form col col-10" ng-model="itemInfomationModel">
 									<input type="hidden" id="item_infomation_id" value="{{itemInfomationModel.itemId}}"/>
 									<fieldset>
-										<section class="row" style="margin-bottom: 2px;">
-											<label class="label col col-6" style="text-align: right;">Payment</label>
+										<section class="row" style="margin-bottom: 10px;">
+											<label style="font-size: 20px" class="label col col-6" style="text-align: left;">Payment</label>
 											<label class="textarea col col-6"> 									
 												<textarea rows="5" id="payment" name="comment" placeholder="">{{itemInfomationModel.payment}}</textarea> 
 											</label>
 										</section>
-										<section class="row" style="margin-bottom: 2px;">
-											<label class="label col col-6" style="text-align: right;">Terms of Sale</label>
+										<section class="row" style="margin-bottom: 10px;">
+											<label style="font-size: 20px" class="label col col-6" style="text-align: left;">Terms of Sale</label>
 											<label class="textarea col col-6"> 									
 												<textarea rows="5" name="comment" id="terms_of_sale" placeholder="">{{itemInfomationModel.termsOfSale}}</textarea> 
 											</label>
 										</section>
-										<section class="row" style="margin-bottom: 2px;">
-											<label class="label col col-6" style="text-align: right;">About Us</label>
+										<section class="row" style="margin-bottom: 10px;">
+											<label style="font-size: 20px" class="label col col-6" style="text-align: left;">About Us</label>
 											<label class="textarea col col-6"> 										
 												<textarea rows="5" name="comment" id="about_us" placeholder="">{{itemInfomationModel.aboutUs}}</textarea> 
 											</label>
 										</section>
 										<section class="row" style="margin-bottom: 2px;">
-											<label class="label col col-6" style="text-align: right;">International Buyers - Please Note:</label>
+											<label style="font-size: 20px" class="label col col-6" style="text-align: left;">International Buyers - Please Note:</label>
 											<label class="textarea col col-6">									
 												<textarea rows="5" name="comment" id="international_buyers_note" placeholder="">{{itemInfomationModel.internationalBuyersNote}}</textarea> 
 											</label>
@@ -163,10 +163,10 @@
 									</fieldset>
 									<footer class="row">
 										<button type="submit" class="btn btn-primary" id="btnSave" ng-click="saveItemInfomation($event)">
-											登録
+											Save
 										</button>
 									</footer>
-								</form>
+									</form>
 								</div>
 							</div>
 						</div> 
