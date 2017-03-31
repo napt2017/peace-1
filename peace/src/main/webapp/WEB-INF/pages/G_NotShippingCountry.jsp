@@ -123,14 +123,14 @@
 						<div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-3"
 							data-widget-editbutton="false">
 							<header> 
-								<h2><span class="widget-icon"> <i class="fa fa-table"></i></span> Not Shipping Country Settings</h2> <br> 
+								<h2><span class="widget-icon"> <i class="fa fa-table"></i></span> 発送しない国</h2> <br> 
 							</header>
 							<div>
 								<div class="jarviswidget-editbox"></div>
 								<div class="widget-body ">
 									<div class="row smart-form">
 										 <fieldset> 
-											<label>Please select the setting of the country not shipping</label>
+											<label>発送しない国の設定を選択してください </label>
 											<div class="row" ng-model="listOfGroupCountry" >
 												<div class="col-sm-4 region" ng-repeat="countryGroup in listOfGroupCountry" > 
 													 <span class="checkbox" style="display:inline-block">

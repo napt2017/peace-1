@@ -132,55 +132,32 @@
 										<fieldset> 
 											<div class="inline-group" style="margin-top:5px; margin-bottom:20px">
 												<label class="col col-2">
-												<input type="radio" name="radio-inline" checked="checked">
+												<input type="checkbox" name="ems">
 												<i></i>EMS </label>
 												<label class="col col-2">
-												<input type="radio" name="radio-inline" >
+												<input type="checkbox" name="sal" >
 												<i></i>国際小包SAL</label>
 												<label class="col col-4">
-												<input type="radio" name="radio-inline" >
+												<input type="checkbox" name="parcel" >
 												<i></i>書留付小型包装物航空便 </label>
 												<label class="col col-4">
-												<input type="radio" name="radio-inline" >
+												<input type="checkbox" name="parcel_sal" >
 												<i></i>  書留付小型包装物航空SAL便  </label>
 												
 											</div>
 											<div class="inline-group" style="margin-top:5px; margin-bottom:20px">
 												<label class="col col-2">
-												<input type="radio" name="radio-inline" >
+												<input type="checkbox" name="fedex" >
 												<i></i>FedEX </label>
 												<label class="col col-2">
-												<input type="radio" name="radio-inline" >
+												<input type="checkbox" name="epacket" >
 												<i></i>国際eパケット</label>
 												<label class="col col-4">
-												<input type="radio" name="radio-inline" >
-												<i></i>書留無小形包装物航空便 </label>
+												<input type="checkbox" name="parcel_sal_nr" >
+												<i></i>書留無小形包装物航空SAL便</label>
 												<label class="col col-4">
-												<input type="radio" name="radio-inline" >
-												<i></i>  書留無小形包装物航空SAL便  </label>
-												
-											</div>
-											<div class="row" style="background-color:white; padding-right: 40px;">
-											<!-- START SHIPPING FREE TABLE  -->
-												<table class="table table-bordered table-striped responsive-utilities" style="margin-left:15px;">
-													<thead>
-													  <tr>
-														<th ng-repeat="sfColumnHeader in shippingFreeColumnHeaders">
-														  {{sfColumnHeader}}
-														</th> 
-													</thead>
-													<tbody>
-													  <tr ng-repeat ="sfModel in shippingFreeTableModelData">
-														<td class="">{{sfModel.shippingMethodName}}</td>
-														<td class="" ng-repeat ="areaTimeUnitMapping in sfModel.listOfAreaTimeUnitMapping">
-															<section>
-																<input type="number" class="input" value="areaTimeUnitMapping.timeShipping" ng-model="areaTimeUnitMapping.timeShipping" placeholder="{{areaTimeUnitMapping.placeHolder}}"> {{areaTimeUnitMapping.moneyName}}
-															</section>
-														</td>
-													  </tr> 
-													</tbody> 
-												</table>
-												<!-- END OF SHIPPING FREE TABLE -->
+												<input type="checkbox" name="parcel_nr" >
+												<i></i>    書留無小形包装物航空便 </label>
 											</div>
 										</fieldset>
 									</div>
@@ -193,7 +170,7 @@
 						<div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-3"
 							data-widget-editbutton="false">
 							<header> 
-								<h2><span class="widget-icon"> <i class="fa fa-table"></i></span>  Shipping setting</h2>
+								<h2><span class="widget-icon"> <i class="fa fa-table"></i></span>  地域別の発送日数 - 地域別発送方法</h2>
 							</header>
 							<div>
 								<div class="jarviswidget-editbox"></div>
@@ -215,7 +192,7 @@
 														<td class="">{{userAreaModel.shippingMethodName}}</td>
 														<td class="" ng-repeat="areaTimeUnitMapping in userAreaModel.listOfAreaTimeUnitMapping">
 															<section id="area-time-unit-mapping-{{areaTimeUnitMapping.recordId}}">
-																<input type="number" class="input" value="areaTimeUnitMapping.timeShipping" ng-model="areaTimeUnitMapping.timeShipping" placeholder="{{areaTimeUnitMapping.placeHolder}}">
+																<input class="input"  ng-model="areaTimeUnitMapping.timeShipping" placeholder="{{areaTimeUnitMapping.placeHolder}}">
 																<div class="inline-group" style="margin-top:5px">
 																	<label class="">
 																	<input type="radio" name="radio-inline-{{areaTimeUnitMapping.recordId}}" ng-model="areaTimeUnitMapping.valueOfAskFreeAndNoShipping" ng-value="0"  >
@@ -229,13 +206,6 @@
 																</div>
 															</section>
 														</td> 
-														<td>
-															<section>
-																<label class="checkbox ">
-																	<input type="checkbox" name="checkbox" ng-model="userAreaModel.isChoice" ng-checked="userAreaModel.isChoice" ng-true-value="true" ng-false-value="false" >
-																	<i></i></label>
-															</section>
-														</td>
 													  </tr>
 													</tbody>
 													<!-- END TBODY -->
@@ -262,7 +232,7 @@
 											<div class="row" style="margin-left:10px;margin-top:15px;">
 												<div class="col col-5"> 
 													<section class="col" ng-repeat="areaAndMethod in ebayDeliveryMethod_ShippingAreaWithMethod">
-														<label class="col col-3">{{areaAndMethod.areaName}}</label>
+														<label class="col col-4" style="white-space: nowrap;">{{areaAndMethod.areaName}}</label>
 														<label class="col col-4">
 															<select class="" id="select-{{areaAndMethod.areaId}}">
 																	<option ng-repeat="shippingMethod in areaAndMethod.lstEbayShippingMethods" value="{{shippingMethod.id}}">{{shippingMethod.name}}</option> 
@@ -282,7 +252,7 @@
 						<div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-3"
 							data-widget-editbutton="false">
 							<header> 
-								<h2><span class="widget-icon"> <i class="fa fa-table"></i></span>  EBay Shipping Fee</h2>
+								<h2><span class="widget-icon"> <i class="fa fa-table"></i></span>  eBay送料</h2>
 							</header>
 							<div>
 								<div class="jarviswidget-editbox"></div>
@@ -308,7 +278,7 @@
 						<div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-3"
 							data-widget-editbutton="false">
 							<header> 
-								<h2><span class="widget-icon"> <i class="fa fa-table"></i></span> Shipping Detail</h2>
+								<h2><span class="widget-icon"> <i class="fa fa-table"></i></span> 発送詳細</h2>
 							</header>
 							<div>
 								<div class="jarviswidget-editbox"></div>
@@ -322,6 +292,17 @@
 										<section class="row "> <label
 											class="label col col-3">発送までの日数</label> <label
 											class="col col-6"> 
+											<select name="number-day-ofship" id="number-day-ofship">
+												<option value="1">1</option>
+												<option value="2">2</option>
+												<option value="3">3</option>
+												<option value="4">4</option>
+												<option value="5" selected="">5</option>
+												<option value="10">10</option>
+												<option value="15">15</option>
+												<option value="20">20</option>
+												<option value="30">30</option>
+											</select>
 											<input type="number" id="number-day-ofship" class="input only-number" placeholder="day"> 
 										</label> </section>
 										<section class="row "> <label
@@ -337,7 +318,7 @@
 						</div>
 					</div>
 					<!-- Not Shipping Country -->
-					<div class="row">
+					<div class="row" style="display: none">
 						<div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-3"
 							data-widget-editbutton="false">
 							<header> 
@@ -488,7 +469,8 @@
 				//Load area shipping method for layout area
 				$scope.loadShippingMethod_ForShippingArea = function(layoutAreaId,callBack){
 					var requestUrl = "GetLayoutAreaSetting/"+layoutAreaId;
-					$http.get(requestUrl).success(function(data, status, headers,config) {  
+					$http.get(requestUrl).success(function(data, status, headers,config) {
+							console.log(data);
 						  callBack(data);
 					 })
 					 .error(function(data, status, headers,config) {
@@ -677,7 +659,7 @@
 				$scope.saveEbayShippingFee = function(){ 
 					
 					var layoutAreaId=4; 
-					var numberDayOfShip =$("#number-day-ofship").val();
+					var numberDayOfShip =$("#number-day-ofship option:selected").val();
 					if(numberDayOfShip===""){
 						numberDayOfShip = 0;
 					}
@@ -788,7 +770,7 @@
 				
 				//Load area with shipping method for ebay shipping fee
 				$scope.loadShippingMethod_ForEbayShippingFee(function(data){
-					$scope.ebayShippingFee_ShippingAreaWithMethod =$scope.modifyShippingFee_ShippingAreaWithMethod(data.extraData);  
+					$scope.ebayShippingFee_ShippingAreaWithMethod =$scope.modifyShippingFee_ShippingAreaWithMethod(data.extraData); 
 				});
 				
 				//Load return warranty method

@@ -2,18 +2,18 @@ package com.vn.hungtq.peace.dto;
 
 public class AreaTimeUnitMappingDto {
 	private int recordId;
-	private int timeShipping;
+	private String timeShipping;
 	private int valueOfAskFreeAndNoShipping;
 	private String moneyName;
 	private String placeHolder;
 	private String areaName;
 	private int timeUnitMappingId;
 	
-	public int getTimeShipping() {
+	public String getTimeShipping() {
 		return timeShipping;
 	}
 	
-	public void setTimeShipping(int timeShipping) {
+	public void setTimeShipping(String timeShipping) {
 		this.timeShipping = timeShipping;
 	}  
 	

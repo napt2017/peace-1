@@ -433,6 +433,7 @@ public class EbayShippingSettingController {
 			List<AreaSettingInfo> lstAreaSettingInfo = lstTimeUnitMapping.stream().map(s->{
 				AreaSettingInfo areaSettingInfo = new AreaSettingInfo();
 				areaSettingInfo.setTimeUnitMapping(s);
+				areaSettingInfo.setTimeShipping(s.getPlaceHolder());
 				areaSettingInfo.setUserId(userId); 
 				areaSettingInfo.setUseOnArea(areaId);
 				return areaSettingInfo;
@@ -520,8 +521,6 @@ public class EbayShippingSettingController {
 			}).count();
 			
 		}).limit(1L).count(); 
-		
-		listOfColumnHeader.add("Choice"); 
 		
 		//Create AreaSettingTableDto object
 		AreaSettingTableDto asTableDto = new AreaSettingTableDto();

@@ -2,7 +2,7 @@ package com.vn.hungtq.peace.dto;
 
 public class CountryDto {
 	private int id;
-	private boolean isSelected;
+	private Boolean isSelected;
 	private String name;
 	private int userId;
 	
@@ -22,11 +22,11 @@ public class CountryDto {
 		this.id = id;
 	}
 	
-	public boolean isSelected() {
+	public Boolean isSelected() {
 		return isSelected;
 	}
 	
-	public void setSelected(boolean isSelected) {
+	public void setSelected(Boolean isSelected) {
 		this.isSelected = isSelected;
 	}
 	

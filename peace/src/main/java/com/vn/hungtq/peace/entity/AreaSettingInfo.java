@@ -24,7 +24,7 @@ public class AreaSettingInfo implements java.io.Serializable {
 	private static final long serialVersionUID = 6919064059714945755L;
 	private Integer id;
 	private TimeUnitMapping timeUnitMapping;
-	private int timeShipping;
+	private String timeShipping;
 	private Boolean isFree;
 	private Boolean isNoShipping;
 	private Boolean isAsk;
@@ -35,14 +35,14 @@ public class AreaSettingInfo implements java.io.Serializable {
 	public AreaSettingInfo() {
 	}
 
-	public AreaSettingInfo(TimeUnitMapping timeUnitMapping, int timeShipping,
+	public AreaSettingInfo(TimeUnitMapping timeUnitMapping, String timeShipping,
 			int userId) {
 		this.timeUnitMapping = timeUnitMapping;
 		this.timeShipping = timeShipping;
 		this.userId = userId;
 	}
 
-	public AreaSettingInfo(TimeUnitMapping timeUnitMapping, int timeShipping,
+	public AreaSettingInfo(TimeUnitMapping timeUnitMapping, String timeShipping,
 			Boolean isFree, Boolean isNoShipping, Boolean isAsk, int userId,
 			Boolean isChoice, Integer useOnArea) {
 		this.timeUnitMapping = timeUnitMapping;
@@ -77,11 +77,11 @@ public class AreaSettingInfo implements java.io.Serializable {
 	}
 
 	@Column(name = "time_shipping", nullable = false)
-	public int getTimeShipping() {
+	public String getTimeShipping() {
 		return this.timeShipping;
 	}
 
-	public void setTimeShipping(int timeShipping) {
+	public void setTimeShipping(String timeShipping) {
 		this.timeShipping = timeShipping;
 	}
 
