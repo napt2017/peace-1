@@ -419,7 +419,8 @@ input, textarea, button {
 					 })
 					 .error(function(data, status, headers,config){
 							console.log("Error");
-					 }) 
+					 })
+				 
 			}; 
 			
 			$("#search-by-keyword").on("keypress",function(evt){
@@ -435,7 +436,7 @@ input, textarea, button {
 							}  
 					} 
 					
-					$http.post("SearchAmazonProduct",JSON.stringify({
+					/* $http.post("SearchAmazonProduct",JSON.stringify({
 						searchData:$("#search-by-keyword").val(),
 						isAsinSearch:false,
 						page:1
@@ -462,6 +463,21 @@ input, textarea, button {
 						 })
 						 .error(function(data, status, headers,config){
 								console.log("Error");
+						 }) */ 
+					$http.post("SearchAmazonProductXml",JSON.stringify({
+						searchData:$("#search-by-keyword").val(),
+						isAsinSearch:false,
+						page:1
+					}),config)
+						 .success(function(data, status, headers,config) {
+							 if(data.status==="OK"){ 
+								$scope.listOfProduct = data.extraData.lstProductSearch; 
+							 }else{
+								alert(data.cause); 
+							 }							 
+						 })
+						 .error(function(data, status, headers,config){
+								console.log("Error");
 						 }) 
 				}
 			});		
@@ -479,7 +495,23 @@ input, textarea, button {
 							}  
 					} 
 					
-					$http.post("SearchAmazonProduct",JSON.stringify({
+					/* $http.post("SearchAmazonProduct",JSON.stringify({
+						searchData:$("#search-by-asin").val(),
+						isAsinSearch:true,
+						page:-1
+					}),config)
+						 .success(function(data, status, headers,config) {
+							 if(data.status==="OK"){
+								 $scope.listOfProduct = data.extraData.lstProductSearch;
+								 $scope.pages = [];
+							 }else{
+								alert(data.cause); 
+							 }							 
+						 })
+						 .error(function(data, status, headers,config){
+								console.log("Error");
+						 }) */ 
+					$http.post("SearchAmazonProductXml",JSON.stringify({
 						searchData:$("#search-by-asin").val(),
 						isAsinSearch:true,
 						page:-1

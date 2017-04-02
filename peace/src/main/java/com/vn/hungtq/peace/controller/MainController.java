@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
@@ -11,6 +12,11 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.parser.Parser;
+import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +28,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,14 +37,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.view.RedirectView;
 import org.springframework.web.util.UriUtils;
 
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.vn.hungtq.peace.common.AjaxResponseResult;
+import com.vn.hungtq.peace.common.AmazonProductSearch;
 import com.vn.hungtq.peace.common.AmazonSearchEngine;
 import com.vn.hungtq.peace.common.AmazonSearchResult;
 import com.vn.hungtq.peace.common.AmazonServiceInfo;
@@ -48,6 +52,7 @@ import com.vn.hungtq.peace.common.CommonUtils;
 import com.vn.hungtq.peace.common.EbayServiceInfo;
 import com.vn.hungtq.peace.common.ProductSearch;
 import com.vn.hungtq.peace.common.RakutenServiceInfo;
+import com.vn.hungtq.peace.common.Tuple;
 import com.vn.hungtq.peace.common.YahooServiceInfo;
 import com.vn.hungtq.peace.dto.AccountSettingDto;
 import com.vn.hungtq.peace.dto.EbayProductToAdd;
@@ -273,6 +278,17 @@ public class MainController {
 		return new ModelAndView("pages/G_AmazonSearch");
 	}
 	
+	@RequestMapping(value ="SearchAmazonProductXml",method = RequestMethod.POST)
+	public @ResponseBody AjaxResponseResult<AmazonSearchResult> searchAmazonProductXml(@RequestBody ClientAmazonSearchDto clientAmazonSearchModel){
+		AjaxResponseResult<AmazonSearchResult> result = new AjaxResponseResult<AmazonSearchResult>();
+		String amazonSearchURL =  CommonUtils.buildAmazonServiceUrl(clientAmazonSearchModel.getSearchData(),amazonServiceInfo);
+		AmazonSearchResult amzSearchResult = processAmazonSearchResult(amazonSearchURL);
+		result.setStatus("OK");
+		result.setExtraData(amzSearchResult);
+		return result;
+	}
+	
+	
 	@RequestMapping(value ="SearchAmazonProduct",method = RequestMethod.POST)
 	public @ResponseBody AjaxResponseResult<AmazonSearchResult> searchAmazonProduct(@RequestBody ClientAmazonSearchDto clientAmazonSearchModel){
 		AjaxResponseResult<AmazonSearchResult> result = new AjaxResponseResult<AmazonSearchResult>();
@@ -304,7 +320,8 @@ public class MainController {
 	
 	@RequestMapping(value ="/AmazoneGetServiceUrl/{keyword}",method=RequestMethod.GET)
 	public @ResponseBody String amazoneGetServiceUrl(@PathVariable(value = "keyword") String keyword){
-		return CommonUtils.buildAmazonServiceUrl(keyword,amazonServiceInfo);
+		String amazonSearchURL =  CommonUtils.buildAmazonServiceUrl(keyword,amazonServiceInfo); 
+		return amazonSearchURL;
 	} 
 	
 	@RequestMapping(value ="/EbayProductSearch/{keyword}",method=RequestMethod.GET)
@@ -331,7 +348,6 @@ public class MainController {
 	@Cacheable(value="ebayProductSearchCached",key="#keyword")
 	private String getEbaySearchProductResult(String keyword){
 		String productSearchUrl = CommonUtils.buildEbayServiceUrl(keyword, ebayServiceInfomation);
-		logger.debug("The ebay service search url :" +productSearchUrl);
 		return CommonUtils.getHTMLContent(productSearchUrl);
 	}
 	
@@ -396,6 +412,37 @@ public class MainController {
 		responseResult.setExtraData(isCorrect);
 		
 		return responseResult;		 
+	 }
+	 
+	 private AmazonSearchResult processAmazonSearchResult(String amazonSearchURL){
+		 String response = CommonUtils.getHTMLContent(amazonSearchURL,Tuple.make("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8"),
+				 Tuple.make("Accept-Encoding","gzip, deflate, sdch"),
+				 Tuple.make("Accept-Language","vi-VN,vi;q=0.8,fr-FR;q=0.6,fr;q=0.4,en-US;q=0.2,en;q=0.2,ro;q=0.2,und;q=0.2"),
+				 Tuple.make("Accept-Charset", "UTF-8"),
+				 Tuple.make("Cookie","ubid-acbjp=352-2065366-8993931; session-token=\"fZXdjEjgK8uR6fth39+5xc65xw00eK1S/VV1L0uwCVjJGSdDS17l+BV6codbMvHFs8mCC8yVKJ5LmIcIXi54AbFNeVm/J8i+ky/BfjqDmWSYVcYb5PjuJNAtpZZiqnhkuSkldVUyECMclcveQ6J/0XClOFlkAYu0RldNopA/HVG0+InHQYFgfayFjOGTDXPdYm75xpRZBxk7vbjdgU0dhqV3uYWkCXDRRukKp+4Yl+8=\"; x-acbjp=\"N82igyz2nuVH@XNt@cQkpObsv3dZQOa@9ss7pdR5xKsnhx?8WRGYSU5BYbznHlY@\"; session-id=353-9960805-6338904; session-id-time=2082758400; ubid-tacbjp=353-1361336-5340853"),
+				 Tuple.make("Cache-Control","max-age=0"));
+		 AmazonSearchResult amzSearchResult = new AmazonSearchResult();
+		 Document htmlDocument = Jsoup.parse(response, "", Parser.xmlParser());
+		 Elements itemsElement = htmlDocument.select("ItemSearchResponse>Items>Item");
+		 Iterator<Element> itemsIterator = itemsElement.iterator();
+		
+		 while(itemsIterator.hasNext()){
+			 Element item = itemsIterator.next();
+			 String asinCode = item.select("ASIN").first().text();
+			 Elements itemUrlElement = item.select("ItemLinks>ItemLink>URL");
+			 Element urlElement = null;
+			 Iterator<Element> itUrlIterator = itemUrlElement.iterator();
+			 if(itUrlIterator.hasNext()){
+				 urlElement = itUrlIterator.next();
+				 if(itUrlIterator.hasNext()){
+					 urlElement = itUrlIterator.next();
+				 }
+			 }
+			 Element itemAttribute = item.select("ItemAttributes").first();
+			 String title = itemAttribute.select("Title").first().text();
+			 amzSearchResult.addProductSearch(new AmazonProductSearch(title, "0f", urlElement.text(), "", asinCode));
+		 }
+		 return amzSearchResult;
 	 }
 	 
 	 private EbayProductToAdd processEbaySearchItem(String jsonString,String itemId){
