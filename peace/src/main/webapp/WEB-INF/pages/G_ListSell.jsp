@@ -106,7 +106,7 @@
 				               </thead>
 				               <tbody>
 				                  <tr dir-paginate ="lc in listSell |orderBy:sortKey:reverse |itemsPerPage:6">
-				                     <td>
+				                     <td ng-cloak>
 				                        <label class="checkbox"> 
 				                        	<input value="1" type="checkbox"><i></i>
 				                        </label>
