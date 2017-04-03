@@ -83,8 +83,8 @@
 						style="background-color: white; padding-right: 40px;">
 						<div class="col col-lg-12">
 							<table
-							class="table table-bordered table-striped responsive-utilities"
-							style="margin-left: 15px">
+							class="table table-bordered table-striped responsive-utilities ng-cloak"
+							style="margin-left: 15px" >
 							<thead>
 								<tr>
 									<th ng-click="sort('image')">画像
@@ -106,13 +106,13 @@
 							</thead>
 							<tbody>
 								<tr ng-repeat ="product in listOfProduct |orderBy:sortKey:reverse">
-									<td class="col col-1"><image width="64" height="64"
+									<td class="col col-1" ng-cloak><image width="64" height="64"
 											src="{{product.imageUrl}}" /></td>
-									<td class="is-visible"><p>{{product.name}}</p></td>
-									<td class="is-hidden">{{product.price}}</td>
-									<td class="is-hidden">{{product.stock}}</td>
-									<td class="is-hidden"> 
-										<a href="{{product.link}}">Add to ebay</a>
+									<td class="is-visible" ng-cloak><p>{{product.name}}</p></td>
+									<td class="is-hidden" ng-cloak>{{product.price}}</td>
+									<td class="is-hidden" ng-cloak>{{product.stock}}</td>
+									<td class="is-hidden" ng-cloak> 
+										<a  ng-cloak href="{{product.link}}">Add to ebay</a>
 									</td>
 								</tr>
 							</tbody> 
@@ -121,9 +121,9 @@
 				          <div class="row" ng-if="pages&&pages.length>0">  
 			                  <div class="btn-toolbar" role="toolbar">
 			                    <div class="btn-group center-paging">
-			                        <button type="button" class="btn btn-default" id="btn-prev-page" ng-click="prevPage($event)">&lt;&lt;</button>
-			                        <button type="button" ng-repeat="page in pages" class="btn btn-default" ng-click="changePage($event,page)" napt-repeat-directive>{{page}}</button>
-			                        <button type="button" class="btn btn-default" id="btn-next-page" ng-click="nextPage($event)">&gt;&gt;</button>
+			                        <button type="button" class="btn btn-default" id="btn-prev-page" ng-cloak ng-click="prevPage($event)">&lt;&lt;</button>
+			                        <button type="button" ng-repeat="page in pages" class="btn btn-default" ng-cloak ng-click="changePage($event,page)" napt-repeat-directive>{{page}}</button>
+			                        <button type="button" class="btn btn-default" id="btn-next-page" ng-cloak ng-click="nextPage($event)">&gt;&gt;</button>
 			                        
 			                    </div> 
 			               </div>
@@ -157,6 +157,10 @@ input, textarea, button {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
 }
 
 .required-field-block .required-icon {

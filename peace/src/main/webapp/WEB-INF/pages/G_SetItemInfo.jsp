@@ -18,6 +18,10 @@
 			.required-field-block {
 				position: relative;   
 			}
+			
+			[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+			  display: none !important;
+			}
 
 			.required-field-block .required-icon {
 				display: inline-block;
@@ -139,30 +143,30 @@
 										<section class="row" style="margin-bottom: 10px;">
 											<label style="font-size: 20px" class="label col col-6" style="text-align: left;">Payment</label>
 											<label class="textarea col col-6"> 									
-												<textarea rows="5" id="payment" name="comment" placeholder="">{{itemInfomationModel.payment}}</textarea> 
+												<textarea rows="5" id="payment" name="comment" ng-cloak placeholder="">{{itemInfomationModel.payment}}</textarea> 
 											</label>
 										</section>
 										<section class="row" style="margin-bottom: 10px;">
 											<label style="font-size: 20px" class="label col col-6" style="text-align: left;">Terms of Sale</label>
 											<label class="textarea col col-6"> 									
-												<textarea rows="5" name="comment" id="terms_of_sale" placeholder="">{{itemInfomationModel.termsOfSale}}</textarea> 
+												<textarea rows="5" name="comment" id="terms_of_sale"  ng-cloak placeholder="">{{itemInfomationModel.termsOfSale}}</textarea> 
 											</label>
 										</section>
 										<section class="row" style="margin-bottom: 10px;">
 											<label style="font-size: 20px" class="label col col-6" style="text-align: left;">About Us</label>
 											<label class="textarea col col-6"> 										
-												<textarea rows="5" name="comment" id="about_us" placeholder="">{{itemInfomationModel.aboutUs}}</textarea> 
+												<textarea rows="5" name="comment" id="about_us" ng-cloak  placeholder="">{{itemInfomationModel.aboutUs}}</textarea> 
 											</label>
 										</section>
 										<section class="row" style="margin-bottom: 2px;">
 											<label style="font-size: 20px" class="label col col-6" style="text-align: left;">International Buyers - Please Note:</label>
 											<label class="textarea col col-6">									
-												<textarea rows="5" name="comment" id="international_buyers_note" placeholder="">{{itemInfomationModel.internationalBuyersNote}}</textarea> 
+												<textarea rows="5" name="comment" ng-cloak id="international_buyers_note" placeholder="">{{itemInfomationModel.internationalBuyersNote}}</textarea> 
 											</label>
 										</section>
 									</fieldset>
 									<footer class="row">
-										<button type="submit" class="btn btn-primary" id="btnSave" ng-click="saveItemInfomation($event)">
+										<button type="submit" class="btn btn-primary" ng-cloak id="btnSave" ng-click="saveItemInfomation($event)">
 											Save
 										</button>
 									</footer>

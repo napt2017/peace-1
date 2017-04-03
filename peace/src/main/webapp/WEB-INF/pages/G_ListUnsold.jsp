@@ -9,6 +9,11 @@
 	<jsp:include page="../pages/common/header.jsp"/>  
 	<meta name="_csrf" content="${_csrf.token}"/>
  	<meta name="_csrf_header" content="${_csrf.headerName}"/> 
+ 	<style>
+    		[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+			  display: none !important;
+			}
+    </style>
 	<body class="fixed-page-footer">
 		<jsp:include page="../pages/common/menu-top.jsp"/>
 		<jsp:include page="../pages/common/menu-left.jsp"/> 
@@ -99,18 +104,18 @@
 				               </thead>
 				               <tbody>
 				                  <tr dir-paginate ="lus in listUnSold |orderBy:sortKey:reverse |itemsPerPage:6">
-				                     <td>
+				                     <td ng-cloak>
 				                        <label class="checkbox"> 
 				                        	<input value="1" type="checkbox"><i></i>
 				                        </label>
 				                     </td>
-				                     <td>{{lus.title}}</td>
-									 <td>{{lus.endTime}}</td>
-									 <td>{{lus.listPrice}}</td>
-									 <td>{{lus.currency}}</td>
-									 <td>{{lus.purchaser}}</td>
-									 <td>{{lus.reListing}}</td>
-				                     <td>
+				                     <td ng-cloak>{{lus.title}}</td>
+									 <td ng-cloak>{{lus.endTime}}</td>
+									 <td ng-cloak>{{lus.listPrice}}</td>
+									 <td ng-cloak>{{lus.currency}}</td>
+									 <td ng-cloak>{{lus.purchaser}}</td>
+									 <td ng-cloak>{{lus.reListing}}</td>
+				                     <td ng-cloak>
 				                        <button class="btn btn-default"> Edit </button>
 				                     </td>
 				                  </tr>
@@ -749,7 +754,7 @@
 			})();
 
 		</script>
-
+		
 	</body>
 
 </html>

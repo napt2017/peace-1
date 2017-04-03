@@ -101,14 +101,14 @@
 							</thead>
 							<tbody>
 								<tr dir-paginate ="product in listOfProduct |orderBy:sortKey:reverse |itemsPerPage:6">
-									<td class="col col-1"><image width="64" height="64"
+									<td class="col col-1" ng-cloak ><image width="64" height="64"
 											src="{{product.image}}" /></td>
-									<td class="is-visible"><p>{{product.productName}}</p></td>
-									<td class="is-hidden">{{product.price}}</td>
-									<td class="is-hidden">{{product.stock}}</td>
-									<td class="is-hidden">
-										<a ng-if="isEbaySearch==true" ng-click="sendToAddProduct($event,product.itemId)" href="{{product.exhibition}}">Go to add ebay item</a>
-										<a ng-if="isEbaySearch==false" href="{{product.exhibition}}">{{product.exhibition}}</a>
+									<td ng-cloak class="is-visible"><p>{{product.productName}}</p></td>
+									<td ng-cloak class="is-hidden">{{product.price}}</td>
+									<td ng-cloak class="is-hidden">{{product.stock}}</td>
+									<td class="is-hidden" ng-cloak>
+										<a ng-if="isEbaySearch==true" ng-cloak ng-click="sendToAddProduct($event,product.itemId)" href="{{product.exhibition}}">Go to add ebay item</a>
+										<a ng-if="isEbaySearch==false" ng-cloak href="{{product.exhibition}}">{{product.exhibition}}</a>
 									</td>
 								</tr>
 							</tbody> 
@@ -139,6 +139,10 @@ input, textarea, button {
 /* Required field START */
 .required-field-block {
 	position: relative;
+}
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
 }
 
 .required-field-block .required-icon {

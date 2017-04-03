@@ -13,7 +13,11 @@
 	<body class="fixed-page-footer">
  		<jsp:include page="../pages/common/menu-top.jsp"/> 
 		<jsp:include page="../pages/common/menu-left.jsp"/> 
-
+		<style type="text/css">
+			[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+				  display: none !important;
+				} 
+		</style>
 		<!-- MAIN PANEL -->
 		<div id="main" role="main">
 
@@ -64,14 +68,14 @@
 				               </thead>
 				               <tbody>
 				                  <tr dir-paginate ="le in listError |orderBy:sortKey:reverse |itemsPerPage:10">
-				                     <td>
+				                     <td ng-cloak>
 				                        <label class="checkbox"> 
 				                        	<input value="1" type="checkbox"><i></i>
 				                        </label>
 				                     </td>
-				                     <td>{{le.title}}</td>
-				                     <td>{{le.error}}</td> 
-				                     <td>
+				                     <td ng-cloak>{{le.title}}</td>
+				                     <td ng-cloak> {{le.error}}</td> 
+				                     <td ng-cloak>
 				                        <button class="btn btn-default"> Edit </button>
 				                     </td>
 				                  </tr>
@@ -694,7 +698,6 @@
 			})();
 
 		</script>
-
 	</body>
 
 </html>

@@ -13,6 +13,11 @@
 <body class="fixed-page-footer">
 	<jsp:include page="../pages/common/menu-top.jsp" />
 	<jsp:include page="../pages/common/menu-left.jsp" />
+	<style>
+   		[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+		  display: none !important;
+		}
+    </style>
 
 	<!-- MAIN PANEL -->
 	<div id="main" role="main">
@@ -70,16 +75,16 @@
 				               </thead>
 				               <tbody>
 				                  <tr dir-paginate ="ls in listSold |orderBy:sortKey:reverse |itemsPerPage:6">
-				                     <td>
+				                     <td ng-cloak>
 				                        <label class="checkbox"> 
 				                        	<input value="1" type="checkbox"><i></i>
 				                        </label>
 				                     </td>
-				                     <td>{{ls.title}}</td>
-				                     <td>{{ls.endTime}}</td>
-				                     <td>{{ls.purchaser}}</td>
-				                     <td>{{ls.reListing}}</td>
-				                     <td>
+				                     <td ng-cloak>{{ls.title}}</td>
+				                     <td ng-cloak>{{ls.endTime}}</td>
+				                     <td ng-cloak>{{ls.purchaser}}</td>
+				                     <td ng-cloak>{{ls.reListing}}</td>
+				                     <td ng-cloak>
 				                        <button class="btn btn-default"> Edit </button>
 				                     </td>
 				                  </tr>
@@ -896,8 +901,7 @@
 			var s = document.getElementsByTagName('script')[0];
 			s.parentNode.insertBefore(ga, s);
 		})();
-	</script>
-
+	</script> 
 </body>
 
 </html>

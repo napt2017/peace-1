@@ -18,6 +18,10 @@
 			    font-size: 9px;
 			    margin-left: 5px;
 			}
+			
+			[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+			  display: none !important;
+			}
 
 			th {
 			    cursor:pointer;
@@ -107,14 +111,14 @@
 				                        	<input value="1" type="checkbox"><i></i>
 				                        </label>
 				                     </td>
-				                     <td>{{lc.title}}</td>
-				                     <td>{{lc.endTime}}</td>
-				                     <td>{{lc.listPrice}}</td> 
-				                     <td>{{lc.currency}}</td>
-				                     <td>{{lc.purchaser}}</td>
-				                     <td>{{lc.edit}}</td> 
-				                     <td>{{lc.end}}</td> 
-				                     <td>
+				                     <td ng-cloak>{{lc.title}}</td>
+				                     <td ng-cloak>{{lc.endTime}}</td>
+				                     <td ng-cloak>{{lc.listPrice}}</td> 
+				                     <td ng-cloak>{{lc.currency}}</td>
+				                     <td ng-cloak>{{lc.purchaser}}</td>
+				                     <td ng-cloak>{{lc.edit}}</td> 
+				                     <td ng-cloak>{{lc.end}}</td> 
+				                     <td ng-cloak>
 				                        <button class="btn btn-default"> Edit </button>
 				                     </td>
 				                  </tr>
