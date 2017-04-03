@@ -125,7 +125,7 @@
 						<div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-3" style="width:60%; margin-left: 10px"
 							data-widget-editbutton="false">
 							<header> 
-								<h2><span class="widget-icon"> <i class="fa fa-table"></i></span>  お名前</h2>
+								<h2><span class="widget-icon"> <i class="fa fa-table"></i></span>  PEACE問い合わせフォーム</h2>
 							</header>
 							<div>
 								<div class="jarviswidget-editbox"></div>
@@ -134,13 +134,19 @@
 									<input type="hidden" id="item_infomation_id" value="{{itemInfomationModel.itemId}}"/>
 									<fieldset>
 										<section class="row" style="margin-bottom: 10px;">
-											<label style="font-size: x-large;" class="label col col-4">メールアドレス</label>
+											<label style="font-size: x-large;" class="label col col-4">お名前</label>
 											<label class="col col-8" style="padding-top: 7px;">									
 												<input type="text" id="contact_name" class="col col-12 input-lg" style="width:100%">
 											</label>
 										</section>
 										<section class="row" style="margin-bottom: 10px;">
-											<label style="font-size: x-large;" class="label col col-4">Tel</label>
+											<label style="font-size: x-large;" class="label col col-4">メールアドレス</label>
+											<label class="col col-8" style="padding-top: 7px;">									
+												<input type="text" id="contact_email" class="col col-12 input-lg" style="width:100%">
+											</label>
+										</section>
+										<section class="row" style="margin-bottom: 10px;">
+											<label style="font-size: x-large;" class="label col col-4">携帯電話</label>
 											<label class="col col-8" style="padding-top: 7px;">									
 												<input type="text" id="contact_tel" class="col col-12 input-lg" style="width:100%">
 											</label>
@@ -160,7 +166,7 @@
 									</fieldset>
 									<footer class="">
 										<button type="submit" id="save_contact" class="btn btn-primary">
-											確定
+											送信
 										</button>
 									</footer>
 									</form>

@@ -42,7 +42,7 @@
 				<div class="row" ng-controller="productSearchController">
 					<div class="widget-body ">
 						<header>
-							<h2>Research: collectively research</h2>
+							<h2>まとめてリサーチ</h2>
 						</header>
 						<form class="smart-form">
 							<fieldset>
@@ -57,8 +57,6 @@
 									<div class="inline-group" style="padding-top: 30px">
 										<label class="radio "> <input type="radio"
 											name="radio-inline" id="all" checked="checked"> <i></i>All
-										</label> <label class="radio "> <input type="radio"
-											name="radio-inline" id="amazon"> <i></i>Amazon
 										</label> <label class="radio "> <input type="radio"
 											name="radio-inline" id="ebay"> <i></i>Ebay
 										</label> <label class="radio "> <input type="radio"

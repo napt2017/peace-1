@@ -70,10 +70,15 @@
 						</ul>
 					</li>
 					<li class="" >
-						<a href="ListResearchAll"> <span class="menu-item-parent">リサーチ</span></a>
-					</li>
-					<li class="" >
-						<a href="AmazonSearch"> <span class="menu-item-parent">amazon.co.jp</span></a>
+						<a href="#"> <span class="menu-item-parent">リサーチ</span></a>
+						<ul>
+							<li class="" >
+								<a href="ListResearchAll"> <span class="menu-item-parent">まとめてリサーチ</span></a>
+							</li>
+							<li class="" >
+								<a href="AmazonSearch"> <span class="menu-item-parent">amazon.co.jp</span></a>
+							</li>
+						</ul>
 					</li>
 					<li>
 						<a href="#"> <span class="menu-item-parent">eBay設定</span></a>

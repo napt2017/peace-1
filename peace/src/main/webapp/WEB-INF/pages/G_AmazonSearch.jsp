@@ -47,24 +47,34 @@
 							<h2 class="amazon-search-title">リサーチ：amazon.co.jp</h2> 
 						</header> 
 						<form class="smart-form">
-							<div class="row">
-								<div class="col col-lg-2" style="text-align:right">
+							<div class="container">
+								<div class="col col-lg-2" style="">
 									キーワード / ASIN:
 								</div>
-								<div class="col col-lg-9">
+								<div class="col col-lg-6">
 									<label class="input">
 										<input type="search" id="search-by-keyword" />
 									</label> 
 								</div>
 							</div>
-							<div class="row" style="margin-top:5px;margin-bottom:5px;">
-								<div class="col col-lg-2" style="text-align:right">
+							<div class="container" style="margin-top:5px;margin-bottom:5px;">
+								<div class="col col-lg-2" style="">
 								ASINから関連商品
 								</div>
-								<div class="col col-lg-9">
+								<div class="col col-lg-6">
 									<label class="input">
 										<input type="search" id="search-by-asin" />
 									</label> 
+								</div>
+							</div>
+							<div class="container" style="margin-top:5px;margin-bottom:5px;">
+								<div class="col col-lg-2" style="">
+								
+								</div>
+								<div class="col col-lg-6">
+									<button type="submit" id="seach" class="btn btn-primary" style="float: right;height: 31px;margin-top: 10px;margin-bottom: 10px;padding: 0 22px; font: 300 15px/29px 'Open Sans',Helvetica,Arial,sans-serif;cursor: pointer;">
+											送信
+										</button>
 								</div>
 							</div>
 							</form>
@@ -74,7 +84,7 @@
 						<div class="col col-lg-12">
 							<table
 							class="table table-bordered table-striped responsive-utilities"
-							style="margin-left: 25px">
+							style="margin-left: 15px">
 							<thead>
 								<tr>
 									<th ng-click="sort('image')">画像
