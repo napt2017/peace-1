@@ -115,10 +115,10 @@
 						<a href="#"> <span class="menu-item-parent">在庫チェック</span></a>
 						<ul>
 							<li>
-								<a href="G_StockRegistor.html">新規登録</a>
+								<a href="StockRegistor">新規登録</a>
 							</li>
 							<li>
-								<a href="G_StockList.html">在庫一覧</a>
+								<a href="StockList">在庫一覧</a>
 							</li>
 						</ul>
 					</li>
