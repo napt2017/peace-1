@@ -145,16 +145,21 @@
 															<input type="text" style="margin-bottom: 3px;" placeholder="ファイル名" id="template_name"/>
 														</div> 
 												</section> 
-												<section class="row" style="margin-bottom:3px;">  
+												<section class="row" style="margin-bottom:3px;">
 														<div class="col col-lg-10">
-															<textarea id="userHtmlTemplateCode" ></textarea>
+															<div class="input input-file">
+																	<span class="button">
+																		<input id="templateUploadFile" type="file" ng-model="uploadFileModel" name="file2" onchange="angular.element(this).scope().handingEventFileUpload()">Browse
+																	</span>
+																<input type="text" placeholder="テンプレートアップロードファイルを選択する">
+															</div>
 														</div>
 												</section>  
 												<section class="row" style="margin-bottom:3px;">  
 														<div class="col col-lg-10">
 															 <div class="input input-file">
 																<span class="button">
-																	<input id="templateUploadFile" type="file" ng-model="uploadFileModel" name="file2" onchange="angular.element(this).scope().handingEventSelectFileUpload()">Browse
+																	<input id="templateUploadImage" type="file" ng-model="uploadImageModel" name="file2" onchange="angular.element(this).scope().handingEventImageUpload()">Browse
 																</span>
 																<input type="text" placeholder="カスタムテンプレートのアップロード">
 															  </div>
@@ -226,14 +231,6 @@
 
 		</script>
 		
-		<!-- EMBED CKEDITOR(napt2017) -->
-		<script src="${pageContext.request.contextPath}/resources/js/plugin/ckeditor/ckeditor.js"></script>
-		<script type="text/javascript">
-			$(function(){  
-				CKEDITOR.replace("userHtmlTemplateCode"); 
-			});
-		</script>
-		
 		<!-- HANDING BUSSINESS LOGIC FOR UPLOAD FORM VIA ANGULARJS (napt2017) -->
 		<script type="text/javascript"src="<c:url value="/resources/js/angularjs/angular.min.js"/>"></script> 
 		<script type="text/javascript"> 
@@ -256,31 +253,54 @@
 			
 			//Config the controller
 			templateUploadApp.controller("templateUploadController",function($scope,$http){
-				
-				$scope.handingEventSelectFileUpload = function($this){
-					var selectedFile = templateUploadFile.files[0];
-					var fileType = selectedFile.type;
-					if(fileType==="image/jpeg"||fileType==="image/png"){
-						$("#templateUploadFile").parent().next().val(selectedFile.name);
-						
-						$scope.readLocalImage(selectedFile,function(imageData){
-							$("#preview_image").css({
-							    width: "200px",
-							    height: "300px",
-							    border: "1px solid #827d7d",
-							    "border-radius": "3px"
-							});
-							
-							$("#preview_image").attr("src",imageData)
-						});
-					}else{
-						alert("Invailed file type!");
+
+			    //Process event upload template file
+                $scope.handingEventFileUpload = function ($this) {
+                    $scope.templateFileContent = "";
+                    $("#templateUploadFile").parent().next().val("");
+					var templateFile =templateUploadFile.files[0];
+					if(templateFile){
+                        var fileType = templateFile.type;
+                        if(fileType==="text/html"){
+                            $("#templateUploadFile").parent().next().val(templateFile.name);
+                            $scope.readLocalHtmlFile(templateFile,function(data){
+                                $scope.templateFileContent = encodeURIComponent(data);
+                            });
+                        }
+                        else{
+                            alert("You must select html template file (*.html)!!!");
+                        }
+					}
+                }
+
+			    //Process event upload image
+				$scope.handingEventImageUpload = function($this){
+					var selectedFile = templateUploadImage.files[0];
+					if(selectedFile){
+                        var fileType = selectedFile.type;
+                        if(fileType==="image/jpeg"||fileType==="image/png"){
+                            $("#templateUploadImage").parent().next().val(selectedFile.name);
+
+                            $scope.readLocalImage(selectedFile,function(imageData){
+                                $("#preview_image").css({
+                                    width: "200px",
+                                    height: "300px",
+                                    border: "1px solid #827d7d",
+                                    "border-radius": "3px"
+                                });
+
+                                $("#preview_image").attr("src",imageData)
+                            });
+                        }else{
+                            $("#templateUploadImage").parent().next().val("");
+                            $("#preview_image").attr("src","");
+                            alert("You must select image file (*.jpeg or *.png)!");
+                        }
 					}
 				};
 				
 				$scope.clearUserTemplateForm = function(){
 					$("#template_name").val("");
-					$scope.getCkEditor().innerHTML ="";
 					$("#preview_image").attr("src",""); 
 					$("#preview_image").attr("style",""); 
 					$("#user_template_id").val("-1")
@@ -288,15 +308,7 @@
 						$("input[name='radio-inline']:checked").prop("checked",false)
 					}
 					$("#templateUploadFile").parent().next().val("");
-				}
-				
-				//Get ckEditor content follow dom hierachy
-				$scope.getCkEditor = function(){
-					return $("#cke_userHtmlTemplateCode ").find(".cke_inner .cke_reset")
-														  .find("iframe")
-														  .contents()[0]
-														  .documentElement
-														  .getElementsByTagName("body")[0];
+                    $("#templateUploadImage").parent().next().val("");
 				}
 				
 				//Send ajax to server to upload template
@@ -305,14 +317,13 @@
 						alert("Empty template name");
 						return;						
 					}
-					
-					var ckEditorFrameContent= $scope.getCkEditor();
-					if($.trim(ckEditorFrameContent.innerText) ===""){
+
+					if(!$scope.templateFileContent ||$scope.templateFileContent ===""){
 						alert("Empty html content for template!!!")
 						return;
 					}					
 					
-					if($("#preview_image").attr("src")===""){
+					if(!$("#preview_image").attr("src") ||$("#preview_image").attr("src")===""){
 						alert("Empty image for template");
 						return;						
 					} 
@@ -320,9 +331,9 @@
 					//Prepare the upload form data
 					var uploadData = {
 							title:$("#template_name").val(),
-							htmlCode:encodeURI(ckEditorFrameContent.innerHTML),
+							htmlCode:$scope.templateFileContent,
 							base64StringImage:$("#preview_image").attr("src"),
-							templateId:$("#user_template_id").val()
+							templateId:$("#user_template_id").val()||-1
 					}; 
 					
 					var token = $("meta[name='_csrf']").attr("content");
@@ -338,7 +349,9 @@
 					$http.post("CustomTemplateUpload",JSON.stringify(uploadData),config)
 						 .success(function(data, status, headers,config) {
 							 if(data.status==="OK"){
-								 $scope.reloadUserTemplate();
+								 //$scope.reloadUserTemplate();
+								 alert("Save success!!");
+								 window.location.reload();
 							 }else{
 								alert(data.cause); 
 							 }							 
@@ -359,28 +372,21 @@
 					 }) 
 				};
 				
-				//Download sampe template for user
-				$scope.downloadSampleTemplate = function($event){
-					$event.preventDefault();
-					alert("Download sample template")
-				} 
-				
 				//Bind selected template to layout
 				$scope.bindTemplateToLayout = function($this,$event){
 					var title = $this.next().prop('nextSibling').textContent;
 					var imageString = $this.parent().next().attr("src");
 					var htmlCode = decodeURI($this.parent().next().next().val());
-					var ckEditorFrameContent= $scope.getCkEditor();
 					var templateId = $this.val();
 					
 					$("#user_template_id").val(templateId);
 					
 					if($("#template_name").val()!=="" ||
-					   $.trim(ckEditorFrameContent.innerText) !=="" ||
+					   $.trim($scope.templateFileContent) !=="" ||
 					   $("#preview_image").attr("src")!==""){  
 						var answer = confirm("Seem you are some new template content to add or edit! \n Are you want to edit the exist template ? ");
 						if(answer){
-							$scope.bindingValue(title,htmlCode,imageString,ckEditorFrameContent);
+							$scope.bindingValue(title,htmlCode,imageString );
 							$scope.currentSelectedTemplate = $this;
 						}else{
 							$this.prop('checked', false);
@@ -389,15 +395,14 @@
 							} 
 						}
 					}else{
-						$scope.bindingValue(title,htmlCode,imageString,ckEditorFrameContent);
+						$scope.bindingValue(title,htmlCode,imageString );
 						$scope.currentSelectedTemplate = $this;
 					}
 				};
 				
 				//Binding value
-				$scope.bindingValue = function(title,htmlCode,imageString,ckEditorFrameContent){
+				$scope.bindingValue = function(title,htmlCode,imageString){
 					$("#template_name").val(title);
-					ckEditorFrameContent.innerHTML = htmlCode;
 					$("#preview_image").css({
 					    width: "200px",
 					    height: "300px",
@@ -415,6 +420,16 @@
 				    }
 				    reader.readAsDataURL($imgeFile);
 				}
+
+				//Read local html file
+				$scope.readLocalHtmlFile = function ($htmlFile,callback) {
+					var reader = new FileReader();
+					reader.onload = function (evt) {
+						callback(evt.target.result);
+                    }
+
+                    reader.readAsText($htmlFile);
+                }
 				
 				//Register checked event for all radiobutton onlayout
 				$scope.registerEventForRadioButton = function(){
