@@ -1,8 +1,14 @@
 package com.vn.hungtq.peace.controller;
 
+import java.io.*;
+import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,6 +21,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -60,6 +67,9 @@ public class EbaySettingController {
 	private UserDaoService userService;
 	
 	private Authentication authentication;
+
+	@Autowired
+	ServletContext context;
 	
 	@RequestMapping("/ListTemplate")
 	public ModelAndView actionListTemplate(){
@@ -102,6 +112,32 @@ public class EbaySettingController {
 			return new ItemInfomationDto().copyFrom(itemInfomation);
 		}
 		return new ItemInfomationDto().withDefaultId();
+	}
+
+	@RequestMapping(value = "/DownloadTemplate",method = RequestMethod.GET)
+	public void actionDownloadSampleTemplate(HttpServletResponse response){
+		String templateFilePath = context.getRealPath("../resources/sampletemplate.html");
+		Path tempPath = Paths.get(templateFilePath);
+		if(Files.exists(tempPath)){
+			String mimeType = URLConnection.guessContentTypeFromName(templateFilePath);
+			if(mimeType==null){
+				mimeType= "application/octet-stream";
+			}
+			response.setContentType(mimeType);
+
+			File tempFile = tempPath.toFile();
+			response.setHeader("Content-Disposition", String.format("inline; filename=\"" + tempFile.getName() +"\""));
+			response.setContentLength((int)tempFile.length());
+			try(final InputStream inputStream = new FileInputStream(tempFile)){
+                FileCopyUtils.copy(inputStream,response.getOutputStream());
+			} catch (FileNotFoundException e) {
+                logger.debug("Exception when read template file :"+e.getMessage());
+            } catch (IOException e) {
+                logger.debug("Exception when read template file :"+e.getMessage());
+            }
+        }else{
+			logger.debug("Cannot found template file in path:"+ templateFilePath);
+		}
 	}
 	
 	@RequestMapping(value ="/AddItemInfomation",method=RequestMethod.POST)
