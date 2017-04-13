@@ -1,6 +1,10 @@
 package com.vn.hungtq.peace.controller;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,8 +14,10 @@ import java.util.Locale;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -88,6 +94,9 @@ public class MainController {
 	
 	@Autowired
 	private EbayServiceInfo ebayServiceInfomation;
+
+	@Autowired
+	ServletContext context;
 	
 	@Autowired
 	MessageSource messageSource;
@@ -122,6 +131,26 @@ public class MainController {
 		return VIEW_HOME;
 
 	}
+
+	@RequestMapping("/Manual")
+	public String actionViewManual(HttpServletRequest request, HttpSession httpSession,HttpServletResponse response){
+		try {
+			byte [] documentInBytes = getManualDocument();
+			response.setDateHeader("Expires", -1);
+			response.setContentType("application/pdf");
+			response.setContentLength(documentInBytes.length);
+			response.getOutputStream().write(documentInBytes);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return  null;
+	}
+
+	private byte [] getManualDocument() throws IOException {
+		String manualPdfFile = context.getRealPath("../resources/manual.pdf");
+		return  Files.readAllBytes(Paths.get(manualPdfFile));
+	}
+
 	
 	@RequestMapping("/StockRegistor")
 	public ModelAndView actionGoToStockRegister(){

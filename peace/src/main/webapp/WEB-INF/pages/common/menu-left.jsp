@@ -126,7 +126,7 @@
 						<a href="SetAccount"> <span class="menu-item-parent">アカウント</span></a>						
 					</li>	
 					<li>
-						<a href="http://peace-ex.com/manual/manual.pdf"><span class="menu-item-parent">マニュアル</span></a>
+						<a href="Manual"><span class="menu-item-parent">マニュアル</span></a>
 					</li>
 					<li>
 						<a href="ContactUs"> <span class="menu-item-parent">お問い合わせ</span></a>
