@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -52,14 +53,17 @@ import com.vn.hungtq.peace.common.CommonUtils;
 import com.vn.hungtq.peace.common.EbayServiceInfo;
 import com.vn.hungtq.peace.common.ProductSearch;
 import com.vn.hungtq.peace.common.RakutenServiceInfo;
+import com.vn.hungtq.peace.common.StockRegistorItem;
 import com.vn.hungtq.peace.common.Tuple;
 import com.vn.hungtq.peace.common.YahooServiceInfo;
 import com.vn.hungtq.peace.dto.AccountSettingDto;
 import com.vn.hungtq.peace.dto.EbayProductToAdd;
 import com.vn.hungtq.peace.dto.UserDto;
 import com.vn.hungtq.peace.entity.AccountSetting;
+import com.vn.hungtq.peace.entity.StockRegistorEntity;
 import com.vn.hungtq.peace.entity.User;
 import com.vn.hungtq.peace.service.AccountSettingDaoService;
+import com.vn.hungtq.peace.service.StockRegistorDaoService;
 import com.vn.hungtq.peace.service.UserDaoService;
 
 @Controller
@@ -91,6 +95,9 @@ public class MainController {
 	@Autowired
 	AccountSettingDaoService accountSettingDaoService;
 	
+	@Autowired
+	StockRegistorDaoService stockRegistorDaoService;
+	
 	@RequestMapping(value ="/", method = RequestMethod.GET)
 	public String welcome(Locale locale, ModelMap model) {
 		logger.info("Welcome home! The client locale is {}.", locale);
@@ -115,6 +122,115 @@ public class MainController {
 		return VIEW_HOME;
 
 	}
+	
+	@RequestMapping("/StockRegistor")
+	public ModelAndView actionGoToStockRegister(){
+		return new ModelAndView("pages/G_StockRegistor");
+	}
+	
+	@RequestMapping("/StockRegistor/{id}")
+	public ModelAndView actionGoToStockRegister(@PathVariable("id") int id){
+		ModelAndView mdv = new ModelAndView("pages/G_StockRegistor");
+		mdv.addObject("stockId", id);
+		return mdv;
+	}
+	
+	@RequestMapping(value="/GetStockRegistor/{id}",method=RequestMethod.GET)
+	public @ResponseBody AjaxResponseResult<StockRegistorItem> actionGetStockRegistor(@PathVariable("id") int id){
+		AjaxResponseResult<StockRegistorItem> ajaxResponse = new AjaxResponseResult<StockRegistorItem>();
+		Optional<StockRegistorEntity> optStockEntity = stockRegistorDaoService.getStockRegistorById(id);
+		optStockEntity.ifPresent(dbStockRegistor ->{
+			StockRegistorItem stockRegistorItem = new StockRegistorItem(dbStockRegistor.getId(),
+					 dbStockRegistor.getStoreName(),
+					 dbStockRegistor.getProductName(),
+					 dbStockRegistor.getVendorUrl(),
+					 dbStockRegistor.getBuyPrice(),
+					 dbStockRegistor.getLogicCheck(),
+					 dbStockRegistor.getStock(),
+					 dbStockRegistor.getNote(),dbStockRegistor.getStockWord());
+			ajaxResponse.setExtraData(stockRegistorItem);
+		});
+		ajaxResponse.setMsg("OK");
+		return ajaxResponse;
+	}
+	
+	@RequestMapping(value ="/UpdateStockRegistor",method=RequestMethod.POST)
+	public @ResponseBody AjaxResponseResult<String> actionUpdateStockRegistor(@RequestBody StockRegistorItem stockRegistorItem){
+		AjaxResponseResult<String> ajaxResponse = new AjaxResponseResult<String>();
+		
+		//Convert
+		StockRegistorEntity stockRegistorEntity = new StockRegistorEntity();
+		stockRegistorEntity.setStoreName(stockRegistorItem.getStoreName());
+		stockRegistorEntity.setProductName(stockRegistorItem.getProductName());
+		stockRegistorEntity.setVendorUrl(stockRegistorItem.getVendorURL());
+		stockRegistorEntity.setBuyPrice(stockRegistorItem.getBuyPrice());
+		stockRegistorEntity.setLogicCheck(stockRegistorItem.getLogicCheck());
+		stockRegistorEntity.setStock(stockRegistorItem.getStock());
+		stockRegistorEntity.setNote(stockRegistorItem.getNote());
+		stockRegistorEntity.setStockWord(stockRegistorItem.getStockWord());
+		stockRegistorEntity.setId(stockRegistorItem.getId());
+		
+		//Update
+		stockRegistorDaoService.updateStockRegistor(stockRegistorEntity);
+		ajaxResponse.setStatus("OK");
+		
+		return ajaxResponse;
+	}
+	
+	@RequestMapping("/StockList")
+	public ModelAndView actionGoToStockList(){
+		return new ModelAndView("pages/G_StockList");
+	}
+	
+	@RequestMapping(value ="/LoadStockList",method=RequestMethod.GET)
+	public @ResponseBody AjaxResponseResult<List<StockRegistorItem>> actionLoadStockList(){
+		AjaxResponseResult<List<StockRegistorItem>> ajaxResponse = new AjaxResponseResult<>();
+		List<StockRegistorEntity> lstStockRegister =stockRegistorDaoService.getAllStockRegistor();
+		List<StockRegistorItem> lstStockRegistorItem = lstStockRegister.stream().map(dbStockRegistor->{
+			return new StockRegistorItem(dbStockRegistor.getId(),
+										 dbStockRegistor.getStoreName(),
+										 dbStockRegistor.getProductName(),
+										 dbStockRegistor.getVendorUrl(),
+										 dbStockRegistor.getBuyPrice(),
+										 dbStockRegistor.getLogicCheck(),
+										 dbStockRegistor.getStock(),
+										 dbStockRegistor.getNote(),dbStockRegistor.getStockWord());
+		}).collect(Collectors.toList()); 
+		
+		ajaxResponse.setExtraData(lstStockRegistorItem);
+		return ajaxResponse;
+	}
+	
+	@RequestMapping(value="/DeleteStocks")
+	public @ResponseBody AjaxResponseResult<String> actionDeleteStocks(@RequestBody List<Integer> lstStockIds){
+		AjaxResponseResult<String> ajaxResponse = new AjaxResponseResult<String>();
+		stockRegistorDaoService.deleteStockRegistors(lstStockIds);
+		ajaxResponse.setStatus("OK");
+		return ajaxResponse;
+	}
+	
+	@RequestMapping(value ="/AddStockRegistor",method=RequestMethod.POST)
+	public @ResponseBody AjaxResponseResult<String> actionAddStockRegistor(@RequestBody StockRegistorItem stockRegistorItem){
+		AjaxResponseResult<String> ajaxResponse = new AjaxResponseResult<>();
+		
+		//Convert
+		StockRegistorEntity stockRegistorEntity = new StockRegistorEntity();
+		stockRegistorEntity.setStoreName(stockRegistorItem.getStoreName());
+		stockRegistorEntity.setProductName(stockRegistorItem.getProductName());
+		stockRegistorEntity.setVendorUrl(stockRegistorItem.getVendorURL());
+		stockRegistorEntity.setBuyPrice(stockRegistorItem.getBuyPrice());
+		stockRegistorEntity.setLogicCheck(stockRegistorItem.getLogicCheck());
+		stockRegistorEntity.setStock(stockRegistorItem.getStock());
+		stockRegistorEntity.setNote(stockRegistorItem.getNote());
+		stockRegistorEntity.setStockWord(stockRegistorItem.getStockWord());
+		
+		//Save
+		stockRegistorDaoService.saveStockRegistor(stockRegistorEntity);
+		ajaxResponse.setStatus("OK");
+		
+		return ajaxResponse;
+	}
+	
 	
 	/**
 	 * This method handles login GET requests.
