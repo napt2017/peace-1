@@ -112,7 +112,7 @@
 									<td class="is-hidden" ng-cloak>{{product.price}}</td>
 									<td class="is-hidden" ng-cloak>{{product.stock}}</td>
 									<td class="is-hidden" ng-cloak> 
-										<a  ng-cloak href="{{product.link}}">Add to ebay</a>
+										<a  ng-cloak href="{{product.link}}" ng-click="addToEbay($event,'amazon',product.index)">Add to ebay</a>
 									</td>
 								</tr>
 							</tbody> 
@@ -298,6 +298,12 @@ input, textarea, button {
 			$.expr[':']['hasText'] = function(node, index, props){
 				  return node.innerText ===props[3];
 			};
+
+			$scope.addToEbay = function($event,$searchSite,$index){
+			    $event.preventDefault();
+			    var keyword = $("#search-by-keyword").val();
+                window.location.href = "SendToSell/"+$searchSite+"/"+ $index+"/"+keyword;
+			}
 			
 			$scope.activeStyleForCurrentPage = function(){
 				//Remove last active button

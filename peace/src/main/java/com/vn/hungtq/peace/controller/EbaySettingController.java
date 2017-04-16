@@ -23,11 +23,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.vn.hungtq.peace.common.AjaxResponseResult;
@@ -112,6 +108,11 @@ public class EbaySettingController {
 			return new ItemInfomationDto().copyFrom(itemInfomation);
 		}
 		return new ItemInfomationDto().withDefaultId();
+	}
+
+	@RequestMapping(value = "/UpdateDefaultTemplate/{id}",method = RequestMethod.GET)
+	public void actionUpdateDefaultTemplate(@PathVariable("id") int id){
+		userTemplateDaoService.updateDefaultTemplate(id);
 	}
 
 	@RequestMapping(value = "/DownloadTemplate",method = RequestMethod.GET)

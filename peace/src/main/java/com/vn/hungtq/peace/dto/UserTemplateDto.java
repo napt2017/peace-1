@@ -6,6 +6,7 @@ public class UserTemplateDto {
 	private String base64StringImage;
 	private int index;
 	private int templateId;
+	private boolean isDefault;
 	
 	public UserTemplateDto(){} 
 	
@@ -55,5 +56,13 @@ public class UserTemplateDto {
 
 	public void setTemplateId(int templateId) {
 		this.templateId = templateId;
-	}  
+	}
+
+	public boolean isDefault() {
+		return isDefault;
+	}
+
+	public void setDefault(boolean aDefault) {
+		isDefault = aDefault;
+	}
 }

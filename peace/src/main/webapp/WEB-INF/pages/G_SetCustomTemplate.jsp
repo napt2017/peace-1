@@ -193,8 +193,8 @@
 									<div class="inline-group" style="padding-top: 30px" ng-repeat="subUserTemplate in listOfUserTemplate"  napt-repeat-directive>
 									<section class="col col-2 col-sm-2" style="" ng-repeat="userTempalate in subUserTemplate">
 										<label class="radio">
-											<input type="radio" class="selected_template" name="radio-inline" value="{{userTempalate.templateId}}">
-											<i></i>{{userTempalate.title}} </label>
+											<input type="radio" class="selected_template" name="radio-inline" ng-model="userTempalate.isDefault" data-template-id="{{userTempalate.templateId}}" ng-value="true">
+											<i></i>{{userTempalate.title}}</label>
 										<img src="{{userTempalate.base64StringImage}}" height="300" width="200"/>
 										<input type="hidden" value="{{userTempalate.htmlCode}} "/>
 									</section> 
@@ -378,6 +378,7 @@
 					var imageString = $this.parent().next().attr("src");
 					var htmlCode = decodeURI($this.parent().next().next().val());
 					var templateId = $this.val();
+					//TODO fix this
 					
 					$("#user_template_id").val(templateId);
 					
@@ -435,8 +436,14 @@
 				$scope.registerEventForRadioButton = function(){
 					$(".selected_template").on("change",function(evt){
 						var currentSelectedTemplate = ($('input[name=radio-inline]:checked'));
+						var templateId = currentSelectedTemplate.attr("data-template-id");
+                        $scope.updateToDefaultTemplate(templateId);
 						$scope.bindTemplateToLayout($(this),evt);
 					});
+				};
+
+				$scope.updateToDefaultTemplate = function($templateId){
+				  	$http.get("UpdateDefaultTemplate/"+$templateId);
 				};
 				
 				//Default load template of current user 

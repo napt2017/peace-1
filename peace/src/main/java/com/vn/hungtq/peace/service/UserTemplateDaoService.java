@@ -8,4 +8,5 @@ public interface UserTemplateDaoService {
 	List<UserTemplate> getListTemplateOfUser(int userId);
 	UserTemplate getUserTemplateById(int templateId);
 	void updateUserTemplate(UserTemplate userTemplate);
+	void updateDefaultTemplate(int id);
 }

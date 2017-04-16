@@ -104,7 +104,9 @@ public class CommonUtils {
 	
 	public static boolean isSameHash(String rawPassword,String hash){  
 		return bCryptPasswordEncoder.matches(rawPassword, hash);
-	} 
+	}
+
+
 	
 	public static String encryptPassword(String rawPassword){
 		return bCryptPasswordEncoder.encode(rawPassword);
@@ -245,6 +247,7 @@ public class CommonUtils {
 			userTemplateDto.setBase64StringImage(new String(userTemplate.getImage()));
 			userTemplateDto.setIndex(index++);
 			userTemplateDto.setTemplateId(userTemplate.getId());
+			userTemplateDto.setDefault(userTemplate.getIsDefault());
 			
 			lstUserTemplateDto.add(userTemplateDto);
 		}

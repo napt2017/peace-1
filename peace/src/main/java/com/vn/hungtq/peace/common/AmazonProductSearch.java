@@ -13,14 +13,16 @@ public final class AmazonProductSearch {
     private final String link;
     private final String sin;
     private final Map<String,String> productAttribute;
+    private final int index;
 
 
-    public AmazonProductSearch(String name, String price,String link ,String imageUrl,String sin) {
+    public AmazonProductSearch(String name, String price,String link ,String imageUrl,String sin,int index) {
         this.name = name;
         this.price = price;
         this.imageUrl = imageUrl;
         this.link = link;
         this.sin = sin;
+        this.index = index;
         this.productAttribute = new HashMap<String, String>();
     }
 
@@ -50,5 +52,9 @@ public final class AmazonProductSearch {
 
     public String getImageUrl() {
         return imageUrl;
+    }
+
+    public int getIndex() {
+        return index;
     }
 }

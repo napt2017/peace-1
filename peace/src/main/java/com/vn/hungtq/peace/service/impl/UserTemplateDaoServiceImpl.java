@@ -40,5 +40,24 @@ public class UserTemplateDaoServiceImpl extends BaseDaoServiceImpl implements Us
 	@Override
 	public void updateUserTemplate(UserTemplate userTemplate) {
 		getCurrentSession().update(userTemplate);
-	} 
+	}
+
+	@Override
+	public void updateDefaultTemplate(int id) {
+		//Get last default template
+		List<UserTemplate> lstUserTemplate = getCurrentSession().createQuery("from UserTemplate where isDefault = ?").setParameter(0,true).list();
+		if(lstUserTemplate.size()>0){
+			for(UserTemplate userTemplate : lstUserTemplate){
+				userTemplate.setIsDefault(false);
+				updateUserTemplate(userTemplate);
+			}
+		}
+
+		//Get update user template
+		UserTemplate updateDefaultTempate = getUserTemplateById(id);
+		if(updateDefaultTempate!=null){
+			updateDefaultTempate.setIsDefault(true);
+			updateUserTemplate(updateDefaultTempate);
+		}
+	}
 }

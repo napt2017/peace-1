@@ -1,9 +1,10 @@
 package com.vn.hungtq.peace.controller;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -18,7 +19,11 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
+import com.vn.hungtq.peace.dto.YahooProductSearch;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -481,13 +486,129 @@ public class MainController {
 		logger.debug("The yahoo service search url :" +productSearchUrl);
 		return CommonUtils.getHTMLContent(productSearchUrl);
 	}
-	
-	@RequestMapping("SendToSell/{itemIndex}/{keyWord}")
-	public ModelAndView sendToSell(@PathVariable("itemIndex") String itemId,@PathVariable("keyWord")String keyWord,ModelMap model){
-		String data = getEbaySearchProductResult(keyWord);
-		EbayProductToAdd ebayProductAdd = processEbaySearchItem(data,itemId); 
-		model.addAttribute("ebayProductAdd", ebayProductAdd); 
-		return  new ModelAndView("forward:/Sell",model);
+
+	@RequestMapping(value ="/YahooProductSearchV2/{keyword}",method=RequestMethod.GET)
+	public @ResponseBody AjaxResponseResult<List<YahooProductSearch>> yahooSearchProductByKeywordV2(@PathVariable(value = "keyword") String keyword){
+		AjaxResponseResult<List<YahooProductSearch>> ajaxResponseResult = new AjaxResponseResult<List<YahooProductSearch>>();
+		String productSearchUrl = CommonUtils.buildYahooServiceUrl(keyword, yahooServiceInfo);
+		logger.debug("yahoo appid:"+yahooServiceInfo.getAppid());
+		logger.debug("The yahoo service search url :" +productSearchUrl);
+		String xmlResponseContent =  CommonUtils.getHTMLContent(productSearchUrl);
+		List<YahooProductSearch> yahooProductSearchList = convertToListYahooProductSearch(xmlResponseContent);
+		ajaxResponseResult.setExtraData(yahooProductSearchList);
+		return  ajaxResponseResult;
+	}
+
+	private List<YahooProductSearch> convertToListYahooProductSearch(String xmlContent){
+		List<YahooProductSearch> yahooProductSearchList = new ArrayList<>();
+		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+		try {
+			DocumentBuilder db = dbf.newDocumentBuilder();
+			try(InputStream inputStream = new ByteArrayInputStream(xmlContent.getBytes())){
+				org.w3c.dom.Document doc = db.parse(inputStream);
+				doc.getDocumentElement().normalize();
+				System.out.println("Root element:"+doc.getDocumentElement().getNodeName());
+				org.w3c.dom.NodeList hitTags = doc.getElementsByTagName("Hit");
+				int length = hitTags.getLength();
+				for (int i = 0; i < length; i++) {
+					org.w3c.dom.Node hitTag = hitTags.item(i);
+					if(hitTag.getNodeType() == org.w3c.dom.Node.ELEMENT_NODE){
+						YahooProductSearch yahooProductSearch = convertToYahooProductSearch(hitTag);
+						yahooProductSearchList.add(yahooProductSearch);
+					}
+				}
+			}
+		} catch (ParserConfigurationException ex) {
+			logger.debug(ex.getMessage());
+		} catch (IOException ex) {
+			logger.debug(ex.getMessage());
+		} catch (org.xml.sax.SAXException ex) {
+			logger.debug(ex.getMessage());
+		}
+
+		return  yahooProductSearchList;
+	}
+
+	private  YahooProductSearch convertToYahooProductSearch(org.w3c.dom.Node hitTag){
+		YahooProductSearch yahooProductSearch = new YahooProductSearch();
+		yahooProductSearch.setSearchSite("yahoo");
+
+		org.w3c.dom.Element element = (org.w3c.dom.Element)hitTag;
+		yahooProductSearch.setItemId(element.getAttribute("index"));
+		yahooProductSearch.setProductName(element.getElementsByTagName("Name").item(0).getTextContent());
+		yahooProductSearch.setDescription(element.getElementsByTagName("Description").item(0).getTextContent());
+		yahooProductSearch.setExhibition(element.getElementsByTagName("Url").item(0).getTextContent());
+
+		org.w3c.dom.Element imageElement = (org.w3c.dom.Element)element.getElementsByTagName("Image").item(0);
+		if(imageElement.getElementsByTagName("Small").getLength() >0){
+			yahooProductSearch.setImage(imageElement.getElementsByTagName("Small").item(0).getTextContent());
+		}else{
+			if(imageElement.getElementsByTagName("Medium").getLength() >0){
+				yahooProductSearch.setImage(imageElement.getElementsByTagName("Medium").item(0).getTextContent());
+			}
+		}
+
+		org.w3c.dom.Element priceElement = (org.w3c.dom.Element)element.getElementsByTagName("PriceLabel").item(0);
+		yahooProductSearch.setPrice(priceElement.getElementsByTagName("DefaultPrice").item(0).getTextContent());
+		return  yahooProductSearch;
+	}
+
+	@RequestMapping("SendToSell/{searchSite}/{itemIndex}/{keyWord}")
+	public ModelAndView sendToSell(@PathVariable("searchSite") String searchSite,@PathVariable("itemIndex") String itemId,@PathVariable("keyWord")String keyWord,ModelMap model){
+		switch (searchSite){
+			case "yahoo": {
+				AjaxResponseResult<List<YahooProductSearch>> responseResult = yahooSearchProductByKeywordV2(keyWord);
+				List<YahooProductSearch> lstYahooSearch = responseResult.getExtraData();
+				Optional<YahooProductSearch> optYahooSearch = lstYahooSearch.stream().filter(s->s.getItemId().equals(itemId)).findFirst();
+				EbayProductToAdd ebayProductToAdd = null;
+				if(optYahooSearch.isPresent()){
+					YahooProductSearch yahooProductSearch = optYahooSearch.get();
+					ebayProductToAdd = new EbayProductToAdd();
+					ebayProductToAdd.setTitle(yahooProductSearch.getProductName());
+					ebayProductToAdd.setViewItemUrl(yahooProductSearch.getExhibition());
+					ebayProductToAdd.setCurrentPrice(yahooProductSearch.getPrice());
+					ebayProductToAdd.setImageUrl(yahooProductSearch.getImage());
+				}
+				model.addAttribute("ebayProductAdd", ebayProductToAdd);
+			}
+				break;
+			case "ebay": {
+				String data = getEbaySearchProductResult(keyWord);
+				EbayProductToAdd ebayProductAdd = processEbaySearchItem(data, itemId);
+				model.addAttribute("ebayProductAdd", ebayProductAdd);
+			}
+				break;
+			case "rakuten":{
+				List<ProductSearch> lstRakutenSearch = rakutenSearchProductByKeyword(keyWord);
+				ProductSearch productSearch = lstRakutenSearch.get(Integer.valueOf(itemId));
+				EbayProductToAdd ebayProductToAdd = null;
+				if(productSearch!=null){
+					ebayProductToAdd = new EbayProductToAdd();
+					ebayProductToAdd.setTitle(productSearch.getProductName());
+					ebayProductToAdd.setImageUrl(productSearch.getImage());
+					ebayProductToAdd.setViewItemUrl(productSearch.getExhibition());
+					ebayProductToAdd.setCurrentPrice(productSearch.getPrice());
+				}
+				model.addAttribute("ebayProductAdd", ebayProductToAdd);
+			}
+				break;
+			case "amazon":{
+				String amazonSearchURL =  CommonUtils.buildAmazonServiceUrl(keyWord,amazonServiceInfo);
+				AmazonSearchResult amzSearchResult = processAmazonSearchResult(amazonSearchURL);
+				List<AmazonProductSearch> lstProductSearch = amzSearchResult.getLstProductSearch();
+				AmazonProductSearch amazonProductSearch = lstProductSearch.get(Integer.valueOf(itemId));
+				if(amazonProductSearch!=null){
+					EbayProductToAdd ebayProductToAdd = new EbayProductToAdd();
+					ebayProductToAdd.setTitle(amazonProductSearch.getName());
+					ebayProductToAdd.setImageUrl(amazonProductSearch.getImageUrl());
+					ebayProductToAdd.setViewItemUrl(amazonProductSearch.getLink());
+					ebayProductToAdd.setCurrentPrice(amazonProductSearch.getPrice());
+					model.addAttribute("ebayProductAdd", ebayProductToAdd);
+				}
+			}
+				break;
+		}
+		return new ModelAndView("forward:/Sell", model);
 	}
 	
 	@Cacheable(value="ebayProductSearchCached",key="#keyword")
@@ -524,7 +645,7 @@ public class MainController {
 				}
 				//May be set default image here when product has not image -fix later
 				String image = imageUrls.size()==0?"":imageUrls.get(0).getAsJsonObject().get("imageUrl").getAsString(); 
-				lstProductSearch.add(new ProductSearch(image, productName, price, stock, exhibition)); 
+				lstProductSearch.add(new ProductSearch(image, productName, price, stock, exhibition,"rakuten",(itemIndex+"")));
 			}
 			
 			return lstProductSearch;
@@ -570,7 +691,7 @@ public class MainController {
 		 Document htmlDocument = Jsoup.parse(response, "", Parser.xmlParser());
 		 Elements itemsElement = htmlDocument.select("ItemSearchResponse>Items>Item");
 		 Iterator<Element> itemsIterator = itemsElement.iterator();
-		
+		 int index = 0;
 		 while(itemsIterator.hasNext()){
 			 Element item = itemsIterator.next();
 			 String asinCode = item.select("ASIN").first().text();
@@ -585,7 +706,8 @@ public class MainController {
 			 }
 			 Element itemAttribute = item.select("ItemAttributes").first();
 			 String title = itemAttribute.select("Title").first().text();
-			 amzSearchResult.addProductSearch(new AmazonProductSearch(title, "0f", urlElement.text(), "", asinCode));
+			 amzSearchResult.addProductSearch(new AmazonProductSearch(title, "0f", urlElement.text(), "", asinCode,index));
+			 index++;
 		 }
 		 return amzSearchResult;
 	 }
@@ -614,6 +736,7 @@ public class MainController {
 	 
 	 private EbayProductToAdd convertJsonObjectToEbayProduct(JsonObject jsonObject){
 		 EbayProductToAdd ebayProductAdd = new EbayProductToAdd();
+
 		 String itemId = jsonObject.getAsJsonArray("itemId").get(0).getAsString();
 		 ebayProductAdd.setItemId(itemId);
 		 

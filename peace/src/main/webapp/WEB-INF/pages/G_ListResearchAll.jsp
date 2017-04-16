@@ -107,8 +107,11 @@
 									<td ng-cloak class="is-hidden">{{product.price}}</td>
 									<td ng-cloak class="is-hidden">{{product.stock}}</td>
 									<td class="is-hidden" ng-cloak>
+										<!--
 										<a ng-if="isEbaySearch==true" ng-cloak ng-click="sendToAddProduct($event,product.itemId)" href="{{product.exhibition}}">Go to add ebay item</a>
 										<a ng-if="isEbaySearch==false" ng-cloak href="{{product.exhibition}}">{{product.exhibition}}</a>
+										-->
+										<a ng-cloak ng-click="sendToAddProduct($event,product.itemId,product.searchSite)" href="{{product.exhibition}}">Go to add ebay item</a>
 									</td>
 								</tr>
 							</tbody> 
@@ -276,11 +279,11 @@ input, textarea, button {
 									} else if ($("#yahoo_shopping").prop(
 											"checked")) {
 										//Search yahoo shopping
-										$scope.yahoo.searchProductByKeyword(keyword);
+										$scope.yahoo.searchProductByKeywordV2(keyword);
 									} else if ($("#yahoo_auction").prop(
 											"checked")) {
 										//Search yahoo auction
-										$scope.yahoo.searchProductByKeyword(keyword);
+										$scope.yahoo.searchProductByKeywordV2(keyword);
 									} else if ($("#rakuten_research").prop(
 											"checked")) {
 										//Search rakuten
@@ -316,7 +319,8 @@ input, textarea, button {
 										price : 0,
 										stock : "",
 										exhibition : viewitem,
-										itemId:item.itemId
+										itemId:item.itemId,
+										searchSite:"ebay"
 									});
 								}
 								$scope.listOfProduct = listOfProduct;
@@ -337,22 +341,22 @@ input, textarea, button {
 							}
 							
 							//Send to add product
-							$scope.sendToAddProduct = function($event,$index){
+							$scope.sendToAddProduct = function($event,$index,$searchSite){
 								$event.preventDefault(); 
-								window.location.href = "SendToSell/"+ $index+"/"+$scope.searchModel;
+								window.location.href = "SendToSell/"+$searchSite+"/"+ $index+"/"+$scope.searchModel;
 							}
 
 							/*--------------------------------AMAZON SEARCH--------------------------------------*/
 							$scope.amazon = {};
 							$scope.amazon.searchProductByKeyword = function(keyWord) {
 								$scope.amazon.buildRequestUrl(keyWord,function(finalRequestUrl) {
-													$http.post(finalRequestUrl)
-														 .success(function(data,status,headers,config) {
-																		$scope.amazon.processServiceResponse(data);
-														  })
-														  .error(function(data,status,headers,config) {
-																		console .log(data);
-														  });
+									$http.post(finalRequestUrl)
+										 .success(function(data,status,headers,config) {
+														$scope.amazon.processServiceResponse(data);
+										  })
+										  .error(function(data,status,headers,config) {
+														console .log(data);
+										  });
 								});
 							}
 
@@ -495,6 +499,21 @@ input, textarea, button {
 													console.log(data);
 												});
 							}
+
+                            //The yahoo search function
+                            $scope.yahoo.searchProductByKeywordV2 = function(keyWord) {
+                                $scope.isEbaySearch = false;
+                                //Send ajax to server to search product
+                                $http.get("YahooProductSearchV2/"+keyWord)
+                                    .success(
+                                        function(data, status, headers, config) {
+                                            $scope.listOfProduct = data.extraData;
+                                        }).error(
+                                    function(data, status, headers,
+                                             config) {
+                                        console.log(data);
+                                    });
+                            }
 						});
 	</script>
 </body>

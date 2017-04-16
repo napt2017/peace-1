@@ -6,6 +6,8 @@ public class ProductSearch {
 	private String price;
 	private String stock;
 	private String exhibition;
+	private String searchSite;
+	private String itemId;
 	
 	public String getImage() {
 		return image;
@@ -46,14 +48,32 @@ public class ProductSearch {
 	public void setExhibition(String exhibition) {
 		this.exhibition = exhibition;
 	}
-	
+
+	public String getSearchSite() {
+		return searchSite;
+	}
+
+	public void setSearchSite(String searchSite) {
+		this.searchSite = searchSite;
+	}
+
+	public String getItemId() {
+		return itemId;
+	}
+
+	public void setItemId(String itemId) {
+		this.itemId = itemId;
+	}
+
 	public ProductSearch(String image, String productName, String price,
-			String stock, String exhibition) {
+						 String stock, String exhibition, String searchSite,String itemId) {
 		super();
 		this.image = image;
 		this.productName = productName;
 		this.price = price;
 		this.stock = stock;
 		this.exhibition = exhibition;
+		this.searchSite = searchSite;
+		this.itemId = itemId;
 	} 
 }
