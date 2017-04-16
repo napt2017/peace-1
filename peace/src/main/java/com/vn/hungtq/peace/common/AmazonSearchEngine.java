@@ -124,7 +124,7 @@ public class AmazonSearchEngine {
                     Element imageElement = htmlDocument.getElementById("imgTagWrapperId").select("img").first();
 
                     //Add to search result
-                    amazonSearchResult.addProductSearch(new AmazonProductSearch(titleElement.text(),priceElement.text(),searchURL,imageElement.attr("data-old-hires"),""));
+                    amazonSearchResult.addProductSearch(new AmazonProductSearch(titleElement.text(),priceElement.text(),searchURL,imageElement.attr("data-old-hires"),"",0));
 
                     //Get related product
                     Element relatedProductSearch = htmlDocument.getElementById("sp_detail");
@@ -143,6 +143,7 @@ public class AmazonSearchEngine {
         Elements allProductRelatedTags = releatedProductElement.select("div[class=a-carousel-row-inner]>div[class=a-carousel-col a-carousel-center]>div[class=a-carousel-viewport]>ol[class=a-carousel]>li[class=a-carousel-card]");
         Iterator<Element> childRelatedIter = allProductRelatedTags.iterator();
         List<AmazonProductSearch> lstAmazonProductSearch = new ArrayList<>();
+        int index = 1;
         while (childRelatedIter.hasNext()){
             Element childRelatedTag = childRelatedIter.next().select("div").first();
 
@@ -161,7 +162,10 @@ public class AmazonSearchEngine {
             String price = childRelatedTag.select("div[class=sp_offerVertical]>div[class=sp_dpOffer]>div[class=a-row a-color-price]").first().text();
 
             //Add to list String name, String price,String link ,String imageUrl,String sin
-            lstAmazonProductSearch.add(new AmazonProductSearch(title,price,link,imageUrl,dataSin));
+            lstAmazonProductSearch.add(new AmazonProductSearch(title,price,link,imageUrl,dataSin,index));
+
+            //Increment index
+            index++;
         }
         return lstAmazonProductSearch;
     }
@@ -267,6 +271,7 @@ public class AmazonSearchEngine {
     private List<AmazonProductSearch> processProductTags(Elements productTagElements){
         List<AmazonProductSearch> lstAmazonProductSearch = new ArrayList<>(26);
         Iterator<Element> productTagIter = productTagElements.iterator();
+        int index = 0;
         while (productTagIter.hasNext()){
             Element productTag = productTagIter.next();
             String sin = productTag.attr("data-asin");
@@ -310,7 +315,7 @@ public class AmazonSearchEngine {
             }
 
             //Create new product
-            AmazonProductSearch amazonProductSearch = new AmazonProductSearch(title,price,link,imgSource,sin);
+            AmazonProductSearch amazonProductSearch = new AmazonProductSearch(title,price,link,imgSource,sin,index++);
             lstAmazonProductSearch.add(amazonProductSearch);
         }
         return lstAmazonProductSearch;
