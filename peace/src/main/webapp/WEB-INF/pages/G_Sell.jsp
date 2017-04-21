@@ -551,6 +551,8 @@ label {
 	                    success: function(respData){
 	                        if(respData.status==="OK"){
 	                        	alert(respData.msg)
+								//TODO add code to insert stock here
+                                addStockRegistor();
 	                        }else{
 	                        	alert(respData.cause);
 	                        }
@@ -560,6 +562,35 @@ label {
 	                    }
 	                });  
 				}
+
+				function addStockRegistor(){
+                    $http.post("AddStockRegistor",JSON.stringify({
+                        id:0,
+                        storeName:"Store From G_Sell",
+                        productName:$("#product_title").val(),
+                        vendorURL:$("#txt_stockurl").val(),
+                        buyPrice:$("#txt_start_price").val(),
+                        logicCheck:2,
+                        stock:12,
+                        note:$("#cke_ckEditorForDescription").find(".cke_inner .cke_reset")
+                            .find("iframe")
+                            .contents()[0]
+                            .documentElement
+                            .getElementsByTagName("body")[0].innerHTML,
+                        stockWord:""
+					}),config)
+                        .success(function(data, status, headers,config) {
+                            if(data.status==="OK"){
+                                alert("Add success!");
+                                window.location.reload();
+                            }else{
+                                alert(data.cause);
+                            }
+                        })
+                        .error(function(data, status, headers,config){
+                            console.log("Error");
+                        })
+                }
 				
 				$("#add-shipping-service-option").on("click",function(evt){
 					evt.preventDefault();
