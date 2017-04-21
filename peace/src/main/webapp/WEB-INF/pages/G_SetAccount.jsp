@@ -311,71 +311,72 @@ input, textarea, button {
 							$scope.headers = config;
 							$scope.saveAccountSetting = function($event) {
 								$event.preventDefault();
-								if ($("#old-pass").val() === "") {
-									alert("Empty old pass");
-									return;
+								if ($("#new-pass").val() !== "" || $("#re-new-pass").val() !== "") {
+									if ($("#old-pass").val() === "") {
+										alert("Empty old pass");
+										return;
+									}
+
+									if ($("#new-pass").val() === "") {
+										alert("Empty new pass");
+										return;
+									}
+
+									if ($("#re-new-pass").val() === "") {
+										alert("Empty retype new pass");
+										return;
+									}
+
+									if ($("#re-new-pass").val() !== $("#new-pass")
+											.val()) {
+										alert("New pass not same with retype new pass");
+										return;
+									}
+									//Validate old password
+									$scope.checkCorrectOldPassword(
+										$("#old-pass").val(),
+										function() {
+											//Password correct
+											$scope.validateRestOfForm(function() {
+														//Validate all success
+														$scope.updateOldUserInfo(function() {
+																	//Update user info success
+																	var dataPost = $scope.accountSettingModel;
+																	$http
+																			.post(
+																					"SaveAccountSetting",
+																					JSON
+																							.stringify(dataPost),
+																					$scope.headers)
+																			.success(
+																					function(
+																							data,
+																							status,
+																							headers,
+																							config) {
+																						console
+																								.log(data)
+																					})
+																			.error(
+																					function(
+																							data,
+																							status,
+																							headers,
+																							config) {
+																						console
+																								.log(data);
+																					});
+																})
+													})
+
+									},
+									function() {
+										alert("Old password incorrect");
+									})
 								}
+								
 
-								if ($("#new-pass").val() === "") {
-									alert("Empty new pass");
-									return;
-								}
-
-								if ($("#re-new-pass").val() === "") {
-									alert("Empty retype new pass");
-									return;
-								}
-
-								if ($("#re-new-pass").val() !== $("#new-pass")
-										.val()) {
-									alert("New pass not same with retype new pass");
-									return;
-								}
-
-								//Validate old password
-								$scope
-										.checkCorrectOldPassword(
-												$("#old-pass").val(),
-												function() {
-													//Password correct
-													$scope
-															.validateRestOfForm(function() {
-																//Validate all success
-																$scope
-																		.updateOldUserInfo(function() {
-																			//Update user info success
-																			var dataPost = $scope.accountSettingModel;
-																			$http
-																					.post(
-																							"SaveAccountSetting",
-																							JSON
-																									.stringify(dataPost),
-																							$scope.headers)
-																					.success(
-																							function(
-																									data,
-																									status,
-																									headers,
-																									config) {
-																								console
-																										.log(data)
-																							})
-																					.error(
-																							function(
-																									data,
-																									status,
-																									headers,
-																									config) {
-																								console
-																										.log(data);
-																							});
-																		})
-															})
-
-												},
-												function() {
-													alert("Old password incorrect");
-												})
+								
 							};
 
 							//Must implement it
@@ -391,9 +392,7 @@ input, textarea, button {
 								};
 
 								$http
-										.post("ChangeUserPasswordEmail",
-												JSON.stringify(dataPost),
-												$scope.headers)
+										.post("ChangeUserPasswordEmail",JSON.stringify(dataPost), $scope.headers)
 										.success(
 												function(data, status, headers,
 														config) {

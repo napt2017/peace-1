@@ -382,7 +382,7 @@ label {
 						</section>
 						
 						<!-- The footer part -->
-						<footer>
+						<footer class="col-xs-10 col-md-10" style="">
 							<button type="submit" class="btn btn-primary" id="btnAddEbayItem">Submit</button>
 							<button type="button" class="btn btn-default" id="btnBackHistory">Back</button>
 						</footer>
