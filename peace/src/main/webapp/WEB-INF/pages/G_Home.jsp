@@ -71,17 +71,17 @@
 							<tr bgcolor="#98fb98">
 								<td>
 									<font>
-										<font>2017-02-10</font>
+										<font>2017-04-15</font>
 									</font>
 								</td>
 								<td>
 									<font>
-										<font class="">On the TOP page, we added the release process of this announcement content. </font>
+										<font class="">- Fix UI pages Search and Setting</font>
 									</font>
 									<br>
 										<font>
-											<font>
-											Notifications of defects and additions will be updated from time to time by this announcement function.</font>
+											- Fix description when add item to ebay
+											
 										</font>
 									</td>
 								</tr>

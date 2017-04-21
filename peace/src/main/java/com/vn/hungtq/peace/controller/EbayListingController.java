@@ -4,8 +4,12 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.config.authentication.UserServiceBeanDefinitionParser;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.NumberUtils;
 import org.springframework.util.StringUtils;
@@ -47,12 +51,29 @@ import com.vn.hungtq.peace.common.EbayServiceInfo;
 import com.vn.hungtq.peace.common.Tuple;
 import com.vn.hungtq.peace.dto.EbayCategory;
 import com.vn.hungtq.peace.dto.EbayItemDto;
+import com.vn.hungtq.peace.entity.ItemInfomation;
+import com.vn.hungtq.peace.entity.User;
+import com.vn.hungtq.peace.service.ItemInfomationDaoService;
+import com.vn.hungtq.peace.service.UserDaoService;
+import com.vn.hungtq.peace.service.UserTemplateDaoService;
+import com.vn.hungtq.peace.service.impl.ItemInfomationDaoServiceImpl;
+import com.vn.hungtq.peace.service.impl.UserDaoServiceImpl;
+import com.vn.hungtq.peace.service.impl.UserTemplateDaoServiceImpl;
 
 @Controller
 public class EbayListingController {
 	
 	@Autowired
 	EbayServiceInfo ebayServiceInfo;
+	
+	@Autowired
+	UserDaoService userDaoService;
+	
+	@Autowired
+	UserTemplateDaoService userTemplateDaoService;
+	
+	@Autowired
+	ItemInfomationDaoService itemInfomationDaoService;
 	
 	private final static String COOKIE_EBAY_TOKEN = "PeaceEbayToken";
 	
@@ -77,7 +98,8 @@ public class EbayListingController {
 			double listingFee = eBayUtil.findFeeByName(fees.getFee(), "ListingFee").getFee().getValue();
 			responseResult.setMsg("Add item success with id:"+item.getItemID());
 		} catch (Exception e) {
-			responseResult.setStatus("FAILED");
+			e.printStackTrace();
+ 			responseResult.setStatus("FAILED");
 			responseResult.setCause(e.getMessage());
 		}
 		
@@ -161,6 +183,14 @@ public class EbayListingController {
 	private ItemType buildItemFromDto(EbayItemDto itemDto){
 		ItemType itemType = new ItemType();
 		if (itemDto != null) {
+			
+			// Get user sso
+			final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+			org.springframework.security.core.userdetails.User userSSO = (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
+			
+			// Get user from db
+			User user = userDaoService.findBySSO(userSSO.getUsername());
+			
 			BeanUtils.copyProperties(itemDto, itemType);
 			
 			// Category Id
@@ -173,6 +203,26 @@ public class EbayListingController {
 			
 			// Condition
 			itemType.setConditionID(Integer.valueOf(itemDto.getConditionID()));
+			
+			// Description
+			String htmlCode = userTemplateDaoService.getUserTemplateById(2).getHtmlCode();
+//			htmlCode = StringEscapeUtils.unescapeHtml3(htmlCode);
+			ItemInfomation itemInfomation = itemInfomationDaoService.getItemInfomationByUserId(user.getId());
+			htmlCode = htmlCode.replaceAll("<!---- Title ---->", itemDto.getTitle());
+			htmlCode = htmlCode.replaceAll("<!---- Description ---->", itemDto.getDescription());
+			htmlCode = htmlCode.replaceAll("<!---- PaymentContent ---->", itemInfomation.getPayment());
+			htmlCode = htmlCode.replaceAll("<!---- TermOfSaleContent ---->", itemInfomation.getTermsOfSale());
+			htmlCode = htmlCode.replaceAll("<!---- InternationalBuyersContent ---->", itemInfomation.getInternationalBuyerNote());
+			htmlCode = htmlCode.replaceAll("<!---- AboutUsContent ---->", itemInfomation.getAboutUs());
+			
+			String img = "<img src='"+itemDto.getImageUrl()+"' />";
+			htmlCode = htmlCode.replaceAll("<!---- Photo ---->", img);
+			StringBuilder description = new StringBuilder();
+			description.append("<![CDATA[");
+			description.append(htmlCode);
+			description.append("]]>");
+			itemType.setDescription(description.toString());
+			
 			
 			// Picture
 			PictureDetailsType pictureDetailsType = new PictureDetailsType();
