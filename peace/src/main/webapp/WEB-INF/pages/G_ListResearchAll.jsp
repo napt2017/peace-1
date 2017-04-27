@@ -99,7 +99,8 @@
 									</th>
 								</tr>
 							</thead>
-							<tbody>
+							<tbody id="searchBody">
+								<!--
 								<tr dir-paginate ="product in listOfProduct |orderBy:sortKey:reverse |itemsPerPage:6">
 									<td class="col col-1" ng-cloak ><image width="64" height="64"
 											src="{{product.image}}" /></td>
@@ -110,17 +111,20 @@
 										<!--
 										<a ng-if="isEbaySearch==true" ng-cloak ng-click="sendToAddProduct($event,product.itemId)" href="{{product.exhibition}}">Go to add ebay item</a>
 										<a ng-if="isEbaySearch==false" ng-cloak href="{{product.exhibition}}">{{product.exhibition}}</a>
-										-->
+
 										<a ng-cloak ng-click="sendToAddProduct($event,product.itemId,product.searchSite)" href="{{product.exhibition}}">Go to add ebay item</a>
 									</td>
 								</tr>
+								-->
 							</tbody> 
 						</table>
+						<!--
 						<dir-pagination-controls
 						       max-size="5"
 						       direction-links="true"
 						       boundary-links="true" >
 						</dir-pagination-controls>
+						-->
 						</div>
 					</div>
 				</div>
@@ -249,12 +253,122 @@ input, textarea, button {
 			s.parentNode.insertBefore(ga, s);
 		})();
 	</script>
+	
+	<!--Replace the angular-->
+	<script type="text/javascript">
+		$(function () {
+		    //Function bind search product to layout
+			function bindProductToLayout(listOfSearchProduct) {
+				listOfSearchProduct.forEach(function(product,index){
+					var template =
+                    "<tr><td class='col col-1'><image width='64' height='64'src='"+product.image+"'/></td>"+
+                    "	<td class='is-visible'><p>"+product.productName +"</p></td>"+
+                    "	<td class='is-hidden'>"+product.price +"</td>"+
+                    "	<td class='is-hidden'>"+product.stock +"</td>"+
+                    "	<td class='is-hidden send-to-ebay' data-product-id='"+product.itemId+"' data-search-site='"+product.searchSite+"'> "+
+                    "	<a ng-click='sendToAddProduct($event,product.itemId,product.searchSite)' href='"+product.exhibition+"'>Go to add ebay</a>"+
+                    "	</td>"+
+                    "</tr>";
+					$("#searchBody").append($(template));
+				});
 
-	<!-- LOAD ANGULAR JS MODULE -->
+				$(".send-to-ebay").on("click","a",function(evt){
+				    evt.preventDefault();
+					var itemId = $(this).parent().attr("data-product-id");
+					var searchSite= $(this).parent().attr("data-search-site");
+					var keyword = $("#productSearch").val();
+                    window.location.href = "SendToSell/"+searchSite+"/"+itemId+"/"+keyword;
+				});
+            }
+
+            $("#productSearch").on("keypress",function (evt) {
+				if(evt.keyCode ===13){
+				    evt.preventDefault();
+                    $("#searchBody").empty();
+				    var keyword = $(this).val();
+				    searchProduct(keyword);
+				}
+            })
+
+            function searchProduct(keyword){
+                if (keyword !== "") {
+
+                    if ($("#all").prop("checked")) {
+                        //Search all
+                    } else if ($("#amazon").prop("checked")) {
+                        //Search amazon
+                        $scope.amazon.searchProductByKeyword(keyword);
+                    } else if ($("#ebay").prop("checked")) {
+                        //Search ebay
+                        ebaySearchProductByKeyword(keyword);
+                    } else if ($("#yahoo_shopping").prop("checked")) {
+                        //Search yahoo shopping
+                        yahooSearchProductByKeyword(keyword);
+                    } else if ($("#yahoo_auction").prop("checked")) {
+                        //Search yahoo auction
+                        yahooSearchProductByKeyword(keyword);
+                    } else if ($("#rakuten_research").prop("checked")) {
+                        //Search rakuten
+                        rakutenSearchProductByKeyword(keyword);
+                    }
+                }
+			}
+
+            function findItemsByKeywords(root) {
+                var items = root.findItemsByKeywordsResponse[0].searchResult[0].item || [];
+                var listOfProduct = [];
+                for (var i = 0; i < items.length; ++i) {
+                    var item = items[i];
+                    var title = item.title[0];
+                    var pic = item.galleryURL[0];
+                    var viewitem = item.viewItemURL[0];
+                    listOfProduct.push({
+                        productName : title,
+                        image : pic,
+                        price : 0,
+                        stock : "",
+                        exhibition : viewitem,
+                        itemId:item.itemId,
+                        searchSite:"ebay"
+                    });
+                }
+                bindProductToLayout(listOfProduct);
+            }
+
+            //Ebay search
+            function ebaySearchProductByKeyword(keyWord) {
+                $.get("EbayProductSearch/"+keyWord,function(data,status){
+                    findItemsByKeywords(JSON.parse(data));
+				});
+            }
+
+            //Rakuten search
+            function rakutenSearchProductByKeyword(keyWord) {
+                //I dont know but rakuten say this! :-p
+                if (keyWord.length > 1) {
+                    //Send ajax to server to search product
+                    $.get("RakutenProductSearch/"+ keyWord,function(data,status){
+                        bindProductToLayout(data);
+                    });
+                }
+            };
+
+            //Yahoo search
+			function yahooSearchProductByKeyword(keyWord){
+				//Send ajax to server to search product
+				$.get("YahooProductSearchV2/"+keyWord,function(data,status){
+					bindProductToLayout(data.extraData);
+				});
+			}
+        })
+	</script>
+
+	<!-- LOAD ANGULAR JS MODULE
 	<script type="text/javascript"src="<c:url value="/resources/js/angularjs/angular.js"/>"></script>
 	<script type="text/javascript"src="<c:url value="/resources/js/angularjs/dirPagination.js"/>"></script>
-
+	-->
 	<!-- SCRIPT HANDING EVENT SEARCH PRODUCT (Author napt2017)-->
+	<!--
 	<script type="text/javascript">
 		var shoppingSearchModule = angular
 				.module("product_shopping_search", ['angularUtils.directives.dirPagination']);
@@ -516,5 +630,6 @@ input, textarea, button {
                             }
 						});
 	</script>
+	-->
 </body>
 </html>

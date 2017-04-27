@@ -866,18 +866,18 @@
 		$(function () {
 			var target = $("#table-sell").find("tbody");
 			function loadListSold(){
-			    $.get("GetListProduct/3").done(function(data){
-			        var listSold = data.extraData;
-			        for(var ls in listSold){
-			            var template =  "<tr><td><label class='checkbox'><input value='1' type='checkbox'><i></i></label></td>"+
-										"<td>"+ls.title+"</td>"+
-										"<td>"+ls.endTime+"</td>"+
-										"<td>"+ls.purchaser+"</td>"+
-										"<td>"+ls.reListing+"</td>"+
-										"<td><button class='btn btn-default'> Edit </button></td>"+
-										"</tr>";
-			            target.append($(template));
-					}
+                $.get("GetListProduct/3",function(data,status){
+                    var listSold = data.extraData;
+                    for(var ls in listSold){
+                        var template =  "<tr><td><label class='checkbox'><input value='1' type='checkbox'><i></i></label></td>"+
+                            "<td>"+ls.title+"</td>"+
+                            "<td>"+ls.endTime+"</td>"+
+                            "<td>"+ls.purchaser+"</td>"+
+                            "<td>"+ls.reListing+"</td>"+
+                            "<td><button class='btn btn-default'> Edit </button></td>"+
+                            "</tr>";
+                        target.append($(template));
+                    }
 				});
 			}
             loadListSold();

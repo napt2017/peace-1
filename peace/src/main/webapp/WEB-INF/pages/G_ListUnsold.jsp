@@ -700,10 +700,10 @@
 		<script type="text/javascript">
 			$(function () {
 			    function loadData(){
-			      $.get("GetListProduct/2").done(function(data){
-						var listUnsold = data.extraData;
-						var target = $("#table-sell").find("tbody");
-						for(var lus in listUnsold){
+			        $.get("GetListProduct/2",function (data,status) {
+                        var listUnsold = data.extraData;
+                        var target = $("#table-sell").find("tbody");
+                        for(var lus in listUnsold){
                             var template = "<tr><td><label class='checkbox'><input value='1' type='checkbox'><i></i></label></td>"+
                                 "<td>"+lus.title+"</td>"+
                                 "<td>"+lus.endTime+"</td>"+
@@ -715,9 +715,9 @@
                                 "<button class='btn btn-default'> Edit </button>"+
                                 "</td>"+
                                 "</tr>";
-							target.append($(template));
-						}
-				  });
+                            target.append($(template));
+                        }
+                    });
 				};
 
                 $("#btn-download-lastest").on("click",function(evt){

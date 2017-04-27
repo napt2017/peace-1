@@ -4,20 +4,16 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang3.StringEscapeUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.config.authentication.UserServiceBeanDefinitionParser;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.NumberUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -27,20 +23,16 @@ import com.ebay.sdk.call.GetCategorySpecificsCall;
 import com.ebay.sdk.util.eBayUtil;
 import com.ebay.soap.eBLBaseComponents.AmountType;
 import com.ebay.soap.eBLBaseComponents.BuyerPaymentMethodCodeType;
-import com.ebay.soap.eBLBaseComponents.CategoryItemSpecificsType;
 import com.ebay.soap.eBLBaseComponents.CategoryType;
 import com.ebay.soap.eBLBaseComponents.CountryCodeType;
 import com.ebay.soap.eBLBaseComponents.CurrencyCodeType;
 import com.ebay.soap.eBLBaseComponents.FeesType;
-import com.ebay.soap.eBLBaseComponents.ItemSpecificSourceCodeType;
 import com.ebay.soap.eBLBaseComponents.ItemType;
 import com.ebay.soap.eBLBaseComponents.ListingTypeCodeType;
 import com.ebay.soap.eBLBaseComponents.NameValueListArrayType;
 import com.ebay.soap.eBLBaseComponents.NameValueListType;
-import com.ebay.soap.eBLBaseComponents.PaymentDetailsType;
 import com.ebay.soap.eBLBaseComponents.PictureDetailsType;
 import com.ebay.soap.eBLBaseComponents.RecommendationsType;
-import com.ebay.soap.eBLBaseComponents.ReturnPolicyDetailsType;
 import com.ebay.soap.eBLBaseComponents.ReturnPolicyType;
 import com.ebay.soap.eBLBaseComponents.ShippingDetailsType;
 import com.ebay.soap.eBLBaseComponents.ShippingServiceOptionsType;
@@ -56,9 +48,6 @@ import com.vn.hungtq.peace.entity.User;
 import com.vn.hungtq.peace.service.ItemInfomationDaoService;
 import com.vn.hungtq.peace.service.UserDaoService;
 import com.vn.hungtq.peace.service.UserTemplateDaoService;
-import com.vn.hungtq.peace.service.impl.ItemInfomationDaoServiceImpl;
-import com.vn.hungtq.peace.service.impl.UserDaoServiceImpl;
-import com.vn.hungtq.peace.service.impl.UserTemplateDaoServiceImpl;
 
 @Controller
 public class EbayListingController {

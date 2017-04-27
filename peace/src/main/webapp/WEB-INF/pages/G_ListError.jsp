@@ -662,10 +662,10 @@
 		<script type="text/javascript">
 			$(function () {
 			    function  loadListError() {
-					$.get("GetListProduct/4").done(function(data){
-					    var listError = data.extraData;
-					    var target = $("#table-sell").find("tbody");
-					    for(var le in listError){
+                    $.get("GetListProduct/4",function (data,status) {
+                        var listError = data.extraData;
+                        var target = $("#table-sell").find("tbody");
+                        for(var le in listError){
                             var tempate = "<tr><td><label class='checkbox'><input value='1' type='checkbox'><i></i></label>"+
                                 "</td>"+
                                 "<td>"+le.title+"</td>"+
@@ -675,8 +675,8 @@
                                 "</td>"+
                                 "</tr>";
                             target.append($(tempate));
-						}
-					});
+                        }
+                    }); 
                 }
 
                 loadListError();

@@ -706,31 +706,31 @@
 		<script type="text/javascript">
             $(function(){
                 function loadListSell() {
-					$.get("GetListProduct/1").done(function(data){
+                    $.get("GetListProduct/1",function (data,status) {
                         if(data.status==="FAILED"){
                             alert(data.cause)
                             window.location.href ="SetEbayLogin";
                         }else{
-                           var  listSell = data.extraData;
-                           var targetTag = $("#table-sell").find("tbody");
-                           for(var sell in listSell){
-                               //TODO code here
-                               var appendTag  = "<tr><td><label class='checkbox'><input value='1' type='checkbox'><i></i></label></td>"+
-                                   "<td>"+sell.title+"</td>"+
-                                   "<td>"+sell.endTime+"</td>"+
-                                   "<td>"+sell.listPrice+"</td>"+
-                                   "<td>"+sell.currency+"</td>"+
-                                   "<td>"+sell.purchaser+"</td>"+
-                                   "<td>"+sell.edit+"</td>"+
-                                   "<td>"+sell.end+"</td>"+
-                                   "<td>"+
-                                   "<button class='btn btn-default'> Edit </button>"+
-                                   "</td>"+
-                                   "</tr>";
-                               targetTag.append($(appendTag));
-						   }
+                            var  listSell = data.extraData;
+                            var targetTag = $("#table-sell").find("tbody");
+                            for(var sell in listSell){
+                                //TODO code here
+                                var appendTag  = "<tr><td><label class='checkbox'><input value='1' type='checkbox'><i></i></label></td>"+
+                                    "<td>"+sell.title+"</td>"+
+                                    "<td>"+sell.endTime+"</td>"+
+                                    "<td>"+sell.listPrice+"</td>"+
+                                    "<td>"+sell.currency+"</td>"+
+                                    "<td>"+sell.purchaser+"</td>"+
+                                    "<td>"+sell.edit+"</td>"+
+                                    "<td>"+sell.end+"</td>"+
+                                    "<td>"+
+                                    "<button class='btn btn-default'> Edit </button>"+
+                                    "</td>"+
+                                    "</tr>";
+                                targetTag.append($(appendTag));
+                            }
                         }
-					})
+                    });
                 }
 
                 $("#btn-download-lastest").on("click",function(evt){
