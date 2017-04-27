@@ -103,6 +103,7 @@
 				                  </tr>
 				               </thead>
 				               <tbody>
+							   <!--
 				                  <tr dir-paginate ="lus in listUnSold |orderBy:sortKey:reverse |itemsPerPage:6">
 				                     <td ng-cloak>
 				                        <label class="checkbox"> 
@@ -119,6 +120,7 @@
 				                        <button class="btn btn-default"> Edit </button>
 				                     </td>
 				                  </tr>
+				                  -->
 				               </tbody>
 				            </table>
 				            <dir-pagination-controls
@@ -694,12 +696,54 @@
 			});
 
 		</script>
-		
-		<!-- LOAD ANGULAR JS MODULE -->
+		<!--Replace angularjs-->
+		<script type="text/javascript">
+			$(function () {
+			    function loadData(){
+			      $.get("GetListProduct/2").done(function(data){
+						var listUnsold = data.extraData;
+						var target = $("#table-sell").find("tbody");
+						for(var lus in listUnsold){
+                            var template = "<tr><td><label class='checkbox'><input value='1' type='checkbox'><i></i></label></td>"+
+                                "<td>"+lus.title+"</td>"+
+                                "<td>"+lus.endTime+"</td>"+
+                                "<td>"+lus.listPrice+"</td>"+
+                                "<td>"+lus.currency+"</td>"+
+                                "<td>"+lus.purchaser+"</td>"+
+                                "<td>"+lus.reListing+"</td>"+
+                                "<td>"+
+                                "<button class='btn btn-default'> Edit </button>"+
+                                "</td>"+
+                                "</tr>";
+							target.append($(template));
+						}
+				  });
+				};
+
+                $("#btn-download-lastest").on("click",function(evt){
+                    if($("#table-unsold").find("tbody").find("tr").size()>0){
+                        var numberOfItem = parseInt($("#number-of-item").val());
+                        if(numberOfItem<=0){
+                            alert("The number of item to download must greater than zero!!");
+                            evt.preventDefault();
+                        }else{
+                            $(this).attr("href","DownloadExportFile/2/"+numberOfItem +"/csv");
+                        }
+                    }else{
+                        alert("Empty data to export!")
+                        evt.preventDefault();
+                    }
+                });
+
+                //Default load data
+                loadData();
+            })
+		</script>
+		<!-- LOAD ANGULAR JS MODULE
 		<script type="text/javascript"src="<c:url value="/resources/js/angularjs/angular.js"/>"></script>
 		<script type="text/javascript"src="<c:url value="/resources/js/angularjs/dirPagination.js"/>"></script>
-		
-		<!-- HANDING ALL BUSSSINESS LOGIC FOR LIST UNSOLD(napt2017) -->
+		-->
+		<!-- HANDING ALL BUSSSINESS LOGIC FOR LIST UNSOLD(napt2017)
 		<script type="text/javascript" >
 			var listUnSoldApp = angular.module("list-unsold-app",['angularUtils.directives.dirPagination']);
 			listUnSoldApp.controller("listUnSoldController",function($scope,$http){
@@ -737,7 +781,7 @@
 				$scope.loadListUnSold();
 			});
 		</script>
-
+		-->
 		<!-- Your GOOGLE ANALYTICS CODE Below -->
 		<script type="text/javascript">
 			var _gaq = _gaq || [];

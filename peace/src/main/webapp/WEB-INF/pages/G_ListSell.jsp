@@ -105,6 +105,7 @@
 				                  </tr>
 				               </thead>
 				               <tbody>
+							   	<!--
 				                  <tr dir-paginate ="lc in listSell |orderBy:sortKey:reverse |itemsPerPage:6">
 				                     <td ng-cloak>
 				                        <label class="checkbox"> 
@@ -122,13 +123,15 @@
 				                        <button class="btn btn-default"> Edit </button>
 				                     </td>
 				                  </tr>
+				                 -->
 				               </tbody>
 				            </table>
-				            <dir-pagination-controls
+				            <!--<dir-pagination-controls
 						       max-size="5"
 						       direction-links="true"
 						       boundary-links="true" >
 						    </dir-pagination-controls>
+						    -->
 				        </div>
 			         </div> 	
 					</div>					
@@ -698,12 +701,64 @@
 			});
 
 		</script>
-		
-		<!-- LOAD ANGULAR JS MODULE -->
+
+		<!--Replace the angular js-->
+		<script type="text/javascript">
+            $(function(){
+                function loadListSell() {
+					$.get("GetListProduct/1").done(function(data){
+                        if(data.status==="FAILED"){
+                            alert(data.cause)
+                            window.location.href ="SetEbayLogin";
+                        }else{
+                           var  listSell = data.extraData;
+                           var targetTag = $("#table-sell").find("tbody");
+                           for(var sell in listSell){
+                               //TODO code here
+                               var appendTag  = "<tr><td><label class='checkbox'><input value='1' type='checkbox'><i></i></label></td>"+
+                                   "<td>"+sell.title+"</td>"+
+                                   "<td>"+sell.endTime+"</td>"+
+                                   "<td>"+sell.listPrice+"</td>"+
+                                   "<td>"+sell.currency+"</td>"+
+                                   "<td>"+sell.purchaser+"</td>"+
+                                   "<td>"+sell.edit+"</td>"+
+                                   "<td>"+sell.end+"</td>"+
+                                   "<td>"+
+                                   "<button class='btn btn-default'> Edit </button>"+
+                                   "</td>"+
+                                   "</tr>";
+                               targetTag.append($(appendTag));
+						   }
+                        }
+					})
+                }
+
+                $("#btn-download-lastest").on("click",function(evt){
+                    if($("#table-sell").find("tbody").find("tr").size()>0){
+                        var numberOfItem = parseInt($("#number-of-item").val());
+                        if(numberOfItem<=0){
+                            alert("The number of item to download must greater than zero!!");
+                            evt.preventDefault();
+                        }else{
+                            $(this).attr("href","DownloadExportFile/1/"+numberOfItem +"/csv");
+                        }
+                    }else{
+                        alert("Empty data to export!!");
+                        evt.preventDefault();
+                    }
+                });
+
+                //Default load list cell
+                loadListSell();
+            });
+		</script>
+
+		<!--
+		<!-- LOAD ANGULAR JS MODULE
 		<script type="text/javascript"src="<c:url value="/resources/js/angularjs/angular.js"/>"></script>
 		<script type="text/javascript"src="<c:url value="/resources/js/angularjs/dirPagination.js"/>"></script>
-		
-		<!-- HANDING ALL BUSSSINESS LOGIC FOR LIST SELL(napt2017) -->
+		-->
+		<!-- HANDING ALL BUSSSINESS LOGIC FOR LIST SELL(napt2017)
 		<script type="text/javascript" >
 			var listSellApp = angular.module("list-sell-app",['angularUtils.directives.dirPagination']);
 			listSellApp.controller("listSellController",function($scope,$http){
@@ -746,7 +801,7 @@
 				$scope.loadListSell();
 			});
 		</script>
-
+		 -->
 		<!-- Your GOOGLE ANALYTICS CODE Below -->
 		<script type="text/javascript">
 			var _gaq = _gaq || [];

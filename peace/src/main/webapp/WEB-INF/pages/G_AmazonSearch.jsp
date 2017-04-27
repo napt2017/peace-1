@@ -83,9 +83,17 @@
 						style="background-color: white; padding-right: 40px;">
 						<div class="col col-lg-12">
 							<table
-							class="table table-bordered table-striped responsive-utilities ng-cloak"
+							class="table table-bordered table-striped responsive-utilities"
 							style="margin-left: 15px" >
 							<thead>
+								<tr>
+									<th>画像</th>
+									<th>	商品名 </th>
+									<th>価格（円）</th>
+									<th>	関連</th>
+									<th>出品</th>
+								</tr>
+								<!--
 								<tr>
 									<th ng-click="sort('image')">画像
 										<span class="glyphicon sort-icon" ng-show="sortKey=='image'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
@@ -103,21 +111,24 @@
 										<span class="glyphicon sort-icon" ng-show="sortKey=='exhibition'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
 									</th>
 								</tr>
+								-->
 							</thead>
-							<tbody>
+							<tbody id="searchBody">
+								<!--
 								<tr ng-repeat ="product in listOfProduct |orderBy:sortKey:reverse">
 									<td class="col col-1" ng-cloak><image width="64" height="64"
 											src="{{product.imageUrl}}" /></td>
 									<td class="is-visible" ng-cloak><p>{{product.name}}</p></td>
 									<td class="is-hidden" ng-cloak>{{product.price}}</td>
 									<td class="is-hidden" ng-cloak>{{product.stock}}</td>
-									<td class="is-hidden" ng-cloak> 
+									<td class="is-hidden" ng-cloak>
 										<a  ng-cloak href="{{product.link}}" ng-click="addToEbay($event,'amazon',product.index)">Add to ebay</a>
 									</td>
 								</tr>
+								-->
 							</tbody> 
 						</table> 
-				          <!-- Pagination -->
+				          <!-- Pagination
 				          <div class="row" ng-if="pages&&pages.length>0">  
 			                  <div class="btn-toolbar" role="toolbar">
 			                    <div class="btn-group center-paging">
@@ -128,6 +139,7 @@
 			                    </div> 
 			               </div>
 			              </div>
+							-->
 						</div>
 					</div>
 				</div>
@@ -273,12 +285,125 @@ input, textarea, button {
 			s.parentNode.insertBefore(ga, s);
 		})();
 	</script>
+	<!--Replace angular-->
+	<script type="text/javascript">
+		$(function () {
+            //Search by keyword
+            $("#search-by-keyword").on("keypress",function(evt){
+                if(evt.which===13){
+                    evt.preventDefault();
 
-	<!-- LOAD ANGULAR JS MODULE -->
+                    //SearchAmazonProduct
+                    var token = $("meta[name='_csrf']").attr("content");
+                    var header = $("meta[name='_csrf_header']").attr("content");
+
+                    $.ajax({
+                        type : "POST",
+                        contentType : "application/json",
+                        url : "SearchAmazonProductXml",
+                        data: JSON.stringify({
+                            searchData:$("#search-by-keyword").val(),
+                            isAsinSearch:false,
+                            page:1
+                        }),
+                        beforeSend:function(xhr){
+                            xhr.setRequestHeader(header, token);
+                        },
+                        dataType : 'json',
+                        timeout : 100000,
+                        success : function(data) {
+                            if(data.status==="OK"){
+                                data.extraData.lstProductSearch.forEach(function(product,index){
+                                    var template = "<tr data-index='"+index+"'><td class='col col-1'><image width='64' height='64'src='"+product.imageUrl+"' /></td>" +
+                                        "<td class='is-visible'><p>"+product.name +"</p></td>"+
+                                        "<td class='is-hidden'>"+product.price+"</td>"+
+                                        "<td class='is-hidden'>"+product.stock +"</td>"+
+                                        "<td class='is-hidden add-to-ebay'><a href='"+product.link +"'>Add to ebay</a></td>"+
+                                        "</tr>";
+                                    $("#searchBody").append($(template));
+                                });
+                                $(".add-to-ebay").on("click","a",function(evt){
+                                    evt.preventDefault();
+                                    //ng-click='addToEbay($event,'amazon',product.index)'
+                                    var index = $(this).parent().parent().attr("data-index");
+                                    var keyword = $("#search-by-keyword").val();
+                                    window.location.href = "SendToSell/amazon/"+ index+"/"+keyword;
+                                });
+                            }else{
+                                alert(data.cause);
+                            }
+                        },
+                        error : function(e) {
+                            console.log("ERROR: ", e);
+                            alert('data.msg');
+                        },
+                        done : function(e) {
+                            console.log("DONE");
+                        }
+                    });
+                }
+            });
+
+            //Search by asin
+            $("#search-by-asin").on("keypress",function(evt){
+                if(evt.which===13){
+                    evt.preventDefault();
+                    //SearchAmazonProduct
+                    var token = $("meta[name='_csrf']").attr("content");
+                    var header = $("meta[name='_csrf_header']").attr("content");
+                    $.ajax({
+                        type : "POST",
+                        contentType : "application/json",
+                        url : "SearchAmazonProductXml",
+                        data: JSON.stringify({
+                            searchData:$("#search-by-keyword").val(),
+                            isAsinSearch:false,
+                            page:1
+                        }),
+                        beforeSend:function(xhr){
+                            xhr.setRequestHeader(header, token);
+                        },
+                        dataType : 'json',
+                        timeout : 100000,
+                        success : function(data) {
+                            if(data.status==="OK"){
+                                data.extraData.lstProductSearch.forEach(function(product,index){
+                                    var template = "<tr data-index='"+index+"'><td class='col col-1'><image width='64' height='64'src='"+product.imageUrl+"' /></td>" +
+                                        "<td class='is-visible'><p>"+product.name +"</p></td>"+
+                                        "<td class='is-hidden'>"+product.price+"</td>"+
+                                        "<td class='is-hidden'>"+product.stock +"</td>"+
+                                        "<td class='is-hidden add-to-ebay'><a href='"+product.link +"'>Add to ebay</a></td>"+
+                                        "</tr>";
+                                    $("#searchBody").append($(template));
+                                });
+                                $(".add-to-ebay").on("click","a",function(evt){
+                                    evt.preventDefault();
+                                    //ng-click='addToEbay($event,'amazon',product.index)'
+                                    var index = $(this).parent().parent().attr("data-index");
+                                    var keyword = $("#search-by-keyword").val();
+                                    window.location.href = "SendToSell/amazon/"+ index+"/"+keyword;
+                                });
+                            }else{
+                                alert(data.cause);
+                            }
+                        },
+                        error : function(e) {
+                            console.log("ERROR: ", e);
+                            alert('data.msg');
+                        },
+                        done : function(e) {
+                            console.log("DONE");
+                        }
+                    });
+                }
+            });
+        });
+	</script>
+	<!-- LOAD ANGULAR JS MODULE
 	<script type="text/javascript"src="<c:url value="/resources/js/angularjs/angular.js"/>"></script>
 	<script type="text/javascript"src="<c:url value="/resources/js/angularjs/dirPagination.js"/>"></script>
-
-	<!-- SCRIPT HANDING EVENT SEARCH PRODUCT (Author napt2017)-->
+	 -->
+	<!-- SCRIPT HANDING EVENT SEARCH PRODUCT (Author napt2017)
 	<script type="text/javascript">
 		var shoppingSearchModule = angular.module("product_shopping_search", ['angularUtils.directives.dirPagination']);
 		shoppingSearchModule.directive('naptRepeatDirective', function($timeout) {
@@ -551,5 +676,6 @@ input, textarea, button {
 			});
 		});
 	</script>
+	-->
 </body>
 </html>

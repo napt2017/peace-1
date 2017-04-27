@@ -67,6 +67,7 @@
 				                  </tr>
 				               </thead>
 				               <tbody>
+							   <!--
 				                  <tr dir-paginate ="le in listError |orderBy:sortKey:reverse |itemsPerPage:10">
 				                     <td ng-cloak>
 				                        <label class="checkbox"> 
@@ -80,12 +81,15 @@
 				                     </td>
 				                  </tr>
 				               </tbody>
+				               -->
 				            </table>
+							<!--
 				            <dir-pagination-controls
 						       max-size="5"
 						       direction-links="true"
 						       boundary-links="true" >
 						    </dir-pagination-controls>
+						    -->
 				        </div>
 					</div> 
 				</section>
@@ -654,11 +658,34 @@
 			});
 
 		</script>
-		<!-- LOAD ANGULAR JS MODULE -->
+		<!--Replace the angular-->
+		<script type="text/javascript">
+			$(function () {
+			    function  loadListError() {
+					$.get("GetListProduct/4").done(function(data){
+					    var listError = data.extraData;
+					    var target = $("#table-sell").find("tbody");
+					    for(var le in listError){
+                            var tempate = "<tr><td><label class='checkbox'><input value='1' type='checkbox'><i></i></label>"+
+                                "</td>"+
+                                "<td>"+le.title+"</td>"+
+                                "<td>"+le.error+"</td>"+
+                                "<td>"+
+                                "<button class='btn btn-default'> Edit </button>"+
+                                "</td>"+
+                                "</tr>";
+                            target.append($(tempate));
+						}
+					});
+                }
+
+                loadListError();
+            })
+		</script>
+		<!-- LOAD ANGULAR JS MODULE
 		<script type="text/javascript"src="<c:url value="/resources/js/angularjs/angular.js"/>"></script>
 		<script type="text/javascript"src="<c:url value="/resources/js/angularjs/dirPagination.js"/>"></script>
-		
-		<!-- HANDING ALL BUSSSINESS LOGIC FOR LIST ERROR(napt2017) -->
+
 		<script type="text/javascript" >
 			var listErrorApp = angular.module("list-error-app",['angularUtils.directives.dirPagination']);
 			listErrorApp.controller("listErrorController",function($scope,$http){
@@ -681,7 +708,7 @@
 				$scope.loadListError();
 			});
 		</script>
-
+		-->
 		<!-- Your GOOGLE ANALYTICS CODE Below -->
 		<script type="text/javascript">
 			var _gaq = _gaq || [];

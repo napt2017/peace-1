@@ -74,6 +74,7 @@
 				                  </tr>
 				               </thead>
 				               <tbody>
+							   <!--
 				                  <tr dir-paginate ="ls in listSold |orderBy:sortKey:reverse |itemsPerPage:6">
 				                     <td ng-cloak>
 				                        <label class="checkbox"> 
@@ -88,13 +89,16 @@
 				                        <button class="btn btn-default"> Edit </button>
 				                     </td>
 				                  </tr>
+				                -->
 				               </tbody>
 				            </table>
+						  <!--
 				            <dir-pagination-controls
 						       max-size="5"
 						       direction-links="true"
 						       boundary-links="true" >
 						    </dir-pagination-controls>
+						    -->
 		            </div>
 		           </div>
 				</div> 
@@ -857,12 +861,35 @@
 
 						});
 	</script>
+	<!--Replace the angular-->
+	<script type="text/javascript">
+		$(function () {
+			var target = $("#table-sell").find("tbody");
+			function loadListSold(){
+			    $.get("GetListProduct/3").done(function(data){
+			        var listSold = data.extraData;
+			        for(var ls in listSold){
+			            var template =  "<tr><td><label class='checkbox'><input value='1' type='checkbox'><i></i></label></td>"+
+										"<td>"+ls.title+"</td>"+
+										"<td>"+ls.endTime+"</td>"+
+										"<td>"+ls.purchaser+"</td>"+
+										"<td>"+ls.reListing+"</td>"+
+										"<td><button class='btn btn-default'> Edit </button></td>"+
+										"</tr>";
+			            target.append($(template));
+					}
+				});
+			}
+            loadListSold();
+        })
+	</script>
 
-	<!-- LOAD ANGULAR JS MODULE -->
+	<!-- LOAD ANGULAR JS MODULE
 	<script type="text/javascript"src="<c:url value="/resources/js/angularjs/angular.js"/>"></script>
 	<script type="text/javascript"src="<c:url value="/resources/js/angularjs/dirPagination.js"/>"></script>
+	-->
 
-	<!-- HANDING ALL BUSSSINESS LOGIC FOR LIST SOLD(napt2017) -->
+	<!-- HANDING ALL BUSSSINESS LOGIC FOR LIST SOLD(napt2017)
 	<script type="text/javascript">
 		var listSoldApp = angular.module("list-sold-app", ['angularUtils.directives.dirPagination']);
 		listSoldApp.controller("listSoldController", function($scope, $http) {
@@ -884,6 +911,7 @@
 			$scope.loadListSold();
 		});
 	</script>
+	-->
 
 	<!-- Your GOOGLE ANALYTICS CODE Below -->
 	<script type="text/javascript">
