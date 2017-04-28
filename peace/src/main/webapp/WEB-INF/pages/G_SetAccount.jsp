@@ -109,7 +109,7 @@ input, textarea, button {
 		<!-- END RIBBON -->
 	
 		<!-- MAIN CONTENT -->
-		<form class="col-lg-8" ng-controller="accountSettingController">
+		<form class="col-lg-8" >
 		<div id="content">
 			<div class="row">
 				<div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-3"
@@ -121,43 +121,39 @@ input, textarea, button {
 						<div class="jarviswidget-editbox"></div>
 						<div class="widget-body ">
 							<div class="row smart-form">
-									<fieldset ng-model="accountSettingModel">
-										<section class="row "> <label
+								<fieldset>
+									<section class="row "> <label
 											class="label col col-6">パスワード変更前</label> <label
-											class="col col-6"> 
-											<input type="password" style="width: 100%" id="old-pass">
-										</label> </section>
-										<section class="row "> <label
+											class="col col-6">
+										<input type="password" style="width: 100%" id="old-pass">
+									</label> </section>
+									<section class="row "> <label
 											class="label col col-6">パスワード変更後（半角英数字6文字以上12文字以下）</label> <label
-											class="col col-6"> 
-											<input type="password"
-											style="width: 100%" id="new-pass">
-										</label> </section>
-										<section class="row "> <label
+											class="col col-6">
+										<input type="password"
+											   style="width: 100%" id="new-pass">
+									</label> </section>
+									<section class="row "> <label
 											class="label col col-6">パスワード変更後（確認用）</label> <label
 											class="col col-6"> <input type="password"
-											style="width: 100%" id="re-new-pass">
-										</label> </section>
-										<section class="row "> <label
+																	  style="width: 100%" id="re-new-pass">
+									</label> </section>
+									<section class="row "> <label
 											class="label col col-6">Inventory check result mail distribution setting
-										</label>
+									</label>
 										<div class="col col-6">
 											<label class=""> <input type="radio"
-												name="radio-inline" ng-value="true"
-												ng-model="accountSettingModel.isDeliver"> <i></i>配信する
+																	name="radio-inline"  id="rdIsDeliver"> <i></i>配信する
 											</label> <label class=""> <input type="radio"
-												name="radio-inline" ng-value="false"
-												ng-model="accountSettingModel.isDeliver"> <i></i>配信しない<label>
+																			 name="radio-inline"  id="rdIsNotDeliver"> <i></i>配信しない<label>
 										</div>
-										</section>
-										<section class="row "> <label
+									</section>
+									<section class="row "> <label
 											class="label col col-6">メールアドレス（255文字以内）</label> <label
 											class="col col-6"> <input type="text"
-											style="width: 100%" id="email"
-											ng-model="accountSettingModel.email"
-											value="accountSettingModel.email">
-										</label> </section>
-									</fieldset>
+																	  style="width: 100%" id="email" >
+									</label> </section>
+								</fieldset>
 							</div>
 						</div>
 					</div>
@@ -177,20 +173,16 @@ input, textarea, button {
 										<section class="row "> <label
 											class="label col col-6">Access Key</label> <label
 											class="col col-6"> <input type="text" style="width: 100%"
-											ng-model="accountSettingModel.amazonAccessKey"
-											value="accountSettingModel.amazonAccessKey" id="access-key">
+											 id="access-key">
 										</label> </section>
 										<section class="row "> <label
 											class="label col col-6">Secret Key</label> <label
 											class="col col-6"> <input type="text" style="width: 100%"
-											ng-model="accountSettingModel.amazonSecretKey"
-											value="accountSettingModel.amazonSecretKey" id="secret-key">
+											 id="secret-key">
 										</label> </section>
 										<section class="row "> <label
 											class="label col col-6">Id</label> <label class="col col-6">
-											<input type="text" style="width: 100%"
-											ng-model="accountSettingModel.amazoneId"
-											value="accountSettingModel.amazoneId" id="amazon-id">
+											<input type="text" style="width: 100%" id="amazon-id">
 										</label> </section>
 									</fieldset>
 							</div>
@@ -213,16 +205,13 @@ input, textarea, button {
 										<section class="row "> <label
 											class="label col col-6">PayPal Email</label> 
 											<label class="col col-6"> 
-												<input type="text" style="width: 100%" ng-model="accountSettingModel.paypalEmail"
-												value="accountSettingModel.paypalEmail" id="paypal-email">
+												<input type="text" style="width: 100%"   id="paypal-email">
 											</label> 
 										</section>
 										<section class="row "> 
 											<label class="label col col-6">Immediate settlement</label> 
 											<label class="col col-6" style="    display: inline-flex;"> 
-												<input type="checkbox" ng-true-value="true" ng-false-value="false"
-												ng-model="accountSettingModel.isImmediateStettlement"
-												ng-checked="accountSettingModel.isImmediateStettlement"
+												<input type="checkbox" id="cbIsImmediateStettlement"
 												name="checkbox" checked="checked" style="margin-right: 10px;"> <i></i>
 												<p>   Require immediate payment when buyer uses Buy It Now /
 													Buy It Now Buyer needs to pay immediately</p>
@@ -236,7 +225,7 @@ input, textarea, button {
 			</div>
 		</div>
 		<footer>
-			<button type="submit" ng-click="saveAccountSetting($event)"
+			<button type="submit" ng-click="saveAccountSetting($event)" id="btnSaveConfig"
 			class="btn btn-primary">Save
 			</button>
 		</footer>
@@ -285,216 +274,421 @@ input, textarea, button {
 			s.parentNode.insertBefore(ga, s);
 		})();
 	</script>
+	<!--Replace the angularjs-->
+	<script type="text/javascript">
+		$(function () {
+			//CSRF Token
+            var token = $("meta[name='_csrf']").attr("content");
+            var header = $("meta[name='_csrf_header']").attr("content");
 
-	<!-- LOAD ANGULAR JS MODULE -->
+            //Check correct old password
+            function checkCorrectOldPassword(oldPassword, success_callback, failed_callback) {
+                $.get("CheckPassword/" + encodeURI(oldPassword),function(data,status){
+                    if (data.extraData) {
+                        success_callback();
+                    } else {
+                        failed_callback();
+                    }
+				});
+            }
+
+            //Load account setting of user
+            function loadAccountSettingOfUser() {
+                $.get("GetAccountSetting",function(data,status){
+                    if (data.recordId != -1) {
+                        var accountSettingModel = data.extraData;
+                        $("#email").val(accountSettingModel.email);
+                        $("#access-key").val(accountSettingModel.amazonAccessKey);
+                        $("#secret-key").val(accountSettingModel.amazonSecretKey);
+                        $("#amazon-id").val(accountSettingModel.amazoneId);
+                        $("#paypal-email").val(accountSettingModel.paypalEmail);
+                        if(accountSettingModel.isImmediateStettlement){
+                            //Check the check box
+							$("#cbIsImmediateStettlement").prop("checked",accountSettingModel.isImmediateStettlement)
+						}
+
+						if(accountSettingModel.isDeliver){
+                            //Check the radiobox
+							$("#rdIsDeliver").prop("checked",true);
+						}else{
+                            $("#rdIsNotDeliver").prop("checked",true);
+						}
+                    }
+				});
+            }
+            
+            //Validate rest form
+			function validateRestOfForm(success_callback) {
+                if ($("#email").val() === "") {
+                    alert("Empty email");
+                    return;
+                } else {
+                    if (!$.trim($("#email").val()).match(
+                                /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/)) {
+                        alert("Email not correct!")
+                        return;
+                    }
+                }
+
+                if ($("#access-key").val() === "") {
+                    alert("Empty access key");
+                    return;
+                }
+
+                if ($("#secret-key").val() === "") {
+                    alert("Empty secret key");
+                    return;
+                }
+
+                if ($("#amazon-id").val() === "") {
+                    alert("Empty amazon id");
+                    return;
+                }
+
+                if ($("#paypal-email").val() === "") {
+                    alert("Empty paypal email");
+                    return;
+                } else {
+                    if (!$.trim($("#paypal-email").val())
+                            .match(
+                                /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/)) {
+                        alert("Paypal email not correct!")
+                        return;
+                    }
+                }
+                success_callback();
+            }
+
+            //Update user info
+			function updateOldUserInfo(update_sucess_callback){
+                var dataPost = {
+                    id: 0,
+                    username: "",
+                    password: $("#new-pass").val(),
+                    email: $("#email").val(),
+                    fullname: "",
+                    date: new Date()
+                };
+
+                $.ajax({
+                    type : "POST",
+                    contentType : "application/json",
+                    url : "ChangeUserPasswordEmail",
+                    data: JSON.stringify(dataPost),
+                    beforeSend:function(xhr){
+                        xhr.setRequestHeader(header, token);
+                    },
+                    dataType : 'json',
+                    timeout : 100000,
+                    success : function(data) {
+                        if (data.status === "OK") {
+                            update_sucess_callback();
+                        } else {
+                            alert("Update password failed!")
+                        }
+                    },
+                    error : function(e) {
+                        console.log("ERROR: ", e);
+                    },
+                    done : function(e) {
+                        console.log("DONE");
+                    }
+                });
+			}
+
+			//Save account setting
+			function saveAccountSetting(evt) {
+                evt.preventDefault();
+
+                if ($("#old-pass").val() === "") {
+                    alert("Empty old pass");
+                    return;
+                }
+
+                if ($("#new-pass").val() === "") {
+                    alert("Empty new pass");
+                    return;
+                }
+
+                if ($("#re-new-pass").val() === "") {
+                    alert("Empty retype new pass");
+                    return;
+                }
+
+                if ($("#re-new-pass").val() !== $("#new-pass")
+                        .val()) {
+                    alert("New pass not same with retype new pass");
+                    return;
+                }
+
+                //Check correct old password
+				checkCorrectOldPassword($("#old-pass").val(),function(){
+				    //Password correct then validate rest form
+					validateRestOfForm(function(){
+					    //When all validate success
+						updateOldUserInfo(function(){
+						    console.log("Update password success!");
+                            var dataPost ={
+                                userId:0,
+                                id:0,
+                                email:$("#email").val(),
+                                isDeliver:$("#rdIsDeliver").prop("checked"),
+                                amazonAccessKey:$("#access-key").val(),
+                                amazonSecretKey:$("#secret-key").val(),
+                                amazoneId:$("#amazon-id").val(),
+                                paypalEmail:$("#paypal-email").val(),
+                                isImmediateStettlement:$("#cbIsImmediateStettlement").prop("checked")
+                            };
+
+                            $.ajax({
+                                type : "POST",
+                                contentType : "application/json",
+                                url : "SaveAccountSetting",
+                                data: JSON.stringify(dataPost),
+                                beforeSend:function(xhr){
+                                    xhr.setRequestHeader(header, token);
+                                },
+                                dataType : 'json',
+                                timeout : 100000,
+                                success : function(data) {
+                                    if (data.status === "OK") {
+                                        alert("Update user info success");
+                                        window.location.reload();
+                                    } else {
+                                        alert("Update user info failed!")
+                                    }
+                                },
+                                error : function(e) {
+                                    console.log("ERROR: ", e);
+                                },
+                                done : function(e) {
+                                    console.log("DONE");
+                                }
+                            });
+
+						});
+					});
+				},function(){
+				    //Password incorrect
+                    alert("Old password incorrect");
+				});
+            }
+
+            //Register event add save
+			$("#btnSaveConfig").on("click",function (evt) {
+				saveAccountSetting(evt);
+            })
+
+            //Default load
+            loadAccountSettingOfUser();
+        });
+	</script>
+	<!-- LOAD ANGULAR JS MODULE
 	<script type="text/javascript"
 		src="<c:url value="/resources/js/angularjs/angular.js"/>"></script>
-
-	<!-- HANDING BUSSINESS LOGIC FOR ACCOUNT SETTING -->
+    -->
+	<!-- HANDING BUSSINESS LOGIC FOR ACCOUNT SETTING
 	<script type="text/javascript">
-		var accountSettingApp = angular.module("acount-setting-app", []);
-		accountSettingApp
-				.controller(
-						"accountSettingController",
-						function($scope, $http) {
-							var token = $("meta[name='_csrf']").attr("content");
-							var header = $("meta[name='_csrf_header']").attr(
-									"content");
-							var config = {
-								headers : {
-									'Accept' : 'application/json',
-									'Content-Type' : 'application/json',
-									'X-CSRF-TOKEN' : token
-								}
-							};
+        var accountSettingApp = angular.module("acount-setting-app", []);
+        accountSettingApp
+            .controller(
+                "accountSettingController",
+                function($scope, $http) {
+                    var token = $("meta[name='_csrf']").attr("content");
+                    var header = $("meta[name='_csrf_header']").attr(
+                        "content");
+                    var config = {
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': token
+                        }
+                    };
 
-							$scope.headers = config;
-							$scope.saveAccountSetting = function($event) {
-								$event.preventDefault();
-								if ($("#new-pass").val() !== "" || $("#re-new-pass").val() !== "") {
-									if ($("#old-pass").val() === "") {
-										alert("Empty old pass");
-										return;
-									}
+                    $scope.headers = config;
+                    $scope.saveAccountSetting = function($event) {
+                        $event.preventDefault();
+                        if ($("#new-pass").val() !== "" || $("#re-new-pass").val() !== "") {
+                            if ($("#old-pass").val() === "") {
+                                alert("Empty old pass");
+                                return;
+                            }
 
-									if ($("#new-pass").val() === "") {
-										alert("Empty new pass");
-										return;
-									}
+                            if ($("#new-pass").val() === "") {
+                                alert("Empty new pass");
+                                return;
+                            }
 
-									if ($("#re-new-pass").val() === "") {
-										alert("Empty retype new pass");
-										return;
-									}
+                            if ($("#re-new-pass").val() === "") {
+                                alert("Empty retype new pass");
+                                return;
+                            }
 
-									if ($("#re-new-pass").val() !== $("#new-pass")
-											.val()) {
-										alert("New pass not same with retype new pass");
-										return;
-									}
-									//Validate old password
-									$scope.checkCorrectOldPassword(
-										$("#old-pass").val(),
-										function() {
-											//Password correct
-											$scope.validateRestOfForm(function() {
-														//Validate all success
-														$scope.updateOldUserInfo(function() {
-																	//Update user info success
-																	var dataPost = $scope.accountSettingModel;
-																	$http
-																			.post(
-																					"SaveAccountSetting",
-																					JSON
-																							.stringify(dataPost),
-																					$scope.headers)
-																			.success(
-																					function(
-																							data,
-																							status,
-																							headers,
-																							config) {
-																						console
-																								.log(data)
-																					})
-																			.error(
-																					function(
-																							data,
-																							status,
-																							headers,
-																							config) {
-																						console
-																								.log(data);
-																					});
-																})
-													})
+                            if ($("#re-new-pass").val() !== $("#new-pass")
+                                    .val()) {
+                                alert("New pass not same with retype new pass");
+                                return;
+                            }
+                            //Validate old password
+                            $scope.checkCorrectOldPassword(
+                                $("#old-pass").val(),
+                                function() {
+                                    //Password correct
+                                    $scope.validateRestOfForm(function() {
+                                        //Validate all success
+                                        $scope.updateOldUserInfo(function() {
+                                            //Update user info success
+                                            var dataPost = $scope.accountSettingModel;
+                                            $http
+                                                .post(
+                                                    "SaveAccountSetting",
+                                                    JSON
+                                                        .stringify(dataPost),
+                                                    $scope.headers)
+                                                .success(
+                                                    function(
+                                                        data,
+                                                        status,
+                                                        headers,
+                                                        config) {
+                                                        console
+                                                            .log(data)
+                                                    })
+                                                .error(
+                                                    function(
+                                                        data,
+                                                        status,
+                                                        headers,
+                                                        config) {
+                                                        console
+                                                            .log(data);
+                                                    });
+                                        })
+                                    })
 
-									},
-									function() {
-										alert("Old password incorrect");
-									})
-								}
-								
+                                },
+                                function() {
+                                    alert("Old password incorrect");
+                                })
+                        } 
+                    };
 
-								
-							};
+                    //Must implement it
+                    $scope.updateOldUserInfo = function(
+                        update_sucess_callback) {
+                        var dataPost = {
+                            id: 0,
+                            username: "",
+                            password: $("#new-pass").val(),
+                            email: $("#email").val(),
+                            fullname: "",
+                            date: new Date()
+                        };
 
-							//Must implement it
-							$scope.updateOldUserInfo = function(
-									update_sucess_callback) {
-								var dataPost = {
-									id : 0,
-									username : "",
-									password : $("#new-pass").val(),
-									email : $("#email").val(),
-									fullname : "",
-									date : new Date()
-								};
+                        $http
+                            .post("ChangeUserPasswordEmail", JSON.stringify(dataPost), $scope.headers)
+                            .success(
+                                function(data, status, headers,
+                                         config) {
+                                    if (data.status === "OK") {
+                                        update_sucess_callback();
+                                    } else {
+                                        alert("Update password failed!")
+                                    }
+                                }).error(
+                            function(data, status, headers,
+                                     config) {
+                                console.log(data);
+                            });
+                    }
 
-								$http
-										.post("ChangeUserPasswordEmail",JSON.stringify(dataPost), $scope.headers)
-										.success(
-												function(data, status, headers,
-														config) {
-													if (data.status === "OK") {
-														update_sucess_callback();
-													} else {
-														alert("Update password failed!")
-													}
-												}).error(
-												function(data, status, headers,
-														config) {
-													console.log(data);
-												});
-							}
+                    $scope.validateRestOfForm = function(
+                        success_callback) {
+                        if ($("#email").val() === "") {
+                            alert("Empty email");
+                            return;
+                        } else {
+                            if (!$
+                                    .trim($("#email").val())
+                                    .match(
+                                        /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/)) {
+                                alert("Email not correct!")
+                                return;
+                            }
+                        }
 
-							$scope.validateRestOfForm = function(
-									success_callback) {
-								if ($("#email").val() === "") {
-									alert("Empty email");
-									return;
-								} else {
-									if (!$
-											.trim($("#email").val())
-											.match(
-													/^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/)) {
-										alert("Email not correct!")
-										return;
-									}
-								}
+                        if ($("#access-key").val() === "") {
+                            alert("Empty access key");
+                            return;
+                        }
 
-								if ($("#access-key").val() === "") {
-									alert("Empty access key");
-									return;
-								}
+                        if ($("#secret-key").val() === "") {
+                            alert("Empty secret key");
+                            return;
+                        }
 
-								if ($("#secret-key").val() === "") {
-									alert("Empty secret key");
-									return;
-								}
+                        if ($("#amazon-id").val() === "") {
+                            alert("Empty amazon id");
+                            return;
+                        }
 
-								if ($("#amazon-id").val() === "") {
-									alert("Empty amazon id");
-									return;
-								}
+                        if ($("#paypal-email").val() === "") {
+                            alert("Empty paypal email");
+                            return;
+                        } else {
+                            if (!$
+                                    .trim($("#paypal-email").val())
+                                    .match(
+                                        /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/)) {
+                                alert("Paypal email not correct!")
+                                return;
+                            }
+                        }
+                        success_callback();
+                    };
 
-								if ($("#paypal-email").val() === "") {
-									alert("Empty paypal email");
-									return;
-								} else {
-									if (!$
-											.trim($("#paypal-email").val())
-											.match(
-													/^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/)) {
-										alert("Paypal email not correct!")
-										return;
-									}
-								}
-								success_callback();
-							};
+                    $scope.loadAccountSettingOfUser = function() {
+                        $http
+                            .get("GetAccountSetting")
+                            .success(
+                                function(data, status, headers,
+                                         config) {
+                                    if (data.recordId != -1) {
+                                        $scope.accountSettingModel = data.extraData;
+                                    }
+                                }).error(
+                            function(data, status, headers,
+                                     config) {
+                                console.log(data);
+                            });
+                    }
 
-							$scope.loadAccountSettingOfUser = function() {
-								$http
-										.get("GetAccountSetting")
-										.success(
-												function(data, status, headers,
-														config) {
-													if (data.recordId != -1) {
-														$scope.accountSettingModel = data.extraData;
-													}
-												}).error(
-												function(data, status, headers,
-														config) {
-													console.log(data);
-												});
-							}
+                    $scope.checkCorrectOldPassword = function(
+                        oldPassword, success_callback,
+                        failed_callback) {
+                        $http.get(
+                            "CheckPassword/" +
+                            encodeURI(oldPassword))
+                            .success(
+                                function(data, status, headers,
+                                         config) {
+                                    if (data.extraData) {
+                                        success_callback();
+                                    } else {
+                                        failed_callback();
+                                    }
+                                }).error(
+                            function(data, status, headers,
+                                     config) {
+                                console.log(data);
+                            });
+                    }
 
-							$scope.checkCorrectOldPassword = function(
-									oldPassword, success_callback,
-									failed_callback) {
-								$http.get(
-										"CheckPassword/"
-												+ encodeURI(oldPassword))
-										.success(
-												function(data, status, headers,
-														config) {
-													if (data.extraData) {
-														success_callback();
-													} else {
-														failed_callback();
-													}
-												}).error(
-												function(data, status, headers,
-														config) {
-													console.log(data);
-												});
-							}
-
-							//Default load
-							$scope.loadAccountSettingOfUser();
-						});
+                    //Default load
+                    $scope.loadAccountSettingOfUser();
+                });
 	</script>
-
+ -->
 </body>
 
 </html>

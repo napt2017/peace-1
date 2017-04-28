@@ -133,7 +133,7 @@
 
 					<!-- widget div-->
 					<div class="row">
-						<div class="widget-body " ng-controller="stockRegistorController">
+						<div class="widget-body" >
 							<header>
 								<h2>在庫チェック：新規登録</h2>
 							</header>
@@ -150,55 +150,55 @@
 											<i></i>Stock Amazon</label>
 										</div>
 									</section>
-									<div class="row" id="AllStock" ng-cloak>
+									<div class="row" id="AllStock">
 										<input type="hidden" value="${stockId}" id="stockId"/>
-										<div class="col col-6" ng-model="stockModel">
+										<div class="col col-6" >
 											<section class="row ">
 												<label class="label col col-2">
 店舗名</label>
 												<label class="col col-6"> 									
-													<input type="text" id="store-name" value="{{stockModel.storeName}}" ng-model="stockModel.storeName" class="col col-6" >
+													<input type="text" id="store-name" class="col col-6" >
 												</label>
 											</section>
 											<section class="row ">
 												<label class="label col col-2">※商品名</label>
 												<label class="col col-6"> 										
-													<input type="text" id="product-name" value="{{stockModel.productName}}" ng-model="stockModel.productName"  class="col col-6" >
+													<input type="text" id="product-name"  class="col col-6" >
 												</label>
 											</section>
 											<section class="row ">
 												<label class="label col col-2">※仕入URL</label>
 												<label class="col col-6">									
-													<input type="text" id="purchasing-url" value="{{stockModel.vendorURL}}" ng-model="stockModel.vendorURL" class="col col-6">
+													<input type="text" id="purchasing-url" class="col col-6">
 												</label>
 											</section>
 											<section class="row ">
 												<label class="label col col-2" style="white-space:nowrap">★仕入価格(円)</label>
 												<label class="col col-6">									
-													<input type="number" value="0" value="{{stockModel.buyPrice}}" ng-model="stockModel.buyPrice" id="puschase-price" class="col col-6">
+													<input type="number" value="0"  id="puschase-price" class="col col-6">
 												</label>
 											</section>
 											<section class="row ">
 												<label class="label col col-2">※チェックロジック(1,2)</label>
 												<div class="col col-8">
 													<label class="">
-													<input type="radio" checked name="radio-inline" id="option-check1" ng-model="stockModel.logicCheck" value="1" >
+													<input type="radio" checked name="radio-inline" id="option-check1"   value="1" >
 													<i></i>check1 (在庫チェック対象を「在庫ワード」のみとします。)</label>
 													<label class="">
-													<input type="radio" name="radio-inline" id="option-check2" ng-model="stockModel.logicCheck" value="2" >
+													<input type="radio" name="radio-inline" id="option-check2"  value="2" >
 													<i></i>check2 (在庫チェック対象を「在庫ワード」且つ「仕入れ価格（円）」とします。)</label>
 												</div>
 											</section>
 											<section class="row ">
 												<label class="label col col-2">※在庫ワード</label>
 												<label class="col col-6">									
-													<input type="text" id="stock-word" value="{{stockModel.stockWord}}" ng-model="stockModel.stockWord" class="col col-6">
+													<input type="text" id="stock-word" class="col col-6">
 												</label>
 											</section>
 											<section class="row ">
 												<label class="label col col-2">メモ</label>
 												<label class="col col-6">									
-													<input type="text" id="note" value="{{stockModel.note}}" ng-model="stockModel.note" class="col col-6">
+													<input type="text" id="note" class="col col-6">
 												</label>
 											</section>
 										</div>
@@ -268,7 +268,7 @@
 									</div>
 								</fieldset>
 								<footer>
-									<button type="submit" ng-click="registerStock($event)" class="btn btn-primary">
+									<button type="submit" id ="btnRegistorStock" class="btn btn-primary">
 										登録
 									</button>
 								</footer>
@@ -326,10 +326,171 @@
 			s.parentNode.insertBefore(ga, s);
 		})();
 	</script>
-	<!-- LOAD ANGULAR JS MODULE -->
-	<script type="text/javascript"src="<c:url value="/resources/js/angularjs/angular.js"/>"></script> 
+	
+	<!--Replace angularjs-->
+	<script type="text/javascript">
+		$(function () {
+		    //Register event click submit
+			$("#btnRegistorStock").on("click",function(evt){
+			    registerStock(evt);
+			});
 
-	<!-- SCRIPT HANDING EVENT SEARCH PRODUCT (Author napt2017)-->
+			//Is valid url
+			function isVaildUrl(str){
+                var pattern =  /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+                return pattern.test(str);
+			}
+
+			//Registor stock function
+			function registerStock(evt) {
+				evt.preventDefault();
+                if($("#store-name").val()===""){
+                    alert("Empty store name!")
+                    return false;
+                }
+                if($("#product-name").val()===""){
+                    alert("Empty product name!")
+                    return false;
+                }
+                if($("#purchasing-url").val()===""){
+                    alert("Empty purchasing url!")
+                    return false;
+                }else{
+                    if(!isVaildUrl($("#purchasing-url").val())){
+                        alert("The puschasing url is not correct format!");
+                        return;
+                    }
+                }
+                if(parseInt($("#puschase-price").val())<=0){
+                    alert("The puschase price must greater than 0!!")
+                    return false;
+                }
+                if($("#stock-word").val()===""){
+                    alert("Empty stock word!")
+                    return false;
+                }
+                if($("#note").val()===""){
+                    alert("Empty note!!")
+                    return false;
+                }
+
+                //Send ajax to add stock registor
+                var token = $("meta[name='_csrf']").attr("content");
+                var header = $("meta[name='_csrf_header']").attr("content");
+
+                if(parseInt($("#stockId").val()) >0){
+                    var dataPost = {
+                        id:parseInt($("#stockId").val()),
+                        storeName:$("#store-name").val(),
+                        productName:$("#product-name").val(),
+                        vendorURL:$("#purchasing-url").val(),
+                        buyPrice:$("#puschase-price").val(),
+                        logicCheck:$("#option-check1").prop("checked")===true?1:2,
+                        stock:0,
+                        note:$("#note").val(),
+                        stockWord:$("#stock-word").val(),
+                        isSelected:false
+                    };
+
+                    $.ajax({
+                        type : "POST",
+                        contentType : "application/json",
+                        url : "/peace/UpdateStockRegistor",
+                        data: JSON.stringify(dataPost),
+                        beforeSend:function(xhr){
+                            xhr.setRequestHeader(header, token);
+                        },
+                        dataType : 'json',
+                        timeout : 100000,
+                        success : function(data) {
+                            if(data.status==="OK"){
+                                alert("Update Success!!");
+                                window.location.reload();
+                            }else{
+                                alert(data.cause);
+                            }
+                        },
+                        error : function(e) {
+                            console.log("ERROR: ", e);
+                        },
+                        done : function(e) {
+                            console.log("DONE");
+                        }
+                    });
+                }else{
+                    //Add new
+                    var dataPost = {
+                        id:0,
+                        storeName:$("#store-name").val(),
+                        productName:$("#product-name").val(),
+                        vendorURL:$("#purchasing-url").val(),
+                        buyPrice:$("#puschase-price").val(),
+                        logicCheck:$("#option-check1").prop("checked")===true?1:2,
+                        stock:0,
+                        note:$("#note").val(),
+                        stockWord:$("#stock-word").val(),
+                        isSelected:false
+                    };
+
+                    $.ajax({
+                        type : "POST",
+                        contentType : "application/json",
+                        url : "AddStockRegistor",
+                        data: JSON.stringify(dataPost),
+                        beforeSend:function(xhr){
+                            xhr.setRequestHeader(header, token);
+                        },
+                        dataType : 'json',
+                        timeout : 100000,
+                        success : function(data) {
+                            if(data.status==="OK"){
+                                alert("Add success!");
+                                window.location.reload();
+                            }else{
+                                alert(data.cause);
+                            }
+                        },
+                        error : function(e) {
+                            console.log("ERROR: ", e);
+                        },
+                        done : function(e) {
+                            console.log("DONE");
+                        }
+                    });
+                }
+            }
+
+            function defaultLoadModel() {
+                //Default load model
+                if(parseInt($("#stockId").val()) >0){
+                    $.get("/peace/GetStockRegistor/"+$("#stockId").val(),function (data,status) {
+                        if(data.extraData){
+                            var stockModel = data.extraData;
+                            $("#stockId").val(stockModel.id)
+                            $("#store-name").val(stockModel.storeName)
+                            $("#product-name").val(stockModel.productName)
+                            $("#purchasing-url").val(stockModel.vendorURL)
+                            $("#puschase-price").val(stockModel.buyPrice)
+                            if(stockModel.logicCheck===1){
+                                $("#option-check1").prop("checked",true);
+                            }else{
+                                $("#option-check2").prop("checked",true);
+                            }
+                            $("#note").val(stockModel.note)
+                            $("#stock-word").val(stockModel.stockWord)
+                        }
+                    }) ;
+                }
+            }
+
+            //Default load model
+            defaultLoadModel();
+        })
+	</script>
+	<!-- LOAD ANGULAR JS MODULE
+	<script type="text/javascript"src="<c:url value="/resources/js/angularjs/angular.js"/>"></script> 
+	-->
+	<!-- SCRIPT HANDING EVENT SEARCH PRODUCT (Author napt2017)
 	<script type="text/javascript">
 		var stockRegisterModule = angular.module("stock-register-module", []);
 		stockRegisterModule.controller("stockRegistorController",function($scope,$http){
@@ -447,6 +608,7 @@
 				};
 			} 
 		});
-	</script> 
+	</script>
+	-->
 </body>
 </html>

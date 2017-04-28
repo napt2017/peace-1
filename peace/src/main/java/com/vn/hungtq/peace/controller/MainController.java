@@ -400,7 +400,7 @@ public class MainController {
 			acSetting.setIsDeliver(accountSettingDto.getIsDeliver());
 			acSetting.setIsImmediateStettlement(accountSettingDto.getIsImmediateStettlement());
 			acSetting.setPaypalEmail(accountSettingDto.getPaypalEmail());
-			acSetting.setId(accountSettingDto.getId());
+			//acSetting.setId(accountSettingDto.getId());
 			
 			//Update to db
 			accountSettingDaoService.updateAccountSetting(acSetting);

@@ -80,7 +80,7 @@
 			 
     		[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
 			  display: none !important;
-			} 
+			}
 
 			.required-field-block .required-icon .text {
 				color: #B80000;
@@ -145,7 +145,7 @@
 											  <tr> 
 												<th class="select-checkbox " style="width: 15px;">
 							                        <label class="checkbox">
-							                        	<input name="select_all" ng-change="selectAll()" ng-model="isSelectAll" value="1" type="checkbox"><i style="top: -16px !important"></i>
+							                        	<input name="select_all" id="select_all" value="1" type="checkbox"><i style="top: -16px !important"></i>
 							                        </label>
 							                     </th>
 												<th ng-click="sort('id')">
@@ -182,7 +182,8 @@
 												</th> 
 											  </tr>
 											</thead>
-											<tbody>
+											<tbody id="listContent">
+											<!--
 											  <tr dir-paginate ="stock in listStock |orderBy:sortKey:reverse |itemsPerPage:20 track by $index  " ng-cloak>
 												<td class="select-checkbox" style="width: 15px;">
 							                        <label class="checkbox">
@@ -200,25 +201,27 @@
 												<td class="is-hidden">{{stock.stockWord}}</td>
 												<td class="is-hidden">{{stock.note}}</td>  
 											  </tr>
-											</tbody> 
+											</tbody>
+											-->
 										</table>
-										<!-- Pagination -->
+										<!-- Pagination
 							            <dir-pagination-controls
 										       max-size="5"
 										       direction-links="true"
 										       boundary-links="true" style=" width: 100%;display: -webkit-box;margin-left: 24px;margin-top: 12px;align-items: center;" >
 										</dir-pagination-controls>
 									</div>
+									-->
 									
 								</fieldset>
 								<footer>
-									<button type="submit" ng-click="reset($event)" class="btn btn-primary">
+									<button type="submit" id="btnReset" class="btn btn-primary">
 										Reset
 									</button>
-									<button type="submit" ng-click="deleteStock($event)"  class="btn btn-primary">
+									<button type="submit" id="btnDelete"  class="btn btn-primary">
 										削除
 									</button>
-									<button type="button" ng-click="change($event)"  class="btn btn-default">
+									<button type="button" id="btnChange" class="btn btn-default">
 										変更
 									</button>
 								</footer>
@@ -226,9 +229,6 @@
 						</div>
 					</div>
 					<!-- end widget div -->
-					
-					
-
 				</section>
 				<!-- end widget grid -->
 				
@@ -278,11 +278,119 @@
 		})();
 	</script>
 
-	<!-- LOAD ANGULAR JS MODULE -->
+	<!--Replace angularjs-->
+	<script type="text/javascript">
+		$(function () {
+		    //Reset
+			$("#btnReset").on("click",function (evt) {
+				evt.preventDefault();
+				alert("reset");
+            })
+
+			//Delete
+			$("#btnDelete").on("click",function(evt){
+			    evt.preventDefault();
+                var selectedStockLayout= $("input[name=select_stock]:checked");
+                if(selectedStockLayout.size()>0){
+                    var selectedStockIds = [];
+                    selectedStockLayout.each(function(k,v){
+                        selectedStockIds.push($(v).attr("data-stock-id"));
+                    });
+
+                    //Send ajax to add stock registor
+                    var token = $("meta[name='_csrf']").attr("content");
+                    var header = $("meta[name='_csrf_header']").attr("content");
+                    $.ajax({
+                        type : "POST",
+                        contentType : "application/json",
+                        url : "DeleteStocks",
+                        data: JSON.stringify(selectedStockIds),
+                        beforeSend:function(xhr){
+                            xhr.setRequestHeader(header, token);
+                        },
+                        dataType : 'json',
+                        timeout : 100000,
+                        success : function(data) {
+                            if(data.status==="OK"){
+                                alert("Delete success!")
+                                window.location.reload();
+                            }else{
+                                alert(data.cause);
+                            }
+                        },
+                        error : function(e) {
+                            console.log("ERROR: ", e);
+                        },
+                        done : function(e) {
+                            console.log("DONE");
+                        }
+                    });
+
+                }else{
+                    alert("You must select least one of stock records to delete!");
+                }
+			});
+
+			//Change
+			$("#btnChange").on("click",function (evt) {
+				evt.preventDefault();
+                var selectedStockLayout= $("input[name=select_stock]:checked");
+                if(selectedStockLayout.size()>0){
+                    var stockId = selectedStockLayout.first().attr("data-stock-id");
+                    window.location.href = "StockRegistor/"+ stockId;
+                }else{
+                    alert("You must select one record to edit!!")
+                }
+            })
+
+			//Select all
+			$("#select_all").on("change",function(evt){
+                $("input[name=select_stock]").prop("checked",$(this).prop("checked"));
+			});
+
+
+            function loadStockList(){
+                $.get("LoadStockList",function(data,status){
+                    var listStock = data.extraData;
+                    listStock.forEach(function (stock,index) {
+						var template = "<tr><td class='select-checkbox' style='width: 15px;'>"+
+                            "<label class='checkbox'>"+
+                            "<input name='select_stock' class='select_stock' value='1' data-stock-id='"+stock.id+"' type='checkbox'><i></i></label></td>"+
+                            "<td class='is-hidden'>"+stock.id+"</td>"+
+                            "<td class='is-hidden'>"+stock.storeName+"</td>"+
+                            "<td class='is-hidden'"+stock.productName+"</td>"+
+                            "<td class=''>"+
+                            "  <a href='"+stock.vendorURL+"'>仕入れ先</a> "+
+                            "</td>"+
+                            "<td class='is-visible'>"+stock.buyPrice+"</td>"+
+                            "<td class='is-hidden'>"+stock.logicCheck+"</td>"+
+                            "<td class='is-hidden'>"+stock.stockWord+"</td>"+
+                            "<td class='is-hidden'>"+stock.note+"</td>  "+
+                            "</tr>";
+						$("#listContent").append($(template));
+                    });
+
+                    //Handing event change
+					$(".select_stock").on("change",function(){
+                        if(!$(this).prop("checked")){
+                            if($("input[name=select_stock]:checked").size()===0){
+                                $("#select_all").prop("checked",false);
+                            }
+                        }
+					});
+				});
+            };
+
+			//Default load stock list
+            loadStockList();
+        })
+	</script>
+
+	<!-- LOAD ANGULAR JS MODULE
 	<script type="text/javascript"src="<c:url value="/resources/js/angularjs/angular.js"/>"></script>
 	<script type="text/javascript"src="<c:url value="/resources/js/angularjs/dirPagination.js"/>"></script>
-
-	<!-- SCRIPT HANDING EVENT SEARCH PRODUCT (Author napt2017)-->
+	-->
+	<!-- SCRIPT HANDING EVENT SEARCH PRODUCT (Author napt2017)
 	<script type="text/javascript">
 		var stockListModule = angular.module("stock-list-module", ['angularUtils.directives.dirPagination']); 
 		stockListModule.controller("stockListController",function($scope, $http) {   
@@ -373,5 +481,6 @@
 			$scope.loadStockList();
 		});
 	</script>
+	-->
 </body>
 </html>

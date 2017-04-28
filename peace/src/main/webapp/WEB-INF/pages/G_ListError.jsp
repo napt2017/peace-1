@@ -676,7 +676,7 @@
                                 "</tr>";
                             target.append($(tempate));
                         }
-                    }); 
+                    });
                 }
 
                 loadListError();
