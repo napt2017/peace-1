@@ -132,16 +132,16 @@
 										 <fieldset> 
 											<label>発送しない国の設定を選択してください </label>
 											<div class="row" ng-model="listOfGroupCountry" >
-												<div class="col-sm-4 region" ng-repeat="countryGroup in listOfGroupCountry" > 
+												<div class="col-sm-4 region" ng-repeat="countryGroup in listOfGroupCountry" napt-repeat-directive >
 													 <span class="checkbox" style="display:inline-block">
 														<label>
-															<input type="checkbox" class="checkbox style-0" data-region="{{countryGroup.name}}" class="toggleAll" name="checkbox">
+															<input type="checkbox"  class="checkbox style-0 country-group" data-country-group-index = "{{$index}}" data-region="{{countryGroup.name}}" class="toggleAll" name="checkbox">
 															<span>{{countryGroup.name}}</span>
 														</label>
 													</span>
 													[<a href="{{countryGroup.href}}" data-toggle="collapse">Hide all countries</a>]
 													  <ul id="{{countryGroup.name}}" class="collapse" style="padding-left:40px" >
-														 <div class="checkbox" ng-repeat="country in countryGroup.lstCountries" napt-repeat-directive>
+														 <div class="checkbox" ng-repeat="country in countryGroup.lstCountries" >
 															  <label>
 																<input type="checkbox" class="checkbox style-0" ng-model="country.isSelected" ng-checked="country.isSelected" ng-true-value="true" ng-false-value="false" data-country-id="{{country.id}}" name="country">
 																<span>{{country.name}}</span>
@@ -240,10 +240,22 @@
 		
 		<!-- LOAD ANGULAR JS MODULE -->
 		<script type="text/javascript"src="<c:url value="/resources/js/angularjs/angular.min.js"/>"></script>
-		
+
 		<!-- HANDING ALL BUSSSINESS LOGIC FOR SHIPPING SETTING APP(napt2017) -->
 		<script type="text/javascript">
 	 		var transportSettingApp = angular.module("transport-setting-app",[]);
+            transportSettingApp.directive('naptRepeatDirective', function($timeout) {
+                return {
+                    restrict: 'A',
+                    link: function (scope, element, attr) {
+                        if (scope.$last === true) {
+                            $timeout(function () {
+                                scope.registerEventForRadioButton();
+                            });
+                        }
+                    }
+                }
+            });
 	 		transportSettingApp.controller("transportController",function($scope,$http){ 
 	 			var token = $("meta[name='_csrf']").attr("content");
 			    var header = $("meta[name='_csrf_header']").attr("content"); 
@@ -264,6 +276,19 @@
 						 .error(function(data, status, headers,config) {
 							  console.log(data);
 						});
+				}
+
+				$scope.registerEventForRadioButton = function(){
+				    $(".country-group").on("change",function(){
+				        var isSelectAll = $(this).prop("checked");
+				        var countryGroupIndex= $(this).attr("data-country-group-index");
+				        var countryGroup = $scope.listOfGroupCountry[countryGroupIndex];
+                        countryGroup.lstCountries.forEach(function(country,index){
+                            country.isSelected = isSelectAll;
+						});
+
+                        $("#"+countryGroup.name).find("div>label>input").prop("checked",isSelectAll);
+					});
 				}
 				
 				$scope.saveNotShippingCountry = function(){

@@ -7,6 +7,7 @@ public class CountryGroupDto {
 	private String name;
 	private int id;
 	private String href;
+	private boolean isChecked;
 	
 	public List<CountryDto> getLstCountries() {
 		return lstCountries;
@@ -42,5 +43,13 @@ public class CountryGroupDto {
 			href = "#"+href;
 		}
 		this.href = href;
-	} 
+	}
+
+	public boolean isChecked() {
+		return isChecked;
+	}
+
+	public void setChecked(boolean checked) {
+		isChecked = checked;
+	}
 }
