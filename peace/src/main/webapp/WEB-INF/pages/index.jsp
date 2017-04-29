@@ -33,7 +33,7 @@
 							<spring:url value="/login" var="loginActionUrl" />
 							<form:form action="${loginActionUrl} " modelAttribute="formLogin" class="smart-form client-form" method="post">
 								<header>
-									Sign In Current
+									現在のサインイン
 								</header>
 
 								<fieldset>
@@ -45,7 +45,7 @@
 											</label>
 										</section>
 										<section>
-											<label class="label">Password</label>
+											<label class="label">パスワード</label>
 											<label class="input"> <i class="icon-append fa fa-lock"></i>
 												<form:input  type="password" path="password"></form:input>
 												<b class="tooltip tooltip-top-right"><i class="fa fa-lock txt-color-teal"></i> Enter your password</b> </label>
@@ -78,7 +78,7 @@
 								</fieldset>
 								<footer>
 									<button type="submit" class="btn btn-primary">
-										Sign in
+										ログイン
 									</button>
 								</footer>
 							</form:form>

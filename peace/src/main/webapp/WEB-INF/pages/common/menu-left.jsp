@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <aside id="left-panel">
 
 			<!-- User info -->
@@ -7,9 +8,10 @@
 				<span class="dropdown"> <!-- User image size is adjusted inside CSS, it should stay as it --> 
 					
 					<a href="javascript:void(0);" id="show-shortcut" data-toggle="dropdown" aria-expanded="true">
-						<img src="${pageContext.request.contextPath}/resources/img/avatars/sunny.png" alt="me" class="online" /> 
-						<span>
-							HungTQ
+<%-- 						<img src="${pageContext.request.contextPath}/resources/img/avatars/sunny.png" alt="me" class="online" />  --%>
+						
+						<span style="font-size: 16px;font-weight: bold;margin-left: 10px">
+							<sec:authentication property="principal.Username" />
 						</span>
 						<i class="fa fa-angle-down"></i>
 					</a> 
@@ -45,11 +47,11 @@
 								<a href="Sell" title=""><i class=""></i> <span class="menu-item-parent">商品出品</span></a>
 							</li>
 							<li class="">
-								<a href="G_SellDetail.html" title=""><i class=""></i> <span class="menu-item-parent">eBay出品用</span></a>
+								<a href="SellDetail" title=""><i class=""></i> <span class="menu-item-parent">eBay出品用</span></a>
 							</li>
-							<li >
-								<a href="#"><i class=""></i>カテゴリー検索</a>
-							</li>
+<!-- 							<li > -->
+<!-- 								<a href="#"><i class=""></i>カテゴリー検索</a> -->
+<!-- 							</li> -->
 						</ul>
 					</li>
 					<li>

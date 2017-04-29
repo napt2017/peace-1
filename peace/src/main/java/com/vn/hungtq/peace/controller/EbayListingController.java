@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -71,6 +72,11 @@ public class EbayListingController {
 		return new ModelAndView("pages/G_Sell");
 	}
 	
+	@RequestMapping(value="/SellDetail",method= RequestMethod.GET)
+	public ModelAndView sellDetail(){
+		return new ModelAndView("pages/G_SellDetail");
+	}
+	
 	@RequestMapping(value="/AddItem",method= RequestMethod.POST)
 	public @ResponseBody AjaxResponseResult<String> addItem(@RequestBody EbayItemDto ebayItemDto ,@CookieValue(value=COOKIE_EBAY_TOKEN ,defaultValue="") String ebayToken){
 		AjaxResponseResult<String> responseResult = new AjaxResponseResult<String>();
@@ -128,6 +134,38 @@ public class EbayListingController {
 			} 
 		}
 		
+		return responseResult;
+	}
+	
+	/**
+	 * Get Data template
+	 * @param ebayToken
+	 * @return
+	 */
+	@RequestMapping(value="/GetDataTemplate",method= RequestMethod.POST)
+	public @ResponseBody AjaxResponseResult<EbayItemDto> getDataTemplate(@RequestBody EbayItemDto itemDto){
+		AjaxResponseResult<EbayItemDto> responseResult = new AjaxResponseResult<EbayItemDto>();
+		
+		// Get user sso
+		final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		org.springframework.security.core.userdetails.User userSSO = (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
+		
+		// Get user from db
+		User user = userDaoService.findBySSO(userSSO.getUsername());
+		// Description
+		String htmlCode = userTemplateDaoService.getUserTemplateById(user.getId()).getHtmlCode();
+		ItemInfomation itemInfomation = itemInfomationDaoService.getItemInfomationByUserId(user.getId());
+		htmlCode = htmlCode.replaceAll("<!---- Title ---->", itemDto.getTitle());
+		htmlCode = htmlCode.replaceAll("<!---- Description ---->", itemDto.getDescription());
+		htmlCode = htmlCode.replaceAll("<!---- TermOfSaleContent ---->", itemInfomation.getTermsOfSale());
+		htmlCode = htmlCode.replaceAll("<!---- InternationalBuyersContent ---->", itemInfomation.getInternationalBuyerNote());
+		htmlCode = htmlCode.replaceAll("<!---- AboutUsContent ---->", itemInfomation.getAboutUs());
+		
+		String img = "<img src='"+itemDto.getImageUrl()+"' />";
+		htmlCode = htmlCode.replaceAll("<!---- Photo ---->", img);
+		itemDto.setDescription(htmlCode);
+		responseResult.setStatus("OK");
+		responseResult.setExtraData(itemDto);
 		return responseResult;
 	}
 	
@@ -194,7 +232,7 @@ public class EbayListingController {
 			itemType.setConditionID(Integer.valueOf(itemDto.getConditionID()));
 			
 			// Description
-			String htmlCode = userTemplateDaoService.getUserTemplateById(2).getHtmlCode();
+			String htmlCode = userTemplateDaoService.getUserTemplateById(user.getId()).getHtmlCode();
 //			htmlCode = StringEscapeUtils.unescapeHtml3(htmlCode);
 			ItemInfomation itemInfomation = itemInfomationDaoService.getItemInfomationByUserId(user.getId());
 			htmlCode = htmlCode.replaceAll("<!---- Title ---->", itemDto.getTitle());

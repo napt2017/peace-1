@@ -88,3 +88,15 @@ table td.nowrap {
 #upload-backdrop .table-responsive {
 	max-height: 400px;
 }
+.tab-pane{
+	margin-left : 30px;
+}
+.label {
+	color: black;
+}
+.tab-pane section {
+	margin-top: 20px;
+}
+.note {
+	font-size: 14px
+}

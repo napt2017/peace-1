@@ -125,7 +125,7 @@
 						<div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-3" style="width:60%; margin-left: 10px"
 							data-widget-editbutton="false">
 							<header> 
-								<h2><span class="widget-icon"> <i class="fa fa-table"></i></span>  PEACE問い合わせフォーム</h2>
+								<h2><span class="widget-icon"> <i class="fa fa-table"></i></span>  イーストライク問い合わせフォーム</h2>
 							</header>
 							<div>
 								<div class="jarviswidget-editbox"></div>
