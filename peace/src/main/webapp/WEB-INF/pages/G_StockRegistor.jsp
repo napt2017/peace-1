@@ -395,7 +395,7 @@
                     $.ajax({
                         type : "POST",
                         contentType : "application/json",
-                        url : "/peace/UpdateStockRegistor",
+                        url : "/UpdateStockRegistor",
                         data: JSON.stringify(dataPost),
                         beforeSend:function(xhr){
                             xhr.setRequestHeader(header, token);
@@ -463,7 +463,7 @@
             function defaultLoadModel() {
                 //Default load model
                 if(parseInt($("#stockId").val()) >0){
-                    $.get("/peace/GetStockRegistor/"+$("#stockId").val(),function (data,status) {
+                    $.get("/GetStockRegistor/"+$("#stockId").val(),function (data,status) {
                         if(data.extraData){
                             var stockModel = data.extraData;
                             $("#stockId").val(stockModel.id)
@@ -548,7 +548,7 @@
 				if(parseInt($("#stockId").val()) >0){
 					//Update 
 					$scope.stockModel.logicCheck =1;
-					$http.post("/peace/UpdateStockRegistor",JSON.stringify($scope.stockModel),config)
+					$http.post("/UpdateStockRegistor",JSON.stringify($scope.stockModel),config)
 					 .success(function(data, status, headers,config) {
 						 if(data.status==="OK"){ 
 							alert("Update Success!!");
@@ -584,7 +584,7 @@
 			
 			//Default load model
 			if(parseInt($("#stockId").val()) >0){
-				$http.get("/peace/GetStockRegistor/"+$("#stockId").val())
+				$http.get("/GetStockRegistor/"+$("#stockId").val())
 				 .success(function(data, status, headers,config) {
 					 if(data.extraData){
 						 $scope.stockModel = data.extraData;

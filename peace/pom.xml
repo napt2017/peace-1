@@ -299,7 +299,7 @@
 				<artifactId>tomcat7-maven-plugin</artifactId>
 				<version>2.2</version>
 				<configuration>
-					<path>/peace</path>
+					<path>/</path>
 				</configuration>
 			</plugin>
 

@@ -383,8 +383,8 @@ label {
 						
 						<!-- The footer part -->
 						<footer class="col-xs-10 col-md-10" style="">
-							<button type="submit" class="btn btn-primary" id="btnAddEbayItem">Submit</button>
-							<button type="button" class="btn btn-default" id="btnBackHistory">Back</button>
+							<button type="submit" class="btn btn-primary" id="btnAddEbayItem">出品する</button>
+							<button type="button" class="btn btn-default" id="btnBackHistory">プレビューの確認</button>
 						</footer>
 					</form>
 			<!-- end row -->
@@ -843,7 +843,7 @@ label {
 			$.ajax({
 				type : "POST",
 				contentType : "application/json",
-				url : "/peace/GetCategory",
+				url : "/GetCategory",
 				data: JSON.stringify(data),
 		        beforeSend:function(xhr){
 		             xhr.setRequestHeader(header, token);
@@ -877,7 +877,7 @@ label {
 			$.ajax({
 				type : "GET",
 				contentType : "application/json",
-				url : "/peace/GetCategorySpecifics",
+				url : "/GetCategorySpecifics",
 				data: data,
 		        beforeSend:function(xhr){
 		             xhr.setRequestHeader(header, token);

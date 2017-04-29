@@ -72,7 +72,7 @@
 				$.ajax({
 					type : "POST",
 					contentType : "application/json",
-					url : "/peace/GetEbayToken",
+					url : "/GetEbayToken",
 					data: token,
 			        beforeSend:function(xhr){
 			             xhr.setRequestHeader(header, token);

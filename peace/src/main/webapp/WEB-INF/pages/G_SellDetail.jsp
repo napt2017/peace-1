@@ -403,7 +403,7 @@ label {
 				$.ajax({
 					type : "POST",
 					contentType : "application/json",
-					url : "/peace/GetDataTemplate",
+					url : "/GetDataTemplate",
 					data: data,
 			        beforeSend:function(xhr){
 			             xhr.setRequestHeader(header, token);
