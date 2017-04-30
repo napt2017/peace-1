@@ -37,22 +37,22 @@ public class StockCheckScheduler {
     @Autowired
     private GmailConfiguration gmailConfiguration;
 
-    @Scheduled(cron = "* * 0 * * *")
+    @Scheduled(cron = "0 0 0 * * *")
     public void checkStockAt0Hour(){
         checkStock();
     }
 
-    @Scheduled(cron = "* * 8 * * *")
+    @Scheduled(cron = "0 0 8 * * *")
     public void checkStockAt8Hour(){
         checkStock();
     }
 
-    @Scheduled(cron = "* * 12 * * *")
+    @Scheduled(cron = "0 0 12 * * *")
     public void checkStockAt12Hour(){
         checkStock();
     }
 
-    @Scheduled(cron = "* * 18 * * *")
+    @Scheduled(cron = "0 0 18 * * *")
     public void checkStockAt18Hour(){
         checkStock();
     }
