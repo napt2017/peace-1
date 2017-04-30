@@ -246,7 +246,13 @@ public class MainController {
 	@RequestMapping(value ="/AddStockRegistor",method=RequestMethod.POST)
 	public @ResponseBody AjaxResponseResult<String> actionAddStockRegistor(@RequestBody StockRegistorItem stockRegistorItem){
 		AjaxResponseResult<String> ajaxResponse = new AjaxResponseResult<>();
-		
+		// Get user sso
+		final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		org.springframework.security.core.userdetails.User userSSO = (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
+
+		// Get user from db
+		User user = userService.findBySSO(userSSO.getUsername());
+
 		//Convert
 		StockRegistorEntity stockRegistorEntity = new StockRegistorEntity();
 		stockRegistorEntity.setStoreName(stockRegistorItem.getStoreName());
@@ -257,6 +263,7 @@ public class MainController {
 		stockRegistorEntity.setStock(stockRegistorItem.getStock());
 		stockRegistorEntity.setNote(stockRegistorItem.getNote());
 		stockRegistorEntity.setStockWord(stockRegistorItem.getStockWord());
+		stockRegistorEntity.setUserId(user.getId());
 		
 		//Save
 		stockRegistorDaoService.saveStockRegistor(stockRegistorEntity);

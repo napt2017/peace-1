@@ -111,15 +111,76 @@ public class CommonUtils {
 	public static String encryptPassword(String rawPassword){
 		return bCryptPasswordEncoder.encode(rawPassword);
 	}
+
+	public static Tuple<Boolean,String> sendEmail(String subject,String email,String messageContent,
+												  final PeaceContactEmail peaceContactEmail,
+												  final GmailConfiguration gmailConfiguration ){
+		//Configuration properties
+		logger.debug(gmailConfiguration.toString());
+
+		Properties props = new Properties();
+		props.put("mail.smtp.host",gmailConfiguration.getSmtpHost());
+		props.put("mail.smtp.starttls.enable", gmailConfiguration.isStartttlsEnable());
+		props.put("mail.smtp.socketFactory.port", gmailConfiguration.getSocketFactoryPort());
+		props.put("mail.smtp.socketFactory.class",gmailConfiguration.getSocketFactoryClass());
+		props.put("mail.smtp.auth", gmailConfiguration.isSmptAuth());
+		props.put("mail.smtp.port",gmailConfiguration.getSmptPort());
+
+		//Session login
+		logger.debug("Start authentication....");
+		logger.debug("UserName:"+peaceContactEmail.getEmail());
+		logger.debug("PassWord:"+peaceContactEmail.getPassword());
+
+		Session session = Session.getInstance(props, new javax.mail.Authenticator(){
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(peaceContactEmail.getEmail(),peaceContactEmail.getPassword());
+			}
+		});
+		logger.debug("End authentication...");
+
+		//Send email
+		Message message = new MimeMessage(session);
+		try{
+			//Set from address
+			message.setFrom(new InternetAddress(peaceContactEmail.getEmail()));
+
+			//Set to address
+			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
+
+			//Set subject
+			message.setSubject(subject);
+			message.setSentDate(new Date());
+
+			//Multipart message
+			Multipart	multiPart		= new MimeMultipart();
+
+			//Set content for message
+			message.setContent(multiPart);
+
+			//Body part
+			BodyPart 	bodyPart	    = null;
+
+			//Set text content
+			bodyPart	= new MimeBodyPart();
+			multiPart.addBodyPart(bodyPart);
+			message.setContent(messageContent,"text/html");
+
+			Transport.send(message,message.getAllRecipients());
+			return Tuple.make(true, "Send email success!!!");
+		}
+		catch (MessagingException  e){
+			logger.debug("Exception when send contact email", e);
+			return Tuple.make(false, e.getMessage());
+		}
+	}
 	
 	/**
 	 * 
 	 *  The sendEmailContact method
 	 *  Send contact email to user follow the parameter
 	 *  
-	 *  @param addressTo 
 	 *  @param subject
-	 *  @param content
+	 *  @param contact
 	 *  @param peaceContactEmail
 	 *  @param gmailConfiguration
 	 *  
@@ -130,64 +191,14 @@ public class CommonUtils {
 	public static Tuple<Boolean,String> sendEmailContact(String subject,Contact contact,
 														final PeaceContactEmail peaceContactEmail,
 														final GmailConfiguration gmailConfiguration ){
-		
-		//Configuration properties
-		logger.debug(gmailConfiguration.toString());
-		
-		Properties props = new Properties();
-		props.put("mail.smtp.host",gmailConfiguration.getSmtpHost());
-		props.put("mail.smtp.starttls.enable", gmailConfiguration.isStartttlsEnable());
-		props.put("mail.smtp.socketFactory.port", gmailConfiguration.getSocketFactoryPort());
-		props.put("mail.smtp.socketFactory.class",gmailConfiguration.getSocketFactoryClass());
-		props.put("mail.smtp.auth", gmailConfiguration.isSmptAuth());
-		props.put("mail.smtp.port",gmailConfiguration.getSmptPort()); 
-		
-		//Session login
-		logger.debug("Start authentication....");
-		logger.debug("UserName:"+peaceContactEmail.getEmail());
-		logger.debug("PassWord:"+peaceContactEmail.getPassword());
-		
-		Session session = Session.getInstance(props, new javax.mail.Authenticator(){
-				protected PasswordAuthentication getPasswordAuthentication() {
-						return new PasswordAuthentication(peaceContactEmail.getEmail(),peaceContactEmail.getPassword());
-				}
-		});
-		logger.debug("End authentication...");
-		
-		//Send email
-		Message message = new MimeMessage(session);
-		try{
-				//Set from address
-				message.setFrom(new InternetAddress(peaceContactEmail.getEmail()));
-				
-				//Set to address
-				message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(contact.getEmail()));
-				
-				//Set subject
-				message.setSubject(subject);
-				message.setSentDate(new Date()); 
-				
-				//Multipart message
-				Multipart	multiPart		= new MimeMultipart();
-				
-				//Set content for message
-				message.setContent(multiPart);
-				
-				//Body part
-				BodyPart 	bodyPart	    = null;
-				
-				//Set text content
-				bodyPart	= new MimeBodyPart();  
-				multiPart.addBodyPart(bodyPart); 
-				message.setContent(CommonUtils.buildMessageContent(contact),"text/html");
-				
-				Transport.send(message,message.getAllRecipients()); 
-				return Tuple.make(true, "Send email success!!!");
+		try {
+			String messageContent = CommonUtils.buildMessageContent(contact);
+			String email = contact.getEmail();
+			return  sendEmail(subject,email,messageContent,peaceContactEmail,gmailConfiguration);
+		} catch (UnsupportedEncodingException e) {
+			logger.debug("Exception when send contact email", e);
+			return Tuple.make(false, e.getMessage());
 		}
-		catch (MessagingException | UnsupportedEncodingException e){
-				logger.debug("Exception when send contact email", e);
-				return Tuple.make(false, e.getMessage());
-		} 
 	} 
 	
 	public static UserDto getUserFromSession(org.springframework.security.core.userdetails.User userSSO, UserDaoService userService){
@@ -465,8 +476,6 @@ public class CommonUtils {
 	 *  Div the list of item to list of group item
 	 *  follow the parameter 
 	 *  
-	 *  @param List<T> listOfType
-	 *  			The list of type to sub
 	 *  @param groupCount
 	 *  			The size of sub group
 	 *  @return List<List<T>> 

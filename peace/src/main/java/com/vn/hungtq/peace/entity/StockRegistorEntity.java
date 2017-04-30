@@ -17,6 +17,7 @@ public class StockRegistorEntity {
     private Double stock;
     private String note;
     private String stockWord;
+    private int userId;
 
     @Id
     @Column(name = "id")
@@ -140,5 +141,15 @@ public class StockRegistorEntity {
         result = 31 * result + (note != null ? note.hashCode() : 0);
         result = 31 * result + (stockWord != null ? stockWord.hashCode() : 0);
         return result;
+    }
+
+    @Basic
+    @Column(name = "user_id")
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 }
