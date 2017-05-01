@@ -515,11 +515,12 @@ label {
                         dataType: "json",
                         success: function(respData){
                             if(respData.status==="OK"){
-                                var htmlTemplate = decodeURI(respData.extraData.description);
+                                var htmlTemplate =  respData.extraData.description;
                                 winpops=window.open('',"_blank","fullscreen=no,toolbar=yes,status=yes, " +
                                     "menubar=yes,scrollbars=yes,resizable=yes,directories=yes,location=yes, " +
                                     "width=500,height=400,left=100,top=100,screenX=100,screenY=100");
-                                winpops.document.write(htmlTemplate);
+                                console.log(htmlTemplate);
+                                winpops.document.write( htmlTemplate);
                             }else{
                                 alert(respData.cause);
                             }

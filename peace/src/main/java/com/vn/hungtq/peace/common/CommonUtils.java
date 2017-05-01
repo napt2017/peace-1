@@ -258,7 +258,7 @@ public class CommonUtils {
 			userTemplateDto.setBase64StringImage(new String(userTemplate.getImage()));
 			userTemplateDto.setIndex(index++);
 			userTemplateDto.setTemplateId(userTemplate.getId());
-			userTemplateDto.setDefault(userTemplate.getIsDefault());
+			userTemplateDto.setDefault(userTemplate.getIsDefault()!=null?userTemplate.getIsDefault():false);
 			
 			lstUserTemplateDto.add(userTemplateDto);
 		}

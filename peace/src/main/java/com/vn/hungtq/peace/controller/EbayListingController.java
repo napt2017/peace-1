@@ -1,9 +1,11 @@
 package com.vn.hungtq.peace.controller;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import jdk.nashorn.internal.runtime.URIUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +51,7 @@ import com.vn.hungtq.peace.entity.User;
 import com.vn.hungtq.peace.service.ItemInfomationDaoService;
 import com.vn.hungtq.peace.service.UserDaoService;
 import com.vn.hungtq.peace.service.UserTemplateDaoService;
+import org.springframework.web.util.UriUtils;
 
 @Controller
 public class EbayListingController {
@@ -154,13 +157,20 @@ public class EbayListingController {
 		User user = userDaoService.findBySSO(userSSO.getUsername());
 		// Description
 		String htmlCode = userTemplateDaoService.getUserTemplateById(user.getId()).getHtmlCode();
+		try {
+			htmlCode  = UriUtils.decode(htmlCode,"UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
 		ItemInfomation itemInfomation = itemInfomationDaoService.getItemInfomationByUserId(user.getId());
 		htmlCode = htmlCode.replaceAll("<!---- Title ---->", itemDto.getTitle());
 		htmlCode = htmlCode.replaceAll("<!---- Description ---->", itemDto.getDescription());
-		htmlCode = htmlCode.replaceAll("<!---- TermOfSaleContent ---->", itemInfomation.getTermsOfSale());
-		htmlCode = htmlCode.replaceAll("<!---- InternationalBuyersContent ---->", itemInfomation.getInternationalBuyerNote());
-		htmlCode = htmlCode.replaceAll("<!---- AboutUsContent ---->", itemInfomation.getAboutUs());
-		
+		// con thieu xu ly cho block shipping
+		htmlCode = htmlCode.replaceAll("<!---- Term of Sale ---->", itemInfomation.getTermsOfSale());
+		htmlCode = htmlCode.replaceAll("<!---- International Buyers - Please Note ---->", itemInfomation.getInternationalBuyerNote());
+		htmlCode = htmlCode.replaceAll("<!---- About Us ---->", itemInfomation.getAboutUs());
+		htmlCode = htmlCode.replaceAll("<!---- Payment ---->",itemInfomation.getPayment());
+		htmlCode = htmlCode.replaceAll("<!---- shipping ---->","Free shipping!");
 		String img = "<img src='"+itemDto.getImageUrl()+"' />";
 		htmlCode = htmlCode.replaceAll("<!---- Photo ---->", img);
 		itemDto.setDescription(htmlCode);

@@ -209,6 +209,7 @@ public class EbaySettingController {
 				userTemplate.setImage(CommonUtils.convertStringByteArray(templateUploadDto.getBase64StringImage()));
 				userTemplate.setTitle(templateUploadDto.getTitle());  
 				userTemplate.setUserId(userId);
+				userTemplate.setIsDefault(false);
 				userTemplateDaoService.saveUserTemplate(userTemplate);
 				ajaxResult.setStatus("OK");
 				ajaxResult.setRecordId(userTemplate.getId());
