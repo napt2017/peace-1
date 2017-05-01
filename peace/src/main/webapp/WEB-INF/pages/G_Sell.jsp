@@ -384,7 +384,7 @@ label {
 						<!-- The footer part -->
 						<footer class="col-xs-10 col-md-10" style="">
 							<button type="submit" class="btn btn-primary" id="btnAddEbayItem">出品する</button>
-							<button type="button" class="btn btn-default" id="btnBackHistory">プレビューの確認</button>
+							<button type="button" class="btn btn-default" id="btnPreview">プレビューの確認</button>
 						</footer>
 					</form>
 			<!-- end row -->
@@ -470,11 +470,65 @@ label {
 					});
 				});
 				
-				$("#btnBackHistory").on("click",function(evt){
-					if(confirm("Are you sure to go back?")){
-						window.history.back();
-					}
-				});
+				$("#btnPreview").on("click",function(evt){
+				    //Csrf token
+                    var token = $("meta[name='_csrf']").attr("content");
+                    var header = $("meta[name='_csrf_header']").attr("content");
+
+                    //The post data
+					var postData= {
+                        title:$("#product_title").val(),
+                        categoryId:0,
+                        conditionID:$("#itemCondition").val(),
+                        description:$("#cke_ckEditorForDescription").find(".cke_inner .cke_reset")
+                            .find("iframe")
+                            .contents()[0]
+                            .documentElement
+                            .getElementsByTagName("body")[0].innerText,
+                        upc:1000,
+                        timePeriod:$("#").val(),
+                        country:$("#sel_item_country").val(),
+                        imageUrl:$("#imageUrl").val(),
+                        imageDescription:$("#imageDescription").val(),
+                        youtubeUrl:$("#youtubeUrl").val(),
+                        radListingType:$("#").val(),
+                        startPrice :$("#txt_start_price").val(),
+                        buyItNow:$("#txt_buyitnow_priceA").val(),
+                        duration:$("#sel_listing_durationA").val(),
+                        isScheduleDate :$("#chk_schedule_datetime").prop("checked"),
+                        isFreeShip :$("#chk_shipping_free").prop("checked")
+                    };
+
+                    $.ajax({
+                        type: "POST",
+                        headers: {
+                            'Accept':'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        beforeSend:function(xhr){
+                            xhr.setRequestHeader(header, token);
+                        },
+                        url: "GetDataTemplate",
+                        data:JSON.stringify(postData),
+                        contentType: "application/json",
+                        mimeType: 'application/json',
+                        dataType: "json",
+                        success: function(respData){
+                            if(respData.status==="OK"){
+                                var htmlTemplate = decodeURI(respData.extraData.description);
+                                winpops=window.open('',"_blank","fullscreen=no,toolbar=yes,status=yes, " +
+                                    "menubar=yes,scrollbars=yes,resizable=yes,directories=yes,location=yes, " +
+                                    "width=500,height=400,left=100,top=100,screenX=100,screenY=100");
+                                winpops.document.write(htmlTemplate);
+                            }else{
+                                alert(respData.cause);
+                            }
+                        },
+                        error:function(evt){
+                            console.log(evt);
+                        }
+                    });
+                });
 				
 				$("#use-paypal-email").on("change",function(evt){
 					if($("#use-paypal-email").is(":checked")){
